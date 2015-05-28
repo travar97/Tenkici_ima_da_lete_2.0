@@ -1,4 +1,4 @@
-*Register (representing sprite object):
+* Register (representing sprite object):
 	- x_coordinate [2B]
 	- Y_coordinate [2B]
 	- Rotation     [1B]
