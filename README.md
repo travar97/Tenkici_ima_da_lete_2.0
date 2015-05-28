@@ -4,5 +4,5 @@
 	- Rotation     [1B]
 	- Size&En	   [1B]
 	- Pointer      [2B]
- NOTE: MSB - En; LSB - Size;
+ NOTE: MSB - En; Else - Size;
 
