@@ -12,7 +12,9 @@ entity battle_city is
 		C_BASEADDR				: natural := 0;		-- Pointer to local memory in memory map
 		REGISTER_NUMBER		: natural := 10;		-- Number of registers used for sprites
 		NUM_BITS_FOR_REG_NUM	: natural := 4;		-- Number of bits required for number of registers
-		MAP_OFFSET				: natural := 0			-- Pointer to start of map in memory
+		MAP_OFFSET				: natural := 0;		-- Pointer to start of map in memory
+		OVERHEAD					: natural := 0;		-- Number of overhead bits
+		SPRITE_Z					: natural := 2			-- Z coordinate of sprite
 	);
    Port (
       clk_i    		: in  std_logic;
@@ -29,11 +31,19 @@ end battle_city;
 
 architecture Behavioral of battle_city is
 
+	-- Types --
    type registers_t is array (0 to REGISTER_NUMBER-1) of unsigned (63 downto  0);
 	type coordinate_t is array (0 to REGISTER_NUMBER-1) of unsigned (15 downto 0);
 	type pointer_t is array (0 to REGISTER_NUMBER-1) of unsigned (15 downto 0);
 	type rotation_t is array (0 to REGISTER_NUMBER-1) of unsigned (7 downto 0);
 	type size_t is array (0 to REGISTER_NUMBER-1) of unsigned (7 downto 0);
+	
+	-- Constants --
+	constant size_8_c		: unsigned (3 downto 0) := "0111";
+	constant size_16_c	: unsigned (3 downto 0) := "1111";
+	constant overhead_c 	
+		: std_logic_vector( OVERHEAD-1 downto 0 ) := ( others => '0' );
+	
 
    -- Globals --
 	signal registers_s		: registers_t;					-- Array representing registers
@@ -44,103 +54,194 @@ architecture Behavioral of battle_city is
 	signal frst_stg_addr_s	: unsigned(12 downto 0);	-- Addresses needed in first stage
 	signal zero_stg_addr_s	: unsigned(12 downto 0);	-- Addresses needed in zero stage
 	signal glb_sprite_en_s	: std_logic;					-- Global sprite enable signal
+	signal reg_intersected_s: 
+		unsigned(NUM_BITS_FOR_REG_NUM-1 downto 0);		-- Index of intersected sprite
+	signal reg_row_s        : coordinate_t;				-- Sprite start row
+	signal reg_col_s			: coordinate_t;				-- Sprite start column
+	signal reg_rot_s			: rotation_t;					-- Rotation of sprite
+	signal img_z_coor_s		: unsigned(7 downto 0);		-- Z coor of static img
+	signal sprt_clr_ind_s	: unsigned(7 downto 0);		-- Sprite color index
+	signal sttc_clr_ind_s	: unsigned(7 downto 0); 	-- Static color index
 	
 	-- Zero stage --
 	signal local_addr_s		: signed(31 to 0);	
-	signal reg_row_s        : coordinate_t;
-	signal reg_col_s			: coordinate_t;
 	signal reg_size_s			: size_t;
 	signal reg_en_s			: std_logic_vector(REGISTER_NUMBER-1 downto 0);
-	signal reg_rot_s			: rotation_t;
 	signal reg_pointer_s    : pointer_t;
 	signal reg_end_row_s		: coordinate_t;
 	signal reg_end_col_s		: coordinate_t;
 	signal reg_intsect_s		: std_logic_vector(REGISTER_NUMBER-1 downto 0);
-	signal reg_intersected_s: unsigned(NUM_BITS_FOR_REG_NUM-1 downto 0);
 	signal rel_addr_s			: unsigned(12 downto 0);
 	
 	-- First stage --
 	signal frst_stg_data_s	: std_logic_vector(DATA_WIDTH-1 downto 0);
-	signal img_z_coor			: unsigned(7 downto 0);
-	signal img_rot				: unsigned(7 downto 0);
-	signal img_index			: unsigned(
+	signal img_z_coor_s		: unsigned(7 downto 0);
+	signal img_rot_s			: unsigned(7 downto 0);
+	signal img_index_s		: unsigned(15 downto 0);
+	signal offset_s   		: unsigned(7 downto 0);
+	signal internal_row_s	: unsigned(3 downto 0);
+	signal internal_col_s	: unsigned(3 downto 0);
+	signal row_s				: unsigned(3 downto 0);
+	signal col_s				: unsigned(3 downto 0);
+	signal index_s 			: unsigned(15 downto 0);
+	
+	-- Second stage --
+	signal scnd_stg_data_s	: std_logic_vector(DATA_WIDTH-1 downto 0);
+	signal max_s      		: unsigned(3 downto 0);
+	signal sprt_size_s		: std_logic;
+	signal sprt_row_s			: unsigned(10 downto 0);
+	signal sprt_col_s 		: unsigned(10 downto 0);
+	signal rot_s 				: unsigned(7 downto 0);
+	signal s_row_s				: unsigned(3 downto 0);
+	signal s_col_s				: unsigned(3 downto 0);
+	signal s_offset_s   		: unsigned(7 downto 0);
+	
+	-- Third stage --
+	signal sprt_clr_ind_s	: unsigned(7 downto 0);
+	
 begin
 -----------------------------------------------------------------------------------
 --            						    GLOBAL              									--
 -----------------------------------------------------------------------------------
-process(clk_i) begin
-	if rising_edge(clk_i) then
-		if rst_n_i = '0' then
-			counter_s <= "00";
-		else
-			counter_s <= next_counter_s;
+	process(clk_i) begin
+		if rising_edge(clk_i) then
+			if rst_n_i = '0' then
+				counter_s <= "00";
+			else
+				counter_s <= next_counter_s;
+			end if;
 		end if;
-	end if;
-end process;
+	end process;
 
--- Write data from C --
-process(clk_i) begin
-	if rising_edge(clk_i) then
-		if REGISTER_OFFSET <= local_addr_s and local_addr_s < REGISTER_OFFSET + REGISTER_NUMBER then
-			registers_s(to_integer(local_addr_s - REGISTER_OFFSET)) <= unsigned(bus_data_i);
+	-- Write data from C --
+	process(clk_i) begin
+		if rising_edge(clk_i) then
+			if REGISTER_OFFSET <= local_addr_s and local_addr_s < REGISTER_OFFSET + REGISTER_NUMBER then
+				registers_s(to_integer(local_addr_s - REGISTER_OFFSET)) <= unsigned(bus_data_i);
+			end if;
 		end if;
-	end if;
-end process;
+	end process;
 
-next_counter_s <= "00" when counter_s = "11" else
-                   counter_s + 1;	
-						 
-local_addr_s <= signed(bus_addr_i) - C_BASEADDR;  
+	next_counter_s <= "00" when counter_s = "11" else
+							 counter_s + 1;	
+							 
+	local_addr_s <= signed(bus_addr_i) - C_BASEADDR;  
 -----------------------------------------------------------------------------------
 --            						ZERO  STAGE             									--
 -----------------------------------------------------------------------------------
-comp_gen: for i in 0 to REGISTER_NUMBER-1 generate
-	-- Slice out data from registers --
-	reg_row_s(i)		<= registers_s(i)(63 downto 48);
-	reg_col_s(i)		<= registers_s(i)(47 downto 32);
-	reg_size_s(i)		<= '0' & registers_s(i)(30 downto 24);
-	reg_en_s(i)			<= registers_s(i)(31);
-	reg_rot_s(i)		<= registers_s(i)(23 downto 16);
-	reg_pointer_s(i)	<= registers_s(i)(15 downto 0);
-	
-	-- Prepare some additional data, based on kown values --
-	reg_end_row_s(i) <= reg_row_s(i) + reg_size_s(i);
-	reg_end_col_s(i) <= reg_col_s(i) + reg_size_s(i);
-	reg_intsect_s(i) <= '1' when (unsigned(pixel_row_i) >= reg_row_s(i) and 
-											unsigned(pixel_row_i) < reg_end_row_s(i) and
-											unsigned(pixel_col_i) >= reg_col_s(i) and 
-											unsigned(pixel_col_i) < reg_end_col_s(i)) else
-							  '0';	
-end generate comp_gen;
+	comp_gen: for i in 0 to REGISTER_NUMBER-1 generate
+		-- Slice out data from registers --
+		reg_row_s(i)		<= registers_s(i)(63 downto 48);
+		reg_col_s(i)		<= registers_s(i)(47 downto 32);
+		reg_size_s(i)		<= '0' & registers_s(i)(30 downto 24);
+		reg_en_s(i)			<= registers_s(i)(31);
+		reg_rot_s(i)		<= registers_s(i)(23 downto 16);
+		reg_pointer_s(i)	<= registers_s(i)(15 downto 0);
+		
+		-- Prepare some additional data, based on kown values --
+		reg_end_row_s(i) <= reg_row_s(i) + reg_size_s(i);
+		reg_end_col_s(i) <= reg_col_s(i) + reg_size_s(i);
+		reg_intsect_s(i) <= '1' when (unsigned(pixel_row_i) >= reg_row_s(i) and 
+												unsigned(pixel_row_i) < reg_end_row_s(i) and
+												unsigned(pixel_col_i) >= reg_col_s(i) and 
+												unsigned(pixel_col_i) < reg_end_col_s(i)) else
+								  '0';	
+	end generate comp_gen;
 
-reg_intersected_s <= "1001" when reg_intsect_s(9) = '1' else
-							"1000" when reg_intsect_s(8) = '1' else
-							"0111" when reg_intsect_s(7) = '1' else
-							"0110" when reg_intsect_s(6) = '1' else
-							"0101" when reg_intsect_s(5) = '1' else
-							"0100" when reg_intsect_s(4) = '1' else
-							"0011" when reg_intsect_s(3) = '1' else
-							"0010" when reg_intsect_s(2) = '1' else
-							"0001" when reg_intsect_s(1) = '1' else
-							"0000" when reg_intsect_s(0) = '1' else
-							"1001"; 
-	
-glb_sprite_en_s <= reg_intsect_s(to_integer(reg_intersected_s));				
+	reg_intersected_s <= "1001" when reg_intsect_s(9) = '1' else
+								"1000" when reg_intsect_s(8) = '1' else
+								"0111" when reg_intsect_s(7) = '1' else
+								"0110" when reg_intsect_s(6) = '1' else
+								"0101" when reg_intsect_s(5) = '1' else
+								"0100" when reg_intsect_s(4) = '1' else
+								"0011" when reg_intsect_s(3) = '1' else
+								"0010" when reg_intsect_s(2) = '1' else
+								"0001" when reg_intsect_s(1) = '1' else
+								"0000" when reg_intsect_s(0) = '1' else
+								"1001"; 
+		
+	glb_sprite_en_s <= reg_intsect_s(to_integer(reg_intersected_s));				
 
-rel_addr_s <= unsigned(pixel_row_i(9 downto 3)) * 80 + unsigned(pixel_col_i(9 downto 3));
-frst_stg_addr_s <= rel_addr_s + MAP_OFFSET;
+	rel_addr_s <= unsigned(pixel_row_i(9 downto 3)) * 80 + unsigned(pixel_col_i(9 downto 3));
+	frst_stg_addr_s <= rel_addr_s + MAP_OFFSET;
 -----------------------------------------------------------------------------------
---            						FIRST STAGE             									--
+--            	               FIRST STAGE             									--
 -----------------------------------------------------------------------------------
-process(counter_s) begin
-	if counter_s = "01" then
-		frst_stg_data_s <= mem_data_i;
-	end if;
-end process;
+	process(counter_s) begin
+		if counter_s = "01" then
+			frst_stg_data_s <= mem_data_i;
+		end if;
+	end process;
 
+	internal_row_s <= unsigned('0' & pixel_row_i(2 downto 0));
+	internal_col_s <= unsigned('0' & pixel_col_i(2 downto 0));
+	
+	img_z_coor_s <= unsigned(frst_stg_data_s(31 downto 24));
+	img_rot_s <= unsigned(frst_stg_data_s(23 downto 16));
+	index_s <= unsigned(frst_stg_data_s(15 downto 0));
+	
+	col_s <= internal_col_s						when img_rot_s = "00000000" else   -- 0
+	         size_8_c - internal_row_s		when img_rot_s = "00000001" else   -- 90
+				size_8_c - internal_col_s  	when img_rot_s = "00000010" else   -- 180
+				internal_row_s;                              			  			  -- 270
 
+	row_s <= internal_row_s          		when img_rot_s = "00000000" else   -- 0
+	         internal_col_s          		when img_rot_s = "00000001" else   -- 90
+            size_8_c - internal_row_s  	when img_rot_s = "00000010" else	  -- 180
+            size_8_c - internal_col_s;									 				  -- 270
+	
+	offset_s <= unsigned("00" & std_logic_vector(row_s(2 downto 0)) & std_logic_vector(col_s(2 downto 0)));
+					
+	-- NOTE: 
+	-- Offset is used when we know what is exact pointer, we need to have a table of pointers to every static image. --
+	-- index_s * img_size + IMG_OFFSET + offset_s  wiel be the pointer to memory location we really want to read.    --
 
-scnd_stg_addr_s <= reg_pointer_s(to_integer(reg_intersected_s));
-------------------------------------------------------------------------------------
+	scnd_stg_addr_s <= "0000000000000"; -- calculated pointer
+-----------------------------------------------------------------------------------
+--										SECOND STAGE 													--
+-----------------------------------------------------------------------------------
+	process(counter_s) begin
+		if counter_s = "10" then
+			scnd_stg_data_s <= mem_data_i;
+		end if;
+	end process;
+	
+	max_s <= size_16_c when reg_size_s(to_integer(reg_intersected_s)) = 1 else
+				size_8_c;
+	rot_s <= reg_rot_s(to_integer(reg_intersected_s));
+				
+	sprt_row_s <= reg_row_s(to_integer(reg_intersected_s)) - unsigned(pixel_row_i(2 downto 0));
+	sprt_col_s <= reg_col_s(to_integer(reg_intersected_s)) - unsigned(pixel_col_i(2 downto 0));
+	
+	s_col_s <= sprt_col_s			when rot_s = "00000000" else	-- 0
+				  max_s - sprt_row_s when rot_s = "00000001" else	-- 90
+				  max_s - sprt_col_s when rot_s = "00000010" else	-- 180
+				  sprt_row_s;													-- 270
+				  
+	s_row_s <= sprt_row_s			when rot_s = "00000000" else 	-- 0
+				  sprt_col_s			when rot_s = "00000001" else  -- 90
+				  max_s - sprt_row_s when rot_s = "00000010" else  -- 180
+				  max_s - sprt_col_s;
+				  
+	s_offset_s <= s_row_s & s_col_s;
+	
+	-- NOTE:
+	-- Similar mathematic as in first stage, should be implement here in second stage. --
+	thrd_stg_addr_s <= reg_pointer_s(to_integer(reg_intersected_s)); -- + offset
+-----------------------------------------------------------------------------------
+--                            THIRD STAGE                                        --
+-----------------------------------------------------------------------------------
 
-end Behavioral;
+	-- NOTE: Fetch color indexes, when they are ready. Make them registers (fetch inside process).
+	zero_stg_addr_s <= overhead_c & sprt_clr_ind_s when 
+								(
+									glb_sprite_en_s = '1' and 
+									(
+										-- z sort --
+										( ( img_z_coor_s < SPRITE_Z ) and ( sprt_clr_ind_s > x"00" ) ) or
+										-- alpha sort ( if static img index is transparent ) --
+										( ( img_z_coor_s > SPRITE_Z ) and ( sttc_clr_ind_s = x"00" ) )
+									)
+								) else
+					overhead_c & sttc_clr_ind_s;
+	end Behavioral;

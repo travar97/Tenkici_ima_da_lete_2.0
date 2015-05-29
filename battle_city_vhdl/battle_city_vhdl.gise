@@ -21,7 +21,19 @@
 
   <sourceproject xmlns="http://www.xilinx.com/XMLSchema" xil_pn:fileType="FILE_XISE" xil_pn:name="battle_city_vhdl.xise"/>
 
-  <files xmlns="http://www.xilinx.com/XMLSchema"/>
+  <files xmlns="http://www.xilinx.com/XMLSchema">
+    <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/xst.xmsgs"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="battle_city.prj"/>
+    <file xil_pn:fileType="FILE_XST_STX" xil_pn:name="battle_city.stx"/>
+    <file xil_pn:fileType="FILE_XST" xil_pn:name="battle_city.xst"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="memory_mux.prj"/>
+    <file xil_pn:fileType="FILE_XST_STX" xil_pn:name="memory_mux.stx"/>
+    <file xil_pn:fileType="FILE_XST" xil_pn:name="memory_mux.xst"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="parallel_comparator.prj"/>
+    <file xil_pn:fileType="FILE_XST_STX" xil_pn:name="parallel_comparator.stx"/>
+    <file xil_pn:fileType="FILE_XST" xil_pn:name="parallel_comparator.xst"/>
+    <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="xst"/>
+  </files>
 
   <transforms xmlns="http://www.xilinx.com/XMLSchema"/>
 
