@@ -13,7 +13,7 @@ entity battle_city is
 		REGISTER_NUMBER		: natural := 10;		-- Number of registers used for sprites
 		NUM_BITS_FOR_REG_NUM	: natural := 4;		-- Number of bits required for number of registers
 		MAP_OFFSET				: natural := 0;		-- Pointer to start of map in memory
-		OVERHEAD					: natural := 0;		-- Number of overhead bits
+		OVERHEAD					: natural := 5;		-- Number of overhead bits
 		SPRITE_Z					: natural := 2			-- Z coordinate of sprite
 	);
    Port (
@@ -64,7 +64,7 @@ architecture Behavioral of battle_city is
 	signal sttc_clr_ind_s	: unsigned(7 downto 0); 	-- Static color index
 	
 	-- Zero stage --
-	signal local_addr_s		: signed(31 to 0);	
+	signal local_addr_s		: signed(31 downto 0);	
 	signal reg_size_s			: size_t;
 	signal reg_en_s			: std_logic_vector(REGISTER_NUMBER-1 downto 0);
 	signal reg_pointer_s    : pointer_t;
@@ -72,10 +72,10 @@ architecture Behavioral of battle_city is
 	signal reg_end_col_s		: coordinate_t;
 	signal reg_intsect_s		: std_logic_vector(REGISTER_NUMBER-1 downto 0);
 	signal rel_addr_s			: unsigned(12 downto 0);
+	signal result_s			: unsigned(13 downto 0);
 	
 	-- First stage --
 	signal frst_stg_data_s	: std_logic_vector(DATA_WIDTH-1 downto 0);
-	signal img_z_coor_s		: unsigned(7 downto 0);
 	signal img_rot_s			: unsigned(7 downto 0);
 	signal img_index_s		: unsigned(15 downto 0);
 	signal offset_s   		: unsigned(7 downto 0);
@@ -89,15 +89,16 @@ architecture Behavioral of battle_city is
 	signal scnd_stg_data_s	: std_logic_vector(DATA_WIDTH-1 downto 0);
 	signal max_s      		: unsigned(3 downto 0);
 	signal sprt_size_s		: std_logic;
-	signal sprt_row_s			: unsigned(10 downto 0);
-	signal sprt_col_s 		: unsigned(10 downto 0);
+	signal read_row_s			: unsigned(15 downto 0);
+	signal read_col_s			: unsigned(15 downto 0);
+	signal sprt_row_s			: unsigned(3 downto 0);
+	signal sprt_col_s 		: unsigned(3 downto 0);
 	signal rot_s 				: unsigned(7 downto 0);
 	signal s_row_s				: unsigned(3 downto 0);
 	signal s_col_s				: unsigned(3 downto 0);
 	signal s_offset_s   		: unsigned(7 downto 0);
 	
 	-- Third stage --
-	signal sprt_clr_ind_s	: unsigned(7 downto 0);
 	
 begin
 -----------------------------------------------------------------------------------
@@ -162,12 +163,13 @@ begin
 		
 	glb_sprite_en_s <= reg_intsect_s(to_integer(reg_intersected_s));				
 
-	rel_addr_s <= unsigned(pixel_row_i(9 downto 3)) * 80 + unsigned(pixel_col_i(9 downto 3));
+	result_s <= unsigned(pixel_row_i(9 downto 3)) * 80 + unsigned(pixel_col_i(9 downto 3));
+	rel_addr_s <= result_s(12 downto 0);
 	frst_stg_addr_s <= rel_addr_s + MAP_OFFSET;
 -----------------------------------------------------------------------------------
 --            	               FIRST STAGE             									--
 -----------------------------------------------------------------------------------
-	process(counter_s) begin
+	process(counter_s, mem_data_i) begin
 		if counter_s = "01" then
 			frst_stg_data_s <= mem_data_i;
 		end if;
@@ -200,7 +202,7 @@ begin
 -----------------------------------------------------------------------------------
 --										SECOND STAGE 													--
 -----------------------------------------------------------------------------------
-	process(counter_s) begin
+	process(counter_s, mem_data_i) begin
 		if counter_s = "10" then
 			scnd_stg_data_s <= mem_data_i;
 		end if;
@@ -210,8 +212,11 @@ begin
 				size_8_c;
 	rot_s <= reg_rot_s(to_integer(reg_intersected_s));
 				
-	sprt_row_s <= reg_row_s(to_integer(reg_intersected_s)) - unsigned(pixel_row_i(2 downto 0));
-	sprt_col_s <= reg_col_s(to_integer(reg_intersected_s)) - unsigned(pixel_col_i(2 downto 0));
+	read_row_s <= reg_row_s(to_integer(reg_intersected_s)) - unsigned(pixel_row_i(2 downto 0));
+	read_col_s <= reg_col_s(to_integer(reg_intersected_s)) - unsigned(pixel_col_i(2 downto 0));
+	
+	sprt_row_s <= read_row_s(3 downto 0);
+	sprt_col_s <= read_col_s(3 downto 0);
 	
 	s_col_s <= sprt_col_s			when rot_s = "00000000" else	-- 0
 				  max_s - sprt_row_s when rot_s = "00000001" else	-- 90
@@ -227,13 +232,13 @@ begin
 	
 	-- NOTE:
 	-- Similar mathematic as in first stage, should be implement here in second stage. --
-	thrd_stg_addr_s <= reg_pointer_s(to_integer(reg_intersected_s)); -- + offset
+	thrd_stg_addr_s <= reg_pointer_s(to_integer(reg_intersected_s))(12 downto 0); -- + offset
 -----------------------------------------------------------------------------------
 --                            THIRD STAGE                                        --
 -----------------------------------------------------------------------------------
 
 	-- NOTE: Fetch color indexes, when they are ready. Make them registers (fetch inside process).
-	zero_stg_addr_s <= overhead_c & sprt_clr_ind_s when 
+	zero_stg_addr_s <= unsigned(overhead_c & std_logic_vector(sprt_clr_ind_s)) when 
 								(
 									glb_sprite_en_s = '1' and 
 									(
@@ -243,5 +248,5 @@ begin
 										( ( img_z_coor_s > SPRITE_Z ) and ( sttc_clr_ind_s = x"00" ) )
 									)
 								) else
-					overhead_c & sttc_clr_ind_s;
+							unsigned(overhead_c & std_logic_vector(sttc_clr_ind_s));
 	end Behavioral;
