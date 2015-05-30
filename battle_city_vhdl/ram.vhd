@@ -6261,9 +6261,9 @@ begin
 	process( clk_i ) begin
 		if rising_edge( clk_i ) then
 --			if we_i = '1' then
---				mem( to_integer( unsigned( addr_i  ) ) ) <= data_o;
+--				mem( to_integer( unsigned( addr_i ) ) ) <= data_o;
 --			else
-				data_o <= mem( to_integer( unsigned(  addr_i ) ) );
+				data_o <= mem( to_integer( unsigned( addr_i ) ) );
 --			end if;
 		end if; 
 	end process;

@@ -12,7 +12,7 @@ entity battle_city is
 		C_BASEADDR				: natural := 0;		-- Pointer to local memory in memory map
 		REGISTER_NUMBER		: natural := 10;		-- Number of registers used for sprites
 		NUM_BITS_FOR_REG_NUM	: natural := 4;		-- Number of bits required for number of registers
-		MAP_OFFSET				: natural := 0;		-- Pointer to start of map in memory
+		MAP_OFFSET				: natural := 1408;	-- Pointer to start of map in memory
 		OVERHEAD					: natural := 5;		-- Number of overhead bits
 		SPRITE_Z					: natural := 2			-- Z coordinate of sprite
 	);
@@ -23,6 +23,8 @@ entity battle_city is
 		pixel_col_i    : in  std_logic_vector(9 downto 0);
 		bus_addr_i     : in  std_logic_vector(31 downto 0);				-- Address used to point to registers
 		bus_data_i		: in  std_logic_vector(DATA_WIDTH-1 downto 0);	-- Data to be writed to registers
+		we_i				: in  std_logic;
+		stage_i			: in  unsigned(1 downto 0);
 		
 		-- memory --
 		--mem_data_s   	: in  std_logic_vector(DATA_WIDTH-1 downto 0);	-- Data from local memory
@@ -64,8 +66,6 @@ architecture Behavioral of battle_city is
 
    -- Globals --
 	signal registers_s		: registers_t;					-- Array representing registers
-	signal counter_s 			: unsigned(1 downto 0);		-- Stage counter
-	signal next_counter_s   : unsigned(1 downto 0);		-- Next stage counter
 	signal thrd_stg_addr_s  : unsigned(12 downto 0);	-- Addresses needed in third stage
 	signal scnd_stg_addr_s	: unsigned(12 downto 0);	-- Addresses needed in second stage
 	signal frst_stg_addr_s	: unsigned(12 downto 0);	-- Addresses needed in first stage
@@ -131,31 +131,23 @@ begin
 -----------------------------------------------------------------------------------
 	process(clk_i) begin
 		if rising_edge(clk_i) then
-			if rst_n_i = '0' then
-				counter_s <= "00";
-			else
-				counter_s <= next_counter_s;
-				address_s <= next_address_s;
-			end if;
+			address_s <= next_address_s;
 		end if;
 	end process;
 	
-	next_address_s <= std_logic_vector(frst_stg_addr_s) when counter_s = "00" else
-							std_logic_vector(scnd_stg_addr_s) when counter_s = "01" else
-							std_logic_vector(thrd_stg_addr_s) when counter_s = "10" else
+	next_address_s <= std_logic_vector(frst_stg_addr_s) when stage_i = "00" else
+							std_logic_vector(scnd_stg_addr_s) when stage_i = "01" else
+							std_logic_vector(thrd_stg_addr_s) when stage_i = "10" else
 							std_logic_vector(zero_stg_addr_s);
 								
 	-- Write data from C --
 	process(clk_i) begin
 		if rising_edge(clk_i) then
-			if REGISTER_OFFSET <= local_addr_s and local_addr_s < REGISTER_OFFSET + REGISTER_NUMBER then
+			if we_i = '1' and REGISTER_OFFSET <= local_addr_s and local_addr_s < REGISTER_OFFSET + REGISTER_NUMBER then
 				registers_s(to_integer(local_addr_s - REGISTER_OFFSET)) <= unsigned(bus_data_i);
 			end if;
 		end if;
 	end process;
-
-	next_counter_s <= "00" when counter_s = "11" else
-							 counter_s + 1;	
 							 
 	local_addr_s <= signed(bus_addr_i) - C_BASEADDR;  
 	
@@ -164,9 +156,13 @@ begin
 --            						ZERO  STAGE             									--
 -----------------------------------------------------------------------------------
 
-	process(counter_s, mem_data_s) begin
-		if counter_s = "00" then
-			rgb_s <= mem_data_s(COLOR_WIDTH-1 downto 0);
+	process(clk_i, stage_i, mem_data_s) begin
+		if rising_edge(clk_i) then
+			if stage_i = "00" then
+				rgb_s <= mem_data_s(COLOR_WIDTH-1 downto 0);
+			else 
+				rgb_s <= rgb_s;
+			end if;
 		end if;
 	end process;
 	
@@ -209,9 +205,13 @@ begin
 -----------------------------------------------------------------------------------
 --            	               FIRST STAGE             									--
 -----------------------------------------------------------------------------------
-	process(counter_s, mem_data_s) begin
-		if counter_s = "01" then
-			frst_stg_data_s <= mem_data_s;
+	process(clk_i, stage_i, mem_data_s) begin
+		if rising_edge(clk_i) then
+			if stage_i = "01" then
+				frst_stg_data_s <= mem_data_s;
+			else
+				frst_stg_data_s <= frst_stg_data_s;
+			end if;
 		end if;
 	end process;
 
@@ -242,9 +242,13 @@ begin
 -----------------------------------------------------------------------------------
 --										SECOND STAGE 													--
 -----------------------------------------------------------------------------------
-	process(counter_s, mem_data_s) begin
-		if counter_s = "10" then
-			scnd_stg_data_s <= mem_data_s;			-- static image texel
+	process(clk_i, stage_i, mem_data_s) begin
+		if rising_edge(clk_i) then
+			if stage_i = "10" then
+				scnd_stg_data_s <= mem_data_s;			-- static image texel
+			else
+				scnd_stg_data_s <= scnd_stg_data_s;
+			end if;
 		end if;
 	end process;
 	
@@ -277,9 +281,13 @@ begin
 --                            THIRD STAGE                                        --
 -----------------------------------------------------------------------------------
 
-	process(counter_s, mem_data_s) begin
-		if counter_s = "11" then
-			thrd_stg_data_s <= mem_data_s;	-- 
+	process(clk_i, stage_i, mem_data_s) begin
+		if rising_edge(clk_i) then
+			if stage_i = "11" then
+				thrd_stg_data_s <= mem_data_s;	-- 
+			else
+				thrd_stg_data_s <= thrd_stg_data_s;
+			end if;
 		end if;
 	end process;
 							
