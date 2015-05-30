@@ -7,15 +7,14 @@ entity ram is
 	generic
 	(
 		DATA_WIDTH : natural := 32;		    -- 4 byte one line of memory
-		ADDR_WIDTH : natural := 13			-- 24576 bytes size of memory
+		ADDR_WIDTH : natural := 13			    -- 24576 bytes size of memory
 	);
 	
 	port
 	(
 		clk_i    : in  	std_logic;
 		addr_i	: in  	std_logic_vector( ADDR_WIDTH-1 downto 0 );
-		we_i		: in  	std_logic;
-		data_io	: inout	std_logic_vector( DATA_WIDTH-1 downto 0 )
+		data_o	: out	std_logic_vector( DATA_WIDTH-1 downto 0 )
 	);
 end entity ram;
 
@@ -6261,11 +6260,11 @@ begin
 
 	process( clk_i ) begin
 		if rising_edge( clk_i ) then
-			if we_i = '1' then
-				mem( to_unsigned( unsigned( addr_i ) ) ) <= data_io;
-			else
-				data_io <= mem( to_unsigned( unsigned( addr_i ) ) );
-			end if;
+--			if we_i = '1' then
+--				mem( to_integer( unsigned( addr_i  ) ) ) <= data_o;
+--			else
+				data_o <= mem( to_integer( unsigned(  addr_i ) ) );
+--			end if;
 		end if; 
 	end process;
 
