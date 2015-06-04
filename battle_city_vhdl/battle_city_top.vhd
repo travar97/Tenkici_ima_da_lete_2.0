@@ -58,7 +58,7 @@ architecture Behavioral of battle_city_top is
 			C_BASEADDR				: natural := 0;		-- Pointer to local memory in memory map
 			REGISTER_NUMBER		: natural := 10;		-- Number of registers used for sprites
 			NUM_BITS_FOR_REG_NUM	: natural := 4;		-- Number of bits required for number of registers
-			MAP_OFFSET				: natural := 0;		-- Pointer to start of map in memory
+			MAP_OFFSET				: natural := 1424;	-- Pointer to start of map in memory
 			OVERHEAD					: natural := 5;		-- Number of overhead bits
 			SPRITE_Z					: natural := 2			-- Z coordinate of sprite
 		);
@@ -89,6 +89,7 @@ architecture Behavioral of battle_city_top is
 	signal rgb_s			: std_logic_vector(23 downto 0);
 	signal pixel_x_s		: unsigned(9 downto 0);
 	signal pixel_y_s		: unsigned(8 downto 0);
+	signal pixel_y2_s		: std_logic_vector(9 downto 0);
 	signal stage_s			: unsigned(1 downto 0);
 
 begin
@@ -124,7 +125,7 @@ begin
 	(
 		clk_i				=> clk_100MHz_s,
 		rst_n_i			=> reset_sn,
-		pixel_row_i		=> "0" & std_logic_vector(pixel_y_s),
+		pixel_row_i		=> pixel_y2_s,
 		pixel_col_i		=> std_logic_vector(pixel_x_s),
 		bus_addr_i		=> (others => '0'),
 		bus_data_i		=> (others => '0'),
@@ -133,6 +134,8 @@ begin
 
 		rgb_o				=> rgb_s
 	);
+	
+	pixel_y2_s <= "0" & std_logic_vector(pixel_y_s);
 
 end Behavioral;
 

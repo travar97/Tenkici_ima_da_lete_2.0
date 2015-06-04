@@ -102,8 +102,6 @@ void image_to_mem( FILE * f, unsigned long addr, unsigned char * img, unsigned c
 	unsigned char n;
 	unsigned char i;
 	unsigned char k;
-	unsigned long mask;
-	unsigned char bit;
 	unsigned char pixel;
 
 	n = ( type == IMG_8x8 ) ? 8 : 16;
@@ -186,7 +184,7 @@ void create_test_map( )
 	for( i = 0; i < NUM_MAP_ENTRIES; i++ ) {
 		map[ i ].z = 0;
 		map[ i ].rot = 0;
-		map[ i ].ptr = 0;
+		map[ i ].ptr = 0x0160; // NULL object
 	}
 
 	// Draw all static images
