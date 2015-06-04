@@ -1,35 +1,5 @@
---------------------------------------------------------------------------------
--- Company: 
--- Engineer:
---
--- Create Date:   15:38:20 05/30/2015
--- Design Name:   
--- Module Name:   C:/Users/student/RA38-2012/battle_city_fpga/battle_city_vhdl/battle_city_tb.vhd
--- Project Name:  battle_city_vhdl
--- Target Device:  
--- Tool versions:  
--- Description:   
--- 
--- VHDL Test Bench Created by ISE for module: battle_city
--- 
--- Dependencies:
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
---
--- Notes: 
--- This testbench has been automatically generated using types std_logic and
--- std_logic_vector for the ports of the unit under test.  Xilinx recommends
--- that these types always be used for the top-level I/O of a design in order
--- to guarantee that the testbench will bind correctly to the post-implementation 
--- simulation model.
---------------------------------------------------------------------------------
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
- 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
 USE ieee.numeric_std.ALL;
  
 ENTITY battle_city_tb IS
@@ -47,6 +17,8 @@ ARCHITECTURE behavior OF battle_city_tb IS
          pixel_col_i     : IN  std_logic_vector(9 downto 0);
          bus_addr_i      : IN  std_logic_vector(31 downto 0);
          bus_data_i      : IN  std_logic_vector(31 downto 0);
+			we_i				 : IN  std_logic;
+			stage_i			 : IN  unsigned(1 downto 0);
          rgb_o           : OUT  std_logic_vector(23 downto 0)
         );
     END COMPONENT;
@@ -59,6 +31,8 @@ ARCHITECTURE behavior OF battle_city_tb IS
    signal pixel_col_i       : std_logic_vector(9 downto 0)  := (others => '0');
    signal bus_addr_i        : std_logic_vector(31 downto 0) := (others => '0');
    signal bus_data_i        : std_logic_vector(31 downto 0) := (others => '0');
+	signal we_i				    : std_logic;
+	signal stage_i			    : unsigned(1 downto 0);
 
  	--Outputs
    signal rgb_o             : std_logic_vector(23 downto 0) := (others => '0');
@@ -68,6 +42,7 @@ ARCHITECTURE behavior OF battle_city_tb IS
 
    -- Clock period definitions
    constant clk_i_period : time := 10 ns;
+	constant assert_sev : severity_level := failure;
 	
  
 BEGIN
@@ -80,6 +55,8 @@ BEGIN
           pixel_col_i => pixel_col_i,
           bus_addr_i => bus_addr_i,
           bus_data_i => bus_data_i,
+			 we_i => we_i,
+			 stage_i => stage_i,
           rgb_o => rgb_o
         );
 
@@ -91,26 +68,30 @@ BEGIN
 		clk_i <= '1';
 		wait for clk_i_period/2;
    end process;
- 
-
 	
-   -- Stimulus process
-   stim_proc: process
-   begin		
-      -- hold reset state for 100 ns.
-      wait for 100 ns;	
-		
-      wait for clk_i_period*10;
-      -- insert stimulus here 
-
-      wait;
-   end process;
+	-- Stimulus process
+   stim_proc: process begin	
+		pixel_row_i <= "0000000000";
+		pixel_col_i <= "0000000000";
+		stage_i <= "00";
+		we_i <= '0';
+		wait;
+	end process;
 	
-	process
-   begin
-      assert rgb_o =	x"10000000000000000000000000000000"
-         report "Observed is asdf is expected!"
-         severity assert_severity;
-   end process;
+--	-- Test case 
+--	test_proc: process begin 
+--		wait for 10 ns;
+--	   for I in 0 to 15 loop
+--			for J in 0 to 15 loop
+--			
+--				-- Go trough first two row and first two columns
+--				pixel_row_i <= I;
+--				pixel_col_i <= J;
+--				wait for clk_i_period * 10;
+--				-- Insert assert here
+--			end loop;
+--		end loop;
+--		wait;
+--	end process;
 
 END;
