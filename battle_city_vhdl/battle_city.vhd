@@ -12,7 +12,7 @@ entity battle_city is
 		C_BASEADDR				: natural := 0;		-- Pointer to local memory in memory map
 		REGISTER_NUMBER		: natural := 10;		-- Number of registers used for sprites
 		NUM_BITS_FOR_REG_NUM	: natural := 4;		-- Number of bits required for number of registers
-		MAP_OFFSET				: natural := 1408;	-- Pointer to start of map in memory
+		MAP_OFFSET				: natural := 1424;	-- Pointer to start of map in memory
 		OVERHEAD					: natural := 5;		-- Number of overhead bits
 		SPRITE_Z					: natural := 2			-- Z coordinate of sprite
 	);
@@ -27,7 +27,7 @@ entity battle_city is
 		stage_i			: in  unsigned(1 downto 0);
 		
 		-- memory --
-		--mem_data_s   	: in  std_logic_vector(DATA_WIDTH-1 downto 0);	-- Data from local memory
+		--mem_data_i     : in  std_logic_vector(DATA_WIDTH-1 downto 0);	-- Data from local memory
 		--address_o      : out std_logic_vector(ADDR_WIDTH-1 downto 0);	-- Address used to read from memory
 		
 		-- VGA --
@@ -125,13 +125,16 @@ architecture Behavioral of battle_city is
 	-- Third stage --
 	signal thrd_stg_data_s	: std_logic_vector(DATA_WIDTH-1 downto 0);
 	
+	signal stage_data_s		: std_logic_vector(DATA_WIDTH-1 downto 0);
+	
 begin
 -----------------------------------------------------------------------------------
 --            						    GLOBAL              									--
 -----------------------------------------------------------------------------------
-	process(clk_i) begin
+	process(clk_i, next_address_s, mem_data_s) begin
 		if rising_edge(clk_i) then
 			address_s <= next_address_s;
+			stage_data_s <= mem_data_s;
 		end if;
 	end process;
 	
@@ -141,14 +144,14 @@ begin
 							std_logic_vector(zero_stg_addr_s);
 								
 	-- Write data from C --
-	process(clk_i) begin
+	process(clk_i, we_i, bus_data_i, local_addr_s) begin
 		if rising_edge(clk_i) then
 			if we_i = '1' and REGISTER_OFFSET <= local_addr_s and local_addr_s < REGISTER_OFFSET + REGISTER_NUMBER then
 				registers_s(to_integer(local_addr_s - REGISTER_OFFSET)) <= unsigned(bus_data_i);
 			end if;
 		end if;
 	end process;
-							 
+						
 	local_addr_s <= signed(bus_addr_i) - C_BASEADDR;  
 	
 	rgb_o <= rgb_s;
@@ -156,12 +159,10 @@ begin
 --            						ZERO  STAGE             									--
 -----------------------------------------------------------------------------------
 
-	process(clk_i, stage_i, mem_data_s) begin
+	process(clk_i, stage_i, rgb_s, stage_data_s) begin
 		if rising_edge(clk_i) then
 			if stage_i = "00" then
-				rgb_s <= mem_data_s(COLOR_WIDTH-1 downto 0);
-			else 
-				rgb_s <= rgb_s;
+				rgb_s <= stage_data_s(31 downto 8);--mem_data_s(31 downto 8);
 			end if;
 		end if;
 	end process;
@@ -205,12 +206,10 @@ begin
 -----------------------------------------------------------------------------------
 --            	               FIRST STAGE             									--
 -----------------------------------------------------------------------------------
-	process(clk_i, stage_i, mem_data_s) begin
+	process(clk_i, stage_i, frst_stg_data_s, stage_data_s) begin
 		if rising_edge(clk_i) then
 			if stage_i = "01" then
-				frst_stg_data_s <= mem_data_s;
-			else
-				frst_stg_data_s <= frst_stg_data_s;
+				frst_stg_data_s <= stage_data_s;--mem_data_s;
 			end if;
 		end if;
 	end process;
@@ -222,32 +221,30 @@ begin
 	img_rot_s    <= unsigned(frst_stg_data_s(23 downto 16));
 	index_s      <= unsigned(frst_stg_data_s(15 downto 0));
 	
-	col_s <= internal_col_s						when img_rot_s = "00000000" else   -- 0
-	         size_8_c - internal_row_s		when img_rot_s = "00000001" else   -- 90
-				size_8_c - internal_col_s  	when img_rot_s = "00000010" else   -- 180
-				internal_row_s;                              			  			  -- 270
+	col_s <= internal_col_s;--						when img_rot_s = "00000000" else   -- 0
+--	         size_8_c - internal_row_s		when img_rot_s = "00000001" else   -- 90
+--				size_8_c - internal_col_s  	when img_rot_s = "00000010" else   -- 180
+--				internal_row_s;                              			  			  -- 270
 
-	row_s <= internal_row_s          		when img_rot_s = "00000000" else   -- 0
-	         internal_col_s          		when img_rot_s = "00000001" else   -- 90
-            size_8_c - internal_row_s  	when img_rot_s = "00000010" else	  -- 180
-            size_8_c - internal_col_s;									 				  -- 270
+	row_s <= internal_row_s;--          		when img_rot_s = "00000000" else   -- 0
+--	         internal_col_s          		when img_rot_s = "00000001" else   -- 90
+--            size_8_c - internal_row_s  	when img_rot_s = "00000010" else	  -- 180
+--            size_8_c - internal_col_s;									 				  -- 270
 	
 	offset_s <= unsigned("00" & std_logic_vector(row_s(2 downto 0)) & std_logic_vector(col_s(2 downto 0)));
-					
+	
 	-- NOTE: 
 	-- Offset is used when we know what is exact pointer, we need to have a table of pointers to every static image. --
 	-- index_s * img_size + IMG_OFFSET + offset_s  will be the pointer to memory location we really want to read.    --
 
-	scnd_stg_addr_s <= index_s(12 downto 0) + offset_s;
+	scnd_stg_addr_s <= index_s(12 downto 0) + offset_s(7 downto 2);
 -----------------------------------------------------------------------------------
 --										SECOND STAGE 													--
 -----------------------------------------------------------------------------------
-	process(clk_i, stage_i, mem_data_s) begin
+	process(clk_i, stage_i, scnd_stg_data_s, stage_data_s) begin
 		if rising_edge(clk_i) then
 			if stage_i = "10" then
-				scnd_stg_data_s <= mem_data_s;			-- static image texel
-			else
-				scnd_stg_data_s <= scnd_stg_data_s;
+				scnd_stg_data_s <= stage_data_s;--mem_data_s;			-- static image texel
 			end if;
 		end if;
 	end process;
@@ -262,15 +259,15 @@ begin
 	sprt_row_s <= read_row_s(3 downto 0);
 	sprt_col_s <= read_col_s(3 downto 0);
 	
-	s_col_s <= sprt_col_s			when rot_s = "00000000" else	-- 0
-				  max_s - sprt_row_s when rot_s = "00000001" else	-- 90
-				  max_s - sprt_col_s when rot_s = "00000010" else	-- 180
-				  sprt_row_s;													-- 270
+	s_col_s <= sprt_col_s;--			when rot_s = "00000000" else	-- 0
+--				  max_s - sprt_row_s when rot_s = "00000001" else	-- 90
+--				  max_s - sprt_col_s when rot_s = "00000010" else	-- 180
+--				  sprt_row_s;													-- 270
 				  
-	s_row_s <= sprt_row_s			when rot_s = "00000000" else 	-- 0
-				  sprt_col_s			when rot_s = "00000001" else  -- 90
-				  max_s - sprt_row_s when rot_s = "00000010" else  -- 180
-				  max_s - sprt_col_s;
+	s_row_s <= sprt_row_s;--			when rot_s = "00000000" else 	-- 0
+--				  sprt_col_s			when rot_s = "00000001" else  -- 90
+--				  max_s - sprt_row_s when rot_s = "00000010" else  -- 180
+--				  max_s - sprt_col_s;
 				  
 	s_offset_s <= s_row_s & s_col_s;
 	
@@ -281,40 +278,36 @@ begin
 --                            THIRD STAGE                                        --
 -----------------------------------------------------------------------------------
 
-	process(clk_i, stage_i, mem_data_s) begin
+	process(clk_i, stage_i, thrd_stg_data_s, stage_data_s) begin
 		if rising_edge(clk_i) then
 			if stage_i = "11" then
-				thrd_stg_data_s <= mem_data_s;	-- 
-			else
-				thrd_stg_data_s <= thrd_stg_data_s;
+				thrd_stg_data_s <= stage_data_s;--mem_data_s;
 			end if;
 		end if;
 	end process;
 							
 	-- calclulate color index of static image --
-	with col_s(1 downto 0) select 
-		sttc_clr_ind_s <= scnd_stg_data_s(31 downto 24) when "00",		
-								scnd_stg_data_s(23 downto 16) when "01",
-								scnd_stg_data_s(15 downto 8)  when "10",
-								scnd_stg_data_s(7 downto 0)   when others;
+	sttc_clr_ind_s <= scnd_stg_data_s(31 downto 24) when offset_s(1 downto 0) = "00" else	
+							scnd_stg_data_s(23 downto 16) when offset_s(1 downto 0) = "01" else
+							scnd_stg_data_s(15 downto 8)  when offset_s(1 downto 0) = "10" else
+							scnd_stg_data_s(7 downto 0);
 							
 	-- calclulate color index of sprite --					
-	with col_s(1 downto 0) select 
-		sprt_clr_ind_s <= thrd_stg_data_s(31 downto 24) when "00",
-								thrd_stg_data_s(23 downto 16) when "01",
-								thrd_stg_data_s(15 downto 8)  when "10",
-								thrd_stg_data_s(7 downto 0)   when others;
+	sprt_clr_ind_s <= thrd_stg_data_s(31 downto 24) when s_offset_s(1 downto 0) = "00" else
+							thrd_stg_data_s(23 downto 16) when s_offset_s(1 downto 0) = "01" else
+							thrd_stg_data_s(15 downto 8)  when s_offset_s(1 downto 0) = "10" else
+							thrd_stg_data_s(7 downto 0);
 	
-	zero_stg_addr_s <=	unsigned(overhead_c & sprt_clr_ind_s) when 
-								(
-									glb_sprite_en_s = '1' and 
-									(
-										-- z sort --
-										( ( img_z_coor_s < SPRITE_Z ) and ( sprt_clr_ind_s > x"00" ) ) or
-										-- alpha sort ( if static img index is transparent ) --
-										( ( img_z_coor_s > SPRITE_Z ) and ( sttc_clr_ind_s = x"00" ) )
-									)
-								) else
+	zero_stg_addr_s <=	--unsigned(overhead_c & sprt_clr_ind_s) when 
+--								(
+--									glb_sprite_en_s = '1' and 
+--									(
+--										-- z sort --
+--										( ( img_z_coor_s < SPRITE_Z ) and ( sprt_clr_ind_s > x"00" ) ) or
+--										-- alpha sort ( if static img index is transparent ) --
+--										( ( img_z_coor_s > SPRITE_Z ) and ( sttc_clr_ind_s = x"00" ) )
+--									)
+--								) else
 								unsigned(overhead_c & sttc_clr_ind_s);
 								
 -----------------------------------------------------------------------------------

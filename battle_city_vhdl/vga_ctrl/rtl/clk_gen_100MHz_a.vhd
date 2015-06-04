@@ -21,6 +21,7 @@ architecture arch_v1 of clk_gen_100MHz is
 	signal clk_fb : std_logic;
 	signal clk_0  : std_logic;
 	signal clk_fx : std_logic;
+	signal in_rst : std_logic;
 begin
 
 	-- Input buffering.
@@ -66,7 +67,7 @@ begin
 		-- Other control and status signals
 		LOCKED                => o_locked,
 		STATUS                => open,
-		RST                   => not in_reset,
+		RST                   => in_rst,
 		-- Unused pin, tie low
 		DSSEN                 => '0'
 	);
@@ -83,5 +84,7 @@ begin
 		I => clk_fx,
 		O => o_clk_100MHz
 	);
+	
+	in_rst <= not in_reset;
 
 end architecture arch_v1;
