@@ -65,8 +65,8 @@ architecture Behavioral of battle_city_top is
 		Port (
 			clk_i    		: in  std_logic;
 			rst_n_i        : in  std_logic;
-			pixel_row_i    : in  std_logic_vector(9 downto 0);
-			pixel_col_i    : in  std_logic_vector(9 downto 0);
+			pixel_row_i    : in  unsigned(8 downto 0);
+			pixel_col_i    : in  unsigned(9 downto 0);
 			bus_addr_i     : in  std_logic_vector(31 downto 0);				-- Address used to point to registers
 			bus_data_i		: in  std_logic_vector(DATA_WIDTH-1 downto 0);	-- Data to be writed to registers
 			we_i				: in  std_logic;
@@ -89,7 +89,7 @@ architecture Behavioral of battle_city_top is
 	signal rgb_s			: std_logic_vector(23 downto 0);
 	signal pixel_x_s		: unsigned(9 downto 0);
 	signal pixel_y_s		: unsigned(8 downto 0);
-	signal pixel_y2_s		: std_logic_vector(9 downto 0);
+--	signal pixel_y2_s		: std_logic_vector(8 downto 0);
 	signal stage_s			: unsigned(1 downto 0);
 
 begin
@@ -105,9 +105,9 @@ begin
 		o_stage			=> stage_s,
 		o_pixel_x		=> pixel_x_s,
 		o_pixel_y		=> pixel_y_s,
-		i_red				=> rgb_s(23 downto 16),
+		i_red				=> rgb_s(7 downto 0),
 		i_green			=> rgb_s(15 downto 8),
-		i_blue			=> rgb_s(7 downto 0),
+		i_blue			=> rgb_s(23 downto 16),
 
 		o_vga_clk		=> vga_clk_o,
 		o_red				=> red_o,
@@ -125,8 +125,8 @@ begin
 	(
 		clk_i				=> clk_100MHz_s,
 		rst_n_i			=> reset_sn,
-		pixel_row_i		=> pixel_y2_s,
-		pixel_col_i		=> std_logic_vector(pixel_x_s),
+		pixel_row_i		=> pixel_y_s,
+		pixel_col_i		=> pixel_x_s,
 		bus_addr_i		=> (others => '0'),
 		bus_data_i		=> (others => '0'),
 		we_i				=> '0',
@@ -135,7 +135,6 @@ begin
 		rgb_o				=> rgb_s
 	);
 	
-	pixel_y2_s <= "0" & std_logic_vector(pixel_y_s);
+--	pixel_y2_s <= "0" & std_logic_vector(pixel_y_s);
 
 end Behavioral;
-
