@@ -3,29 +3,28 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity battle_city is
-	generic(
+   generic(
       DATA_WIDTH           : natural := 32;
-		COLOR_WIDTH          : natural := 24;
-		ADDR_WIDTH           : natural := 13;
-		REGISTER_OFFSET      : natural := 0;      -- Pointer to registers in memory map
-		C_BASEADDR           : natural := 0;      -- Pointer to local memory in memory map
-		REGISTER_NUMBER      : natural := 10;     -- Number of registers used for sprites
-		NUM_BITS_FOR_REG_NUM : natural := 4;      -- Number of bits required for number of registers
-		MAP_OFFSET           : natural := 1424;   -- Pointer to start of map in memory
-		OVERHEAD             : natural := 5;      -- Number of overhead bits
-		SPRITE_Z             : natural := 2       -- Z coordinate of sprite
+      COLOR_WIDTH          : natural := 24;
+      ADDR_WIDTH           : natural := 13;
+      REGISTER_OFFSET      : natural := 0;      -- Pointer to registers in memory map
+      C_BASEADDR           : natural := 0;      -- Pointer to local memory in memory map
+      REGISTER_NUMBER      : natural := 10;     -- Number of registers used for sprites
+      NUM_BITS_FOR_REG_NUM : natural := 4;      -- Number of bits required for number of registers
+      MAP_OFFSET           : natural := 1424;   -- Pointer to start of map in memory
+      OVERHEAD             : natural := 5;      -- Number of overhead bits
+      SPRITE_Z             : natural := 2       -- Z coordinate of sprite
 	);
-	
    Port (
       clk_i          : in  std_logic;
-		rst_n_i        : in  std_logic;
-		pixel_row_i    : in  unsigned(8 downto 0);
-		pixel_col_i    : in  unsigned(9 downto 0);
-		bus_addr_i     : in  std_logic_vector(31 downto 0);            -- Address used to point to registers
-		bus_data_i     : in  std_logic_vector(DATA_WIDTH-1 downto 0);  -- Data to be writed to registers
-		we_i           : in  std_logic;
-		stage_i        : in  unsigned(1 downto 0);
-		
+      rst_n_i        : in  std_logic;
+      pixel_row_i    : in  unsigned(8 downto 0);
+      pixel_col_i    : in  unsigned(9 downto 0);
+      bus_addr_i     : in  std_logic_vector(31 downto 0);            -- Address used to point to registers
+      bus_data_i     : in  std_logic_vector(DATA_WIDTH-1 downto 0);  -- Data to be writed to registers
+      we_i           : in  std_logic;
+      stage_i        : in  unsigned(1 downto 0);
+      
 		-- VGA --
 		rgb_o          : out std_logic_vector(COLOR_WIDTH-1 downto 0)  -- Value of RGB color
    );
@@ -33,14 +32,14 @@ end battle_city;
 
 architecture Behavioral of battle_city is
 
-	component ram 	
-	port
-	(
-		clk_i    : in  std_logic;
-		addr_i   : in  unsigned(ADDR_WIDTH-1 downto 0 );
-		data_o   : out std_logic_vector( DATA_WIDTH-1 downto 0 )
-	);
-	end component ram;
+   component ram 	
+   port
+   (
+      clk_i    : in  std_logic;
+      addr_i   : in  unsigned(ADDR_WIDTH-1 downto 0 );
+      data_o   : out std_logic_vector( DATA_WIDTH-1 downto 0 )
+   );
+   end component ram;
 
 	-- Types --
    type registers_t  is array (0 to REGISTER_NUMBER-1) of unsigned (63 downto  0);
@@ -62,12 +61,12 @@ architecture Behavioral of battle_city is
    signal zero_stg_addr_s  : unsigned(ADDR_WIDTH-1 downto 0);              -- Addresses needed in zero stage
    signal glb_sprite_en_s  : std_logic;                                    -- Global sprite enable signal
    signal reg_intersected_s: unsigned(NUM_BITS_FOR_REG_NUM-1 downto 0);    -- Index of intersected sprite
-	signal reg_row_s        : coordinate_t;                                 -- Sprite start row
-	signal reg_col_s        : coordinate_t;                                 -- Sprite start column
-	signal reg_rot_s        : rotation_t;                                   -- Rotation of sprite
-	signal img_z_coor_s     : unsigned(7 downto 0);                         -- Z coor of static img
-	signal sprt_clr_ind_s   : std_logic_vector(7 downto 0);                 -- Sprite color index
-	signal address_s        : unsigned(ADDR_WIDTH-1 downto 0);              -- Memory address line 
+   signal reg_row_s        : coordinate_t;                                 -- Sprite start row
+   signal reg_col_s        : coordinate_t;                                 -- Sprite start column
+   signal reg_rot_s        : rotation_t;                                   -- Rotation of sprite
+   signal img_z_coor_s     : unsigned(7 downto 0);                         -- Z coor of static img
+   signal sprt_clr_ind_s   : std_logic_vector(7 downto 0);                 -- Sprite color index
+   signal address_s        : unsigned(ADDR_WIDTH-1 downto 0);              -- Memory address line 
 	
    -- Memory --
    signal mem_data_s       : std_logic_vector(DATA_WIDTH-1 downto 0);      -- Data from local memory
@@ -96,37 +95,36 @@ architecture Behavioral of battle_city is
    signal img_addr_s       : unsigned(ADDR_WIDTH-1 downto 0);
 	
 	-- Second stage --
-	signal scnd_stg_data_s  : std_logic_vector(DATA_WIDTH-1 downto 0);
-	signal max_s            : unsigned(3 downto 0);
-	signal sprt_size_s      : std_logic;
-	signal read_row_s       : unsigned(15 downto 0);
-	signal read_col_s       : unsigned(15 downto 0);
-	signal sprt_row_s       : unsigned(3 downto 0);
-	signal sprt_col_s       : unsigned(3 downto 0);
-	signal rot_s            : unsigned(7 downto 0);
-	signal s_row_s          : unsigned(3 downto 0);
-	signal s_col_s          : unsigned(3 downto 0);
-	signal s_offset_s       : unsigned(7 downto 0);
+   signal scnd_stg_data_s  : std_logic_vector(DATA_WIDTH-1 downto 0);
+   signal max_s            : unsigned(3 downto 0);
+   signal sprt_size_s      : std_logic;
+   signal read_row_s       : unsigned(15 downto 0);
+   signal read_col_s       : unsigned(15 downto 0);
+   signal sprt_row_s       : unsigned(3 downto 0);
+   signal sprt_col_s       : unsigned(3 downto 0);
+   signal rot_s            : unsigned(7 downto 0);
+   signal s_row_s          : unsigned(3 downto 0);
+   signal s_col_s          : unsigned(3 downto 0);
+   signal s_offset_s       : unsigned(7 downto 0);
+   signal img_color_idx_r  : unsigned(7 downto 0);
+   signal img_color_idx_s  : unsigned(7 downto 0);
 	
-	signal img_color_idx_r  : unsigned(7 downto 0);
-	signal img_color_idx_s  : unsigned(7 downto 0);
-	
-	-- Third stage --
-	signal thrd_stg_data_s  : std_logic_vector(DATA_WIDTH-1 downto 0);
-	signal stage_data_s     : std_logic_vector(DATA_WIDTH-1 downto 0);
-	signal palette_idx_s    : unsigned(7 downto 0);
+   -- Third stage --
+   signal thrd_stg_data_s  : std_logic_vector(DATA_WIDTH-1 downto 0);
+   signal stage_data_s     : std_logic_vector(DATA_WIDTH-1 downto 0);
+   signal palette_idx_s    : unsigned(7 downto 0);
 	
 begin
    -----------------------------------------------------------------------------------
    --                            GLOBAL                                             --
    -----------------------------------------------------------------------------------								
-	process(clk_i, we_i, bus_data_i, local_addr_s) begin
-		if rising_edge(clk_i) then
-			if we_i = '1' and REGISTER_OFFSET <= local_addr_s and local_addr_s < REGISTER_OFFSET + REGISTER_NUMBER then
-				registers_s(to_integer(local_addr_s - REGISTER_OFFSET)) <= unsigned(bus_data_i);
-			end if;
-		end if;
-	end process;
+   process(clk_i, we_i, bus_data_i, local_addr_s) begin
+   if rising_edge(clk_i) then
+      if we_i = '1' and REGISTER_OFFSET <= local_addr_s and local_addr_s < REGISTER_OFFSET + REGISTER_NUMBER then
+         registers_s(to_integer(local_addr_s - REGISTER_OFFSET)) <= unsigned(bus_data_i);
+      end if;
+   end if;
+   end process;
 	
    with stage_i select
       address_s <= 
@@ -135,7 +133,7 @@ begin
          thrd_stg_addr_s when "10",
          zero_stg_addr_s when others;
 
-	local_addr_s <= signed(bus_addr_i) - C_BASEADDR;  	
+   local_addr_s <= signed(bus_addr_i) - C_BASEADDR;  	
 	
    -----------------------------------------------------------------------------------
    --                           ZERO  STAGE                                         --
@@ -264,13 +262,15 @@ begin
 	--                            THIRD STAGE                                        --
 	-----------------------------------------------------------------------------------	
 							
-	-- Calclulate color index of sprite --	
-   sprt_clr_ind_s <= mem_data_s(31 downto 24) when s_offset_s(1 downto 0) = "00" else
-							mem_data_s(23 downto 16) when s_offset_s(1 downto 0) = "01" else
-							mem_data_s( 15 downto 8) when s_offset_s(1 downto 0) = "10" else
-							mem_data_s(  7 downto 0);
+	-- Calclulate color index of sprite --
+   with s_offset_s(1 downto 0) select
+      sprt_clr_ind_s <= 
+         mem_data_s(31 downto 24) when "00",
+         mem_data_s(23 downto 16) when "01",
+         mem_data_s( 15 downto 8) when "10",
+         mem_data_s(  7 downto 0) when others;
 	
---   zero_stg_addr_s <= unsigned(overhead_c & sprt_clr_ind_s) when
+--  zero_stg_addr_s <= unsigned(overhead_c & sprt_clr_ind_s) when
 --                      (
 --                        glb_sprite_en_s = '1' and
 --                        (
@@ -278,8 +278,8 @@ begin
 --                           ( ( img_z_coor_s < SPRITE_Z ) and ( sprt_clr_ind_s > x"00" ) ) or
 --                           -- alpha sort ( if static img index is transparent ) --
 --                           ( ( img_z_coor_s > SPRITE_Z ) and ( img_color_idx_r= x"00" ) )
---                           )
---                        ) else
+--                        )
+--                      ) else
 
 	 palette_idx_s   <= img_color_idx_r;
 	 zero_stg_addr_s <= (ADDR_WIDTH-1 downto 8 => '0') & palette_idx_s;
