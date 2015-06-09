@@ -113,6 +113,9 @@ architecture Behavioral of battle_city is
    signal thrd_stg_data_s  : std_logic_vector(DATA_WIDTH-1 downto 0);
    signal stage_data_s     : std_logic_vector(DATA_WIDTH-1 downto 0);
    signal palette_idx_s    : unsigned(7 downto 0);
+   
+   -- Testing signals --
+   signal test_s           : unsigned(11 downto 0);
 	
 begin
    -----------------------------------------------------------------------------------
@@ -178,7 +181,11 @@ begin
 		
 	glb_sprite_en_s <= reg_intsect_s(to_integer(reg_intersected_s));				
 
-	map_index_s     <= pixel_row_i(8 downto 3) * 80 + pixel_col_i(9 downto 3);
+   -- map_index_s = (row/8)*80 + col;
+   map_index_s  <= unsigned(std_logic_vector(pixel_row_i(8 downto 3)) & "000000") 
+                   + unsigned(std_logic_vector(pixel_row_i(8 downto 3)) & "0000")
+                   + pixel_col_i(9 downto 0);
+                   
 	frst_stg_addr_s <= "0" & map_index_s + MAP_OFFSET;
 	
 	-----------------------------------------------------------------------------------
@@ -195,16 +202,16 @@ begin
 	with img_rot_s select
 		img_tex_col_s <= 
 			'0' & img_col_s        when "00000000",   -- 0
-		   size_8_c - img_row_s   when "00000001",   -- 90
+		   size_8_c - img_row_s   when "00000001",   -- 90 -- Andrej
 			size_8_c - img_col_s   when "00000010",   -- 180
-			'0' & img_row_s		  when others; 			  -- 270
+			'0' & img_row_s		  when others;       -- 270
 	
 	with img_rot_s select
 		img_tex_row_s <= 
-			'0' & img_row_s        when "00000000",  -- 0
+			'0' & img_row_s        when "00000000",   -- 0
 			'0' & img_col_s        when "00000001",   -- 90
-			size_8_c - img_row_s   when "00000010",	  -- 180
-			size_8_c - img_col_s   when others;      -- 270
+			size_8_c - img_row_s   when "00000010",	-- 180
+			size_8_c - img_col_s   when others;       -- 270
 	
 	img_tex_offset_s <= img_tex_row_s(2 downto 0) & img_tex_col_s(2 downto 0);
 	
@@ -213,7 +220,6 @@ begin
 			img_tex_pix_sel_r <= img_tex_offset_s(1 downto 0);
 		end if;
 	end process;
-	
 	
 	scnd_stg_addr_s <= img_addr_s + img_tex_offset_s(5 downto 2);
 	
