@@ -71,9 +71,6 @@ architecture Behavioral of battle_city_top is
 			bus_data_i		: in  std_logic_vector(DATA_WIDTH-1 downto 0);	-- Data to be writed to registers
 			we_i				: in  std_logic;
 			stage_i			: in  unsigned(1 downto 0);
-			-- memory --
-			--mem_data_s   	: in  std_logic_vector(DATA_WIDTH-1 downto 0);	-- Data from local memory
-			--address_o      : out std_logic_vector(ADDR_WIDTH-1 downto 0);	-- Address used to read from memory
 			
 			-- VGA --
 			rgb_o    		: out std_logic_vector(COLOR_WIDTH-1 downto 0)	-- Value of RGB color
@@ -89,7 +86,6 @@ architecture Behavioral of battle_city_top is
 	signal rgb_s			: std_logic_vector(23 downto 0);
 	signal pixel_x_s		: unsigned(9 downto 0);
 	signal pixel_y_s		: unsigned(8 downto 0);
---	signal pixel_y2_s		: std_logic_vector(8 downto 0);
 	signal stage_s			: unsigned(1 downto 0);
 
 begin
@@ -134,7 +130,5 @@ begin
 
 		rgb_o				=> rgb_s
 	);
-	
---	pixel_y2_s <= "0" & std_logic_vector(pixel_y_s);
 
 end Behavioral;
