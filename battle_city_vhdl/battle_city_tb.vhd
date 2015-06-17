@@ -115,53 +115,53 @@ BEGIN
 		wait for clk_i_period/2;
    end process;	
 	
---	-- Test case for element rotation
---	test_proc_0: process begin 
---	
---		-- Reset for 4 clocks
---      rst_n_i <= '0';
---	 	wait for 5 ns;
---		
---	   stage_i <= "00";
---	   we_i <= '0';
---      pixel_row_i <= "000000000";   -- 0
---      pixel_col_i <= "0000000000";  -- 0
---		
---		wait for clk_i_period * 4;
---		rst_n_i <= '1';
---		wait for clk_i_period;
---				
---		-- Go trough first row and compare to unrotated element
---      for element in 0 to 79 loop
---         for r in 0 to frm_buf_height_c-1 loop
---            pixel_row_i <= to_unsigned(r, 9);
---            
---            for c in 0 to frm_buf_width_c-1 loop
---               pixel_col_i <= to_unsigned(c+(8*element), 10);
---               
---               stage_i <= "01";
---               
---               wait for clk_i_period;
---               stage_i <= "10";
---               
---               wait for clk_i_period;
---               stage_i <= "11";
---               
---               wait for clk_i_period;
---               stage_i <= "00";
---               
---               wait for clk_i_period/2;
+	-- Test case for element rotation
+	test_proc_0: process begin 
+	
+		-- Reset for 4 clocks
+      rst_n_i <= '0';
+	 	wait for 5 ns;
+		
+	   stage_i <= "00";
+	   we_i <= '0';
+      pixel_row_i <= "000000000";   -- 0
+      pixel_col_i <= "0000000000";  -- 0
+		
+		wait for clk_i_period * 4;
+		rst_n_i <= '1';
+		wait for clk_i_period;
+				
+		-- Go trough first row and compare to unrotated element
+      for element in 0 to 79 loop
+         for r in 0 to frm_buf_height_c-1 loop
+            pixel_row_i <= to_unsigned(r, 9);
+            
+            for c in 0 to frm_buf_width_c-1 loop
+               pixel_col_i <= to_unsigned(c+(8*element), 10);
+               
+               stage_i <= "01";
+               
+               wait for clk_i_period;
+               stage_i <= "10";
+               
+               wait for clk_i_period;
+               stage_i <= "11";
+               
+               wait for clk_i_period;
+               stage_i <= "00";
+               
+               wait for clk_i_period/2;
 --               assert rgb_o = frm_buf_0(r, c)
 --                  report "TEST_0: On r = " & natural'image(r) & " c = " & natural'image(c+(8*element)) & ":" & LF 
 --                  severity assert_sev_0;
---               wait for clk_i_period/2;
---               
---            end loop;
---         end loop;
---      end loop;
---      
---      wait;
---   end process;
+               wait for clk_i_period/2;
+               
+            end loop;
+         end loop;
+      end loop;
+      
+      wait;
+   end process;
    
 --   test_proc_1: process begin
 --      -- Reset for 4 clocks
@@ -255,50 +255,50 @@ BEGIN
 --      wait;
 --   end process;
 
-   test_proc_3: process begin
-      -- Reset for 4 clocks
-      rst_n_i <= '0';
-		wait for 5 ns;
-		
-		stage_i <= "00";
-		we_i <= '0';
-      pixel_row_i <= "000011000";   -- 24 
-      pixel_col_i <= "0000000000";  -- 0
-		
-		wait for clk_i_period * 4;
-		rst_n_i <= '1';
-		wait for clk_i_period;
-      
-      -- Go trough fourth row and compare with element rotated by 270 degrees.
-      for element in 0 to 79 loop
-         for r in 0 to frm_buf_height_c-1 loop
-            pixel_row_i <= to_unsigned((r+24), 9);
-            
-            for c in 0 to frm_buf_width_c-1 loop
-               pixel_col_i <= to_unsigned(c+(8*element), 10);
-               
-               stage_i <= "01";
-               
-               wait for clk_i_period;
-               stage_i <= "10";
-               
-               wait for clk_i_period;
-               stage_i <= "11";
-               
-               wait for clk_i_period;
-               stage_i <= "00";
-               
-               wait for clk_i_period/2;
-               assert rgb_o = frm_buf_3(r, c)
-                  report "TEST_3: On r = " & natural'image(r+24) & " c = " & natural'image(c+(8*element)) & ":" & LF 
-                  severity assert_sev_3;
-               wait for clk_i_period/2;
-               
-            end loop;
-         end loop;
-      end loop;
-      
-      wait;
-   end process;
+--   test_proc_3: process begin
+--      -- Reset for 4 clocks
+--      rst_n_i <= '0';
+--		wait for 5 ns;
+--		
+--		stage_i <= "00";
+--		we_i <= '0';
+--      pixel_row_i <= "000011000";   -- 24 
+--      pixel_col_i <= "0000000000";  -- 0
+--		
+--		wait for clk_i_period * 4;
+--		rst_n_i <= '1';
+--		wait for clk_i_period;
+--      
+--      -- Go trough fourth row and compare with element rotated by 270 degrees.
+--      for element in 0 to 79 loop
+--         for r in 0 to frm_buf_height_c-1 loop
+--            pixel_row_i <= to_unsigned((r+24), 9);
+--            
+--            for c in 0 to frm_buf_width_c-1 loop
+--               pixel_col_i <= to_unsigned(c+(8*element), 10);
+--               
+--               stage_i <= "01";
+--               
+--               wait for clk_i_period;
+--               stage_i <= "10";
+--               
+--               wait for clk_i_period;
+--               stage_i <= "11";
+--               
+--               wait for clk_i_period;
+--               stage_i <= "00";
+--               
+--               wait for clk_i_period/2;
+--               assert rgb_o = frm_buf_3(r, c)
+--                  report "TEST_3: On r = " & natural'image(r+24) & " c = " & natural'image(c+(8*element)) & ":" & LF 
+--                  severity assert_sev_3;
+--               wait for clk_i_period/2;
+--               
+--            end loop;
+--         end loop;
+--      end loop;
+--      
+--      wait;
+--   end process;
 
 END;

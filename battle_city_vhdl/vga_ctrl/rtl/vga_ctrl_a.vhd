@@ -72,8 +72,8 @@ begin
 	
 	o_stage <= stage;
 	
-	-- Setting enable in 0th stage so we could have change on FFs between 0th and 1st stage.
-	en_25MHz <= '1' when stage = "00" else '0';
+	-- Setting enable in 0th stage so we could have change on FFs between 3rd and 0th stage.
+	en_25MHz <= '1' when stage = "11" else '0';
 	
 	pixel_x_cnt: process(clk_100MHz)
 	begin
@@ -123,7 +123,7 @@ begin
 	rgb_reg: process(clk_100MHz)
 	begin
 		if rising_edge(clk_100MHz) then
-			if en_25MHz = '1' then
+			if stage = "00" then
 				red   <= i_red;
 				green <= i_green;
 				blue  <= i_blue;
