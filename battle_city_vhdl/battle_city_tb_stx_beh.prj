@@ -1,3 +1,0 @@
-vhdl isim_temp "ram.vhd"
-vhdl isim_temp "battle_city.vhd"
-vhdl isim_temp "battle_city_tb.vhd"
