@@ -91,6 +91,7 @@ BEGIN
 		
 		wait for clk_i_period *4;
 		rst_n_i <= '1';
+      we_i <= '0';
       
       wait for clk_i_period;
       stage_i <= "00";
@@ -104,8 +105,8 @@ BEGIN
       wait for clk_i_period;
       stage_i <= "11";
 		
-		for r in 8 to 24 loop         
-         for c in 8 to 24 loop
+		for r in 0 to 24 loop         
+         for c in 0 to 24 loop
          
             wait for clk_i_period;
             pixel_row_i <= to_unsigned(r, 9);
@@ -124,52 +125,5 @@ BEGIN
          end loop;
       end loop;	
 	end process;
-	
-	
---	-- Test case 
---	test_proc: process begin 
---	
---		-- Reset for 4 clocks
---		wait for 5 ns;
---		
---		stage_i <= "00";
---		we_i <= '0';
---		
---		wait for clk_i_period * 4;
---		rst_n_i <= '1';
---		wait for clk_i_period;
---				
---		-- Go trough first two row and first two columns
---		for r in 0 to frm_buf_height_c-1 loop
---			pixel_row_i <= to_unsigned(r, 9);
---			
---			for c in 0 to frm_buf_width_c-1 loop
---				pixel_col_i <= to_unsigned(c, 10);
---				
---
---				stage_i <= "01";
---				
---				wait for clk_i_period;
---				stage_i <= "10";
---				
---				wait for clk_i_period;
---				stage_i <= "11";
---				
---				wait for clk_i_period;
---				stage_i <= "00";
---				
---				wait for clk_i_period/2;
---				-- Assert here
---				assert rgb_o = frm_buf(r, c)
---					report "On r = " & natural'image(r) & " c = " & natural'image(c) & ":" & LF --&
---						--"expected pixel = " & natural'image(to_integer(frm_buf(r, c))) & LF &
---						--"observed pixel = " & integer'image(to_integer(rgb_o))
---					severity assert_severity;
---				wait for clk_i_period/2;
---			end loop;
---		end loop;
---			
---		wait;
---	end process;
 
 END;

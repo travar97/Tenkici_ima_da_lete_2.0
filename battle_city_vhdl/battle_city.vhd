@@ -13,7 +13,7 @@ entity battle_city is
       NUM_BITS_FOR_REG_NUM : natural := 4;      -- Number of bits required for number of registers
       MAP_OFFSET           : natural := 1424;   -- Pointer to start of map in memory
       OVERHEAD             : natural := 5;      -- Number of overhead bits
-      SPRITE_Z             : natural := 2       -- Z coordinate of sprite
+      SPRITE_Z             : natural := 0       -- Z coordinate of sprite
 	);
    Port (
       clk_i          : in  std_logic;
@@ -47,24 +47,23 @@ architecture Behavioral of battle_city is
    type coor_col_t   is array (0 to REGISTER_NUMBER-1) of unsigned (9 downto 0);
    type pointer_t    is array (0 to REGISTER_NUMBER-1) of unsigned (15 downto 0);
    type rotation_t   is array (0 to REGISTER_NUMBER-1) of unsigned (7 downto 0);
-   type size_t       is array (0 to REGISTER_NUMBER-1) of unsigned (7 downto 0);
+   type size_t       is array (0 to REGISTER_NUMBER-1) of unsigned (3 downto 0);
 	
 	-- Constants --
    constant size_8_c       : unsigned (3 downto 0) := "0111";
-   constant size_16_c      : unsigned (3 downto 0) := "1111";
    constant overhead_c     : std_logic_vector( OVERHEAD-1 downto 0 ) := ( others => '0' );
 	
    -- Globals --
    signal registers_s      : registers_t :=                                -- Array representing registers 
    --   row   |    col  |en&size|  rot  | pointer
-   (( x"00f0" & x"00f0" & x"90" & x"00" & x"03df" ), 
-    ( x"0008" & x"0008" & x"10" & x"00" & x"03d0" ),
-    ( x"0008" & x"0008" & x"10" & x"00" & x"03d0" ),
-    ( x"0008" & x"0008" & x"10" & x"00" & x"03d0" ),
-    ( x"0008" & x"0008" & x"10" & x"00" & x"03d0" ),
-    ( x"0008" & x"0008" & x"10" & x"00" & x"03d0" ),
-    ( x"0008" & x"0008" & x"10" & x"00" & x"03d0" ),
-    ( x"0008" & x"0008" & x"10" & x"00" & x"03d0" ),
+   (( x"0000" & x"0001" & x"8f" & x"00" & x"03d0" ), 
+    ( x"0011" & x"0001" & x"8f" & x"01" & x"03d0" ),
+    ( x"0022" & x"0001" & x"8f" & x"02" & x"03d0" ),
+    ( x"0033" & x"0001" & x"8f" & x"03" & x"03d0" ),
+    ( x"0000" & x"0021" & x"8f" & x"00" & x"03d0" ), 
+    ( x"0005" & x"0021" & x"8f" & x"01" & x"03d0" ),
+    ( x"000a" & x"0021" & x"8f" & x"02" & x"03d0" ),
+    ( x"000f" & x"0021" & x"8f" & x"03" & x"03d0" ),
     ( x"0008" & x"0008" & x"10" & x"00" & x"03d0" ),
     ( x"0008" & x"0008" & x"10" & x"00" & x"03d0" ));
     
@@ -161,7 +160,7 @@ begin
       -- Slice out data from registers --
 		reg_row_s(i)    <= registers_s(i)(56 downto 48);
 		reg_col_s(i)    <= registers_s(i)(41 downto 32);
-		reg_size_s(i)   <= '0' & registers_s(i)(30 downto 24);
+		reg_size_s(i)   <= registers_s(i)(27 downto 24);
 		reg_en_s(i)     <= registers_s(i)(31);
 		reg_rot_s(i)    <= registers_s(i)(23 downto 16);
 		reg_pointer_s(i)<= registers_s(i)(15 downto 0);
@@ -172,9 +171,9 @@ begin
 		
 		reg_intsect_s(i) <= '1' when 
                           ( pixel_row_i >= reg_row_s(i)      and
-                            pixel_row_i <  reg_end_row_s(i)  and
+                            pixel_row_i <=  reg_end_row_s(i)  and
                             pixel_col_i >= reg_col_s(i)      and
-                            pixel_col_i <  reg_end_col_s(i)
+                            pixel_col_i <=  reg_end_col_s(i)
                           ) and reg_en_s(i) = '1'  
                           else
                           '0';	
@@ -190,7 +189,7 @@ begin
                         "0010" when reg_intsect_s(2) = '1' else
                         "0001" when reg_intsect_s(1) = '1' else
                         "0000" when reg_intsect_s(0) = '1' else
-                        "1001"; 
+                        "0000"; 
 		
 	glb_sprite_en_s <= reg_intsect_s(to_integer(reg_intersected_s));				
 
@@ -199,15 +198,7 @@ begin
 	
 	-----------------------------------------------------------------------------------
 	--            	               FIRST STAGE             									--
-	-----------------------------------------------------------------------------------
-	process (clk_i) begin
-      if rising_edge(clk_i) then
-         if (stage_i = "01") then
-            img_z_coor_r <= img_z_coor_s;
-         end if;
-      end if;
-   end process;
-   
+	-----------------------------------------------------------------------------------   
    process(clk_i) begin
       if rising_edge(clk_i) then
          img_tex_pix_sel_r <= img_tex_offset_s(1 downto 0);
@@ -242,25 +233,24 @@ begin
 	-----------------------------------------------------------------------------------
 	--                           SECOND STAGE                                        --
 	-----------------------------------------------------------------------------------	
-	max_s      <= size_16_c when reg_size_s(to_integer(reg_intersected_s)) = 1 else
-				     size_8_c;
+	max_s      <= reg_size_s(to_integer(reg_intersected_s));
 	rot_s      <= reg_rot_s(to_integer(reg_intersected_s));		
 	
-	sprt_int_row_s <= reg_end_row_s(to_integer(reg_intersected_s)) - pixel_row_i;
-	sprt_int_col_s <= reg_end_col_s(to_integer(reg_intersected_s)) - pixel_col_i;
+	sprt_int_row_s <= pixel_row_i - reg_row_s(to_integer(reg_intersected_s));
+	sprt_int_col_s <= pixel_col_i - reg_col_s(to_integer(reg_intersected_s));
 	
 	sprt_row_s <= sprt_int_row_s(3 downto 0);
 	sprt_col_s <= sprt_int_col_s(3 downto 0);
 	
-	s_col_s <= sprt_col_s         when rot_s = "00000000" else	-- 0
-				  max_s - sprt_row_s when rot_s = "00000001" else	-- 90
-				  max_s - sprt_col_s when rot_s = "00000010" else	-- 180
-				  sprt_row_s;													-- 270
+	s_col_s <= sprt_col_s         when rot_s = x"00" else -- 0
+				  max_s - sprt_row_s when rot_s = x"01" else -- 90
+				  max_s - sprt_col_s when rot_s = x"02" else -- 180
+				  sprt_row_s;                                -- 270
 				  
-	s_row_s <= sprt_row_s         when rot_s = "00000000" else 	-- 0
-				  sprt_col_s			when rot_s = "00000001" else  -- 90
-				  max_s - sprt_row_s when rot_s = "00000010" else  -- 180
-				  max_s - sprt_col_s;
+	s_row_s <= sprt_row_s         when rot_s = x"00" else  -- 0
+				  sprt_col_s			when rot_s = x"01" else  -- 90
+				  max_s - sprt_row_s when rot_s = x"02" else  -- 180
+				  max_s - sprt_col_s;                         -- 270
 				  
 	sprt_tex_offset_s <= s_row_s & s_col_s;
 
@@ -283,8 +273,16 @@ begin
 			sprt_tex_offset_r <= sprt_tex_offset_s;
 		end if;
 	end process;
+   
+   	process (clk_i) begin
+      if rising_edge(clk_i) then
+         if (stage_i = "10") then
+            img_z_coor_r <= img_z_coor_s;
+         end if;
+      end if;
+   end process;
 	
-	thrd_stg_addr_s <= reg_pointer_s(to_integer(reg_intersected_s))(12 downto 0) + sprt_tex_offset_s;
+	thrd_stg_addr_s <= reg_pointer_s(to_integer(reg_intersected_s))(12 downto 0) + sprt_tex_offset_s(7 downto 2);
 
 	-----------------------------------------------------------------------------------
 	--                            THIRD STAGE                                        --
@@ -299,16 +297,16 @@ begin
 			unsigned(mem_data_s(31 downto 24)) when others;
          
 	 palette_idx_s   <= 
-                       spr_color_idx_s when 
-                       (
-                        glb_sprite_en_s = '1' and
-                        (
-                           -- z sort --
-                           ( ( img_z_coor_r < SPRITE_Z ) and ( spr_color_idx_s > x"00" ) ) or
-                           -- alpha sort ( if static img index is transparent ) --
-                           ( ( img_z_coor_r > SPRITE_Z ) and ( img_color_idx_r = x"00" ) )
-                        )
-                      ) else 
+--                       spr_color_idx_s when 
+--                       (
+--                        glb_sprite_en_s = '1' and
+--                        (
+--                           -- z sort --
+--                           ( ( img_z_coor_r < SPRITE_Z ) and ( spr_color_idx_s > x"00" ) ) or
+--                           -- alpha sort ( if static img index is transparent ) --
+--                           ( ( img_z_coor_r > SPRITE_Z ) and ( img_color_idx_r = x"00" ) )
+--                        )
+--                      ) else 
                       img_color_idx_r; 
                       
 	 zero_stg_addr_s <= (ADDR_WIDTH-1 downto 8 => '0') & palette_idx_s;
