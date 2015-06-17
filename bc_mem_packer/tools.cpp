@@ -6,34 +6,17 @@ color_t		color_pallete[ 256 ];
 map_entry_t	map[ NUM_MAP_ENTRIES ];
 int			num_colors;
 
-void bits_to_file( FILE * f, unsigned long x, unsigned char bit_num )
-{
-	unsigned int	mask;
-	unsigned char	bit;
-
-	mask = 1 << bit_num - 1;
-
-	for( bit = 0; bit < bit_num; bit++ ) {
-		fprintf( f, ( x & mask ) ? "1" : "0" );
-		mask >>= 1;
-	}
-}
-
 void colors_to_mem( FILE * f, unsigned long addr )
 {
 	unsigned int i;
 
 	for( i = 0; i < 256; i++ ) {
-		fprintf( f, "\t\t%lu =>\t\"", addr );
+		fprintf( f, "\t\t%lu =>\tx\"", addr );
 
 		if( i < num_colors ) {
-			bits_to_file( f, color_pallete[ i ].r, 8 );
-			bits_to_file( f, color_pallete[ i ].g, 8 );
-			bits_to_file( f, color_pallete[ i ].b, 8 );
-
-			fprintf( f, "00000000" );
+            fprintf( f, "00%.2X%.2X%.2X", color_pallete[ i ].b, color_pallete[ i ].g, color_pallete[ i ].r );
 		} else {
-			fprintf( f, "00000000000000000000000000000000" );
+			fprintf( f, "00000000" );
 		}
 
 		if( i < num_colors ) {
@@ -48,25 +31,19 @@ void colors_to_mem( FILE * f, unsigned long addr )
 
 char * color_to_string( unsigned char r, unsigned char g, unsigned char b )
 {
-	static char		str[ 9 ];
+	static char		str[ 3 ];
 	unsigned int	i;
 	unsigned int	mask;
 	unsigned char	bit;
 	unsigned char	found;
 
-	memset( str, '?', 8 );
+	memset( str, '?', 2 );
 
 	found = 0;
 
 	for( i = 0; i < num_colors; i++ ) {
 		if( color_pallete[ i ].r == r && color_pallete[ i ].g == g && color_pallete[ i ].b == b ) {
-			mask = 1 << 7;
-
-			for( bit = 0; bit < 8; bit++ ) {
-				str[ bit ] = ( i & mask ) ? '1' : '0';
-				mask >>= 1;
-			}
-
+            sprintf( str, "%.2X", i );
 			found = 1;
 			break;
 		}
@@ -78,12 +55,7 @@ char * color_to_string( unsigned char r, unsigned char g, unsigned char b )
 		color_pallete[ num_colors ].g = g;
 		color_pallete[ num_colors ].b = b;
 
-		mask = 1 << 7;
-
-		for( bit = 0; bit < 8; bit++ ) {
-			str[ bit ] = ( num_colors & mask ) ? '1' : '0';
-			mask >>= 1;
-		}
+        sprintf( str, "%.2X", num_colors );
 
 		num_colors++;
 	} else {
@@ -92,7 +64,7 @@ char * color_to_string( unsigned char r, unsigned char g, unsigned char b )
 		}
 	}
 
-	str[ 8 ] = '\0';
+	str[ 2 ] = '\0';
 
 	return str;
 }
@@ -112,7 +84,7 @@ void image_to_mem( FILE * f, unsigned long addr, unsigned char * img, unsigned c
 		img -= ( n - 1 ) * 3;
 
 		for( k = 0; k < n / 4; k++ ) {
-			fprintf( f, "\t\t%lu =>\t\"", addr );
+			fprintf( f, "\t\t%lu =>\tx\"", addr );
 
 			// 4 color pallete indexes
 			for( pixel = 0; pixel < 4; pixel++ ) {
@@ -201,13 +173,13 @@ void map_to_mem( FILE * mem_file, FILE * def_file, unsigned long * base_addr )
 	fprintf( def_file, "#define MAP_BASE_ADDRESS\t\t\t0x%.4X", *base_addr );
 
 	for( i = 0; i < NUM_MAP_ENTRIES; i++ ) {
-		fprintf( mem_file, "\t\t%lu =>\t\"", *base_addr );
-
-		bits_to_file( mem_file, map[ i ].z, 8 );
-		bits_to_file( mem_file, map[ i ].rot, 8 );
-		bits_to_file( mem_file, map[ i ].ptr, 16 );
-
-		fprintf( mem_file, "\", -- z: %d rot: %d ptr: %d\n", map[ i ].z, map[ i ].rot, map[ i ].ptr );
+        fprintf( mem_file, "\t\t%lu =>\tx\"%.2X%.2X%.4X\", -- z: %d rot: %d ptr: %d\n", *base_addr,
+                                                                                        map[ i ].z,
+                                                                                        map[ i ].rot,
+                                                                                        map[ i ].ptr,
+                                                                                        map[ i ].z,
+                                                                                        map[ i ].rot,
+                                                                                        map[ i ].ptr );
 
 		*base_addr += 1;
 	}

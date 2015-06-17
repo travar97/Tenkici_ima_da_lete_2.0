@@ -67,7 +67,7 @@ int main( )
 	create_test_map( );
 	map_to_mem( mem_file, def_file, &base_addr );
 
-	fprintf( mem_file, "\t\tothers => \"00000000000000000000000000000000\"\n\t);\n" );
+	fprintf( mem_file, "\t\tothers => x\"00000000\"\n\t);\n" );
 
 	fprintf( mem_file, "\n\n--\t\t\t***** COLOR PALLETE *****\n\n\n" );
 

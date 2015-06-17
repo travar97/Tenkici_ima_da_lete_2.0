@@ -32,7 +32,6 @@ typedef struct {
 
 extern int num_colors;
 
-void	bits_to_file( FILE * f, unsigned long x, unsigned char bit_num );
 void	colors_to_mem( FILE * f, unsigned long addr );
 char *	color_to_string( unsigned char r, unsigned char g, unsigned char b );
 void	image_to_mem( FILE * f, unsigned long addr, unsigned char * img, unsigned char type, char * comment );
