@@ -3,3 +3,6 @@ Debug
 *.exe
 *.sdf
 *.opensdf
+*.suo
+*.txt
+*.map

@@ -151,7 +151,9 @@ void process_images( const char * dir, FILE * mem_file, FILE * def_file, unsigne
 
 void create_test_map( )
 {
-	unsigned int i;
+	unsigned int    i;
+    unsigned char   x;
+    FILE *          f;
 
 	for( i = 0; i < NUM_MAP_ENTRIES; i++ ) {
 		map[ i ].z = 0;
@@ -160,10 +162,40 @@ void create_test_map( )
 	}
 
 	// Draw all static images
-	for( i = 0; i < 8; i++ ) {
+	/*for( i = 0; i < 8; i++ ) {
 		map[ i ].z = 1;
 		map[ i ].ptr = IMAGE_8x8_BASE_ADDR + i * 8 * 2;
-	}
+	}*/
+
+    if( !( f = fopen( "map2.map", "rb" ) ) ) {
+        printf( "Couldn't open 'map2.map' file!\n" );
+        return;
+    }
+
+    for( i = 0; i < NUM_MAP_ENTRIES; i++ ) {
+        fread( &x, sizeof( unsigned char ), 1, f );
+
+        map[ i ].rot = 0;
+
+        if( x == 0x31 || x == 0x32 ) {  // Brick
+            map[ i ].ptr = 0x0100;
+            map[ i ].z = 0;
+        } else if( x == 0x34 ) {        // Grass
+            map[ i ].ptr = 0x0120;
+            map[ i ].z = 0;
+        } else if( x == 0x39 ) {        // Base alive
+            map[ i ].ptr = 0x0190;
+            map[ i ].z = 0;
+        } else if( x == 0x35 ) {        // Iron
+            map[ i ].ptr = 0x0140;
+            map[ i ].z = 0;
+        } else {                        // Null object
+            map[ i ].ptr = 0x0160;
+            map[ i ].z = 0;
+        }
+    }
+    
+    fclose( f );
 }
 
 void map_to_mem( FILE * mem_file, FILE * def_file, unsigned long * base_addr )
