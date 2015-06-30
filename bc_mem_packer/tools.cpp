@@ -2,6 +2,8 @@
 #include "tools.h"
 #include "bitmap.h"
 
+#define TEST_MAP_OFFSET ( ( 60 / 2 - 13 ) * 80 + 80 / 2 - 13 )
+
 color_t		color_pallete[ 256 ];
 map_entry_t	map[ NUM_MAP_ENTRIES ];
 int			num_colors;
@@ -151,48 +153,42 @@ void process_images( const char * dir, FILE * mem_file, FILE * def_file, unsigne
 
 void create_test_map( )
 {
-	unsigned int    i;
-    unsigned char   x;
+	unsigned int    x;
+	unsigned int	y;
+    unsigned char   tmp;
     FILE *          f;
 
-	for( i = 0; i < NUM_MAP_ENTRIES; i++ ) {
-		map[ i ].z = 0;
-		map[ i ].rot = 0;
-		map[ i ].ptr = 0x0160; // NULL object
+	for( x = 0; x < NUM_MAP_ENTRIES; x++ ) {
+		map[ x ].z = 0;
+		map[ x ].rot = 0;
+		map[ x ].ptr = 0x0100; // Blank
 	}
-
-	// Draw all static images
-	/*for( i = 0; i < 8; i++ ) {
-		map[ i ].z = 1;
-		map[ i ].ptr = IMAGE_8x8_BASE_ADDR + i * 8 * 2;
-	}*/
 
     if( !( f = fopen( "map2.map", "rb" ) ) ) {
         printf( "Couldn't open 'map2.map' file!\n" );
         return;
     }
 
-    for( i = 0; i < NUM_MAP_ENTRIES; i++ ) {
-        fread( &x, sizeof( unsigned char ), 1, f );
+    for( y = 0; y < 26; y++ ) {
+		for( x = 0; x < 26; x++ ) {
+			fread( &tmp, sizeof( unsigned char ), 1, f );
 
-        map[ i ].rot = 0;
+			map[ TEST_MAP_OFFSET + y * 80 + x ].rot = 0;
 
-        if( x == 0x31 || x == 0x32 ) {  // Brick
-            map[ i ].ptr = 0x0100;
-            map[ i ].z = 0;
-        } else if( x == 0x34 ) {        // Grass
-            map[ i ].ptr = 0x0120;
-            map[ i ].z = 0;
-        } else if( x == 0x39 ) {        // Base alive
-            map[ i ].ptr = 0x0190;
-            map[ i ].z = 0;
-        } else if( x == 0x35 ) {        // Iron
-            map[ i ].ptr = 0x0140;
-            map[ i ].z = 0;
-        } else {                        // Null object
-            map[ i ].ptr = 0x0160;
-            map[ i ].z = 0;
-        }
+			if( tmp == 0x31 ) {	// Brick
+				map[ TEST_MAP_OFFSET + y * 80 + x ].ptr = 0x0110;
+				map[ TEST_MAP_OFFSET + y * 80 + x ].z = 0;
+			} else if( tmp == 0x34 || tmp == 0x32 ) {			// Grass
+				map[ TEST_MAP_OFFSET + y * 80 + x ].ptr = 0x0130;
+				map[ TEST_MAP_OFFSET + y * 80 + x ].z = 0;
+			} else if( tmp == 0x35 ) {			// Iron
+				map[ TEST_MAP_OFFSET + y * 80 + x ].ptr = 0x0150;
+				map[ TEST_MAP_OFFSET + y * 80 + x ].z = 0;
+			} else {							// Null object
+				map[ TEST_MAP_OFFSET + y * 80 + x ].ptr = 0x0170;
+				map[ TEST_MAP_OFFSET + y * 80 + x ].z = 0;
+			}
+		}
     }
     
     fclose( f );
