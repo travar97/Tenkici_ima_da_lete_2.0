@@ -37,6 +37,6 @@ char *	color_to_string( unsigned char r, unsigned char g, unsigned char b );
 void	image_to_mem( FILE * f, unsigned long addr, unsigned char * img, unsigned char type, char * comment );
 void	process_images( const char * dir, FILE * mem_file, FILE * def_file, unsigned long * base_addr, unsigned char type );
 void	create_test_map( );
-void	map_to_mem( FILE * mem_file, FILE * def_file, unsigned long * base_addr );
+void	map_to_mem( FILE * mem_file, FILE * def_file, FILE * hdr_file, unsigned long * base_addr );
 
 #endif // _IMAGES_H
