@@ -211,7 +211,7 @@ void map_to_mem( FILE * mem_file, FILE * def_file, FILE * hdr_file, unsigned lon
                                                                                         map[ i ].rot,
                                                                                         map[ i ].ptr );
 
-        fprintf( hdr_file, ( i == NUM_MAP_ENTRIES - 1 ) ? "    { %u, %u, 0x%.4X, 0 }  // x: %u y: %u\n" : "    { %u, %u, 0x%.4X, 0 }, // x: %u y: %u\n", map[ i ].z, map[ i ].rot, map[ i ].ptr, i / 80, i % 80 );
+        fprintf( hdr_file, (i == NUM_MAP_ENTRIES - 1) ? "    { %u, %u, 0x%.4X, 0 }  // x: %u y: %u\n" : "    { %u, %u, 0x%.4X, 0 }, // x: %u y: %u\n", map[ i ].z, map[ i ].rot, map[ i ].ptr, i % 80, i / 80 );
 
 		*base_addr += 1;
 	}
