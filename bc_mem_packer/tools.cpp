@@ -156,8 +156,8 @@ void create_test_map( )
     char            tmp;
     FILE *          f;
 
-    if( !( f = fopen( "mapa.txt", "r" ) ) ) {
-        printf( "Couldn't open 'mapa.txt' file!\n" );
+    if( !( f = fopen( "mapa.map", "r" ) ) ) {
+        printf( "Couldn't open 'mapa.map' file!\n" );
         return;
     }
 
