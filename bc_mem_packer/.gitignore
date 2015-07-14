@@ -1,8 +1,9 @@
 Release
 Debug
+ipch
 *.exe
 *.sdf
 *.opensdf
 *.suo
 *.txt
-*.map
+bin/*.h
