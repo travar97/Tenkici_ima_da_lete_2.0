@@ -1,9 +1,9 @@
 Release 14.6 - xst P.68d (nt64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
---> Parameter TMPDIR set to D:\RA51-2014\battle_city_fpga\battle_city_design\synthesis\xst_temp_dir\
+--> Parameter TMPDIR set to D:\tenkici\battle_city_fpga\battle_city_design\synthesis\xst_temp_dir\
 
 
-Total REAL time to Xst completion: 0.00 secs
+Total REAL time to Xst completion: 1.00 secs
 Total CPU time to Xst completion: 0.06 secs
  
 --> 
@@ -35,7 +35,7 @@ TABLE OF CONTENTS
 ---- Source Parameters
 Input Format                       : MIXED
 Input File Name                    : "battle_city_battle_city_periph_0_wrapper_xst.prj"
-Verilog Include Directory          : {"D:\RA51-2014\battle_city_fpga\battle_city_design\pcores\" "C:\Xilinx\14.6\ISE_DS\EDK\hw\XilinxBFMinterface\pcores\" "C:\Xilinx\14.6\ISE_DS\EDK\hw\XilinxProcessorIPLib\pcores\" }
+Verilog Include Directory          : {"D:\tenkici\battle_city_fpga\battle_city_design\pcores\" "C:\Xilinx\14.6\ISE_DS\EDK\hw\XilinxBFMinterface\pcores\" "C:\Xilinx\14.6\ISE_DS\EDK\hw\XilinxProcessorIPLib\pcores\" }
 
 ---- Target Parameters
 Target Device                      : xc6slx45fgg676-2
@@ -62,24 +62,24 @@ Cores Search Directories           : {../implementation}
 =========================================================================
 *                          HDL Parsing                                  *
 =========================================================================
-Parsing VHDL file "D:/RA51-2014/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/vga_ctrl_e.vhd" into library battle_city_periph_v1_01_a
+Parsing VHDL file "D:/tenkici/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/vga_ctrl_e.vhd" into library battle_city_periph_v1_01_a
 Parsing entity <vga_ctrl>.
-Parsing VHDL file "D:/RA51-2014/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/battle_city.vhd" into library battle_city_periph_v1_01_a
+Parsing VHDL file "D:/tenkici/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/battle_city.vhd" into library battle_city_periph_v1_01_a
 Parsing entity <battle_city>.
 Parsing architecture <Behavioral> of entity <battle_city>.
-Parsing VHDL file "D:/RA51-2014/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/battle_city_periph.vhd" into library battle_city_periph_v1_01_a
+Parsing VHDL file "D:/tenkici/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/battle_city_periph.vhd" into library battle_city_periph_v1_01_a
 Parsing entity <battle_city_periph>.
 Parsing architecture <IMP> of entity <battle_city_periph>.
-Parsing VHDL file "D:/RA51-2014/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/ram.vhd" into library battle_city_periph_v1_01_a
+Parsing VHDL file "D:/tenkici/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/ram.vhd" into library battle_city_periph_v1_01_a
 Parsing entity <ram>.
 Parsing architecture <arch> of entity <ram>.
-Parsing VHDL file "D:/RA51-2014/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/clk_gen_100MHz_e.vhd" into library battle_city_periph_v1_01_a
+Parsing VHDL file "D:/tenkici/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/clk_gen_100MHz_e.vhd" into library battle_city_periph_v1_01_a
 Parsing entity <clk_gen_100MHz>.
-Parsing VHDL file "D:/RA51-2014/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/vga_ctrl_a.vhd" into library battle_city_periph_v1_01_a
+Parsing VHDL file "D:/tenkici/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/vga_ctrl_a.vhd" into library battle_city_periph_v1_01_a
 Parsing architecture <arch_v1> of entity <vga_ctrl>.
-Parsing VHDL file "D:/RA51-2014/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/clk_gen_100MHz_a.vhd" into library battle_city_periph_v1_01_a
+Parsing VHDL file "D:/tenkici/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/clk_gen_100MHz_a.vhd" into library battle_city_periph_v1_01_a
 Parsing architecture <arch_v1> of entity <clk_gen_100mhz>.
-Parsing VHDL file "D:\RA51-2014\battle_city_fpga\battle_city_design\hdl\battle_city_battle_city_periph_0_wrapper.vhd" into library work
+Parsing VHDL file "D:\tenkici\battle_city_fpga\battle_city_design\hdl\battle_city_battle_city_periph_0_wrapper.vhd" into library work
 Parsing entity <battle_city_battle_city_periph_0_wrapper>.
 Parsing architecture <STRUCTURE> of entity <battle_city_battle_city_periph_0_wrapper>.
 
@@ -102,13 +102,13 @@ Elaborating entity <ram> (architecture <arch>) with generics from library <battl
 =========================================================================
 
 Synthesizing Unit <battle_city_battle_city_periph_0_wrapper>.
-    Related source file is "D:\RA51-2014\battle_city_fpga\battle_city_design\hdl\battle_city_battle_city_periph_0_wrapper.vhd".
+    Related source file is "D:\tenkici\battle_city_fpga\battle_city_design\hdl\battle_city_battle_city_periph_0_wrapper.vhd".
     Summary:
 	no macro.
 Unit <battle_city_battle_city_periph_0_wrapper> synthesized.
 
 Synthesizing Unit <battle_city_periph>.
-    Related source file is "D:/RA51-2014/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/battle_city_periph.vhd".
+    Related source file is "D:/tenkici/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/battle_city_periph.vhd".
 WARNING:Xst:37 - Detected unknown constraint/property "sigis". This constraint/property is not supported by the current software release and will be ignored.
 WARNING:Xst:37 - Detected unknown constraint/property "sigis". This constraint/property is not supported by the current software release and will be ignored.
         C_S_AXI_DATA_WIDTH = 32
@@ -140,7 +140,7 @@ WARNING:Xst:647 - Input <S_AXI_RREADY> is never used. This port will be preserve
 Unit <battle_city_periph> synthesized.
 
 Synthesizing Unit <vga_ctrl>.
-    Related source file is "D:/RA51-2014/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/vga_ctrl_e.vhd".
+    Related source file is "D:/tenkici/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/vga_ctrl_e.vhd".
 WARNING:Xst:647 - Input <i_clk_24MHz> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
 WARNING:Xst:647 - Input <in_reset> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
     Found 10-bit register for signal <pixel_x>.
@@ -172,7 +172,7 @@ WARNING:Xst:647 - Input <in_reset> is never used. This port will be preserved an
 Unit <vga_ctrl> synthesized.
 
 Synthesizing Unit <battle_city>.
-    Related source file is "D:/RA51-2014/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/battle_city.vhd".
+    Related source file is "D:/tenkici/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/battle_city.vhd".
         DATA_WIDTH = 32
         COLOR_WIDTH = 24
         ADDR_WIDTH = 13
@@ -183,6 +183,8 @@ Synthesizing Unit <battle_city>.
         MAP_OFFSET = 2160
         OVERHEAD = 5
         SPRITE_Z = 1
+WARNING:Xst:647 - Input <pixel_row_i<0:0>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <pixel_col_i<0:0>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
 WARNING:Xst:647 - Input <rst_n_i> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
     Found 64-bit register for signal <registers_s<1>>.
     Found 64-bit register for signal <registers_s<2>>.
@@ -210,95 +212,95 @@ WARNING:Xst:647 - Input <rst_n_i> is never used. This port will be preserved and
     Found 8-bit register for signal <img_z_coor_r>.
     Found 13-bit register for signal <zero_stg_addr_r>.
     Found 64-bit register for signal <registers_s<0>>.
-    Found 9-bit adder for signal <reg_end_row_s<0>> created at line 190.
-    Found 10-bit adder for signal <reg_end_col_s<0>> created at line 191.
-    Found 9-bit adder for signal <reg_end_row_s<1>> created at line 190.
-    Found 10-bit adder for signal <reg_end_col_s<1>> created at line 191.
-    Found 9-bit adder for signal <reg_end_row_s<2>> created at line 190.
-    Found 10-bit adder for signal <reg_end_col_s<2>> created at line 191.
-    Found 9-bit adder for signal <reg_end_row_s<3>> created at line 190.
-    Found 10-bit adder for signal <reg_end_col_s<3>> created at line 191.
-    Found 9-bit adder for signal <reg_end_row_s<4>> created at line 190.
-    Found 10-bit adder for signal <reg_end_col_s<4>> created at line 191.
-    Found 9-bit adder for signal <reg_end_row_s<5>> created at line 190.
-    Found 10-bit adder for signal <reg_end_col_s<5>> created at line 191.
-    Found 9-bit adder for signal <reg_end_row_s<6>> created at line 190.
-    Found 10-bit adder for signal <reg_end_col_s<6>> created at line 191.
-    Found 9-bit adder for signal <reg_end_row_s<7>> created at line 190.
-    Found 10-bit adder for signal <reg_end_col_s<7>> created at line 191.
-    Found 9-bit adder for signal <reg_end_row_s<8>> created at line 190.
-    Found 10-bit adder for signal <reg_end_col_s<8>> created at line 191.
-    Found 9-bit adder for signal <reg_end_row_s<9>> created at line 190.
-    Found 10-bit adder for signal <reg_end_col_s<9>> created at line 191.
-    Found 13-bit adder for signal <n1271> created at line 223.
-    Found 13-bit adder for signal <map_index_s> created at line 223.
+    Found 9-bit adder for signal <reg_end_row_s<0>> created at line 196.
+    Found 10-bit adder for signal <reg_end_col_s<0>> created at line 197.
+    Found 9-bit adder for signal <reg_end_row_s<1>> created at line 196.
+    Found 10-bit adder for signal <reg_end_col_s<1>> created at line 197.
+    Found 9-bit adder for signal <reg_end_row_s<2>> created at line 196.
+    Found 10-bit adder for signal <reg_end_col_s<2>> created at line 197.
+    Found 9-bit adder for signal <reg_end_row_s<3>> created at line 196.
+    Found 10-bit adder for signal <reg_end_col_s<3>> created at line 197.
+    Found 9-bit adder for signal <reg_end_row_s<4>> created at line 196.
+    Found 10-bit adder for signal <reg_end_col_s<4>> created at line 197.
+    Found 9-bit adder for signal <reg_end_row_s<5>> created at line 196.
+    Found 10-bit adder for signal <reg_end_col_s<5>> created at line 197.
+    Found 9-bit adder for signal <reg_end_row_s<6>> created at line 196.
+    Found 10-bit adder for signal <reg_end_col_s<6>> created at line 197.
+    Found 9-bit adder for signal <reg_end_row_s<7>> created at line 196.
+    Found 10-bit adder for signal <reg_end_col_s<7>> created at line 197.
+    Found 9-bit adder for signal <reg_end_row_s<8>> created at line 196.
+    Found 10-bit adder for signal <reg_end_col_s<8>> created at line 197.
+    Found 9-bit adder for signal <reg_end_row_s<9>> created at line 196.
+    Found 10-bit adder for signal <reg_end_col_s<9>> created at line 197.
+    Found 13-bit adder for signal <n1277> created at line 229.
+    Found 13-bit adder for signal <map_index_s> created at line 229.
     Found 13-bit adder for signal <frst_stg_addr_s> created at line 1241.
-    Found 13-bit adder for signal <scnd_stg_addr_s> created at line 270.
-    Found 13-bit adder for signal <thrd_stg_addr_s> created at line 323.
-    Found 4-bit subtractor for signal <GND_8_o_GND_8_o_sub_178_OUT<3:0>> created at line 265.
-    Found 4-bit subtractor for signal <GND_8_o_GND_8_o_sub_179_OUT<3:0>> created at line 266.
+    Found 13-bit adder for signal <scnd_stg_addr_s> created at line 276.
+    Found 13-bit adder for signal <thrd_stg_addr_s> created at line 329.
+    Found 4-bit subtractor for signal <GND_8_o_GND_8_o_sub_180_OUT<3:0>> created at line 271.
+    Found 4-bit subtractor for signal <GND_8_o_GND_8_o_sub_181_OUT<3:0>> created at line 272.
     Found 4-bit subtractor for signal <sprt_int_row_s<3:0>> created at line 125.
     Found 4-bit subtractor for signal <sprt_int_col_s<3:0>> created at line 126.
-    Found 4-bit subtractor for signal <GND_8_o_GND_8_o_sub_206_OUT<3:0>> created at line 291.
-    Found 4-bit subtractor for signal <GND_8_o_GND_8_o_sub_207_OUT<3:0>> created at line 290.
+    Found 4-bit subtractor for signal <GND_8_o_GND_8_o_sub_208_OUT<3:0>> created at line 297.
+    Found 4-bit subtractor for signal <GND_8_o_GND_8_o_sub_209_OUT<3:0>> created at line 296.
     Found 13-bit subtractor for signal <reg_word_addr> created at line 75.
-    Found 13-bit 4-to-1 multiplexer for signal <address_s> created at line 166.
-    Found 4-bit 10-to-1 multiplexer for signal <max_s> created at line 274.
-    Found 8-bit 10-to-1 multiplexer for signal <rot_s> created at line 275.
-    Found 9-bit 10-to-1 multiplexer for signal <reg_intersected_r[3]_X_8_o_wide_mux_188_OUT> created at line 277.
-    Found 10-bit 10-to-1 multiplexer for signal <reg_intersected_r[3]_X_8_o_wide_mux_190_OUT> created at line 278.
-    Found 8-bit 4-to-1 multiplexer for signal <img_color_idx_s> created at line 296.
-    Found 16-bit 10-to-1 multiplexer for signal <n1132> created at line 323.
-    Found 8-bit 4-to-1 multiplexer for signal <spr_color_idx_s> created at line 330.
-    Found 1-bit 10-to-1 multiplexer for signal <reg_intersected_r[3]_X_8_o_Mux_220_o> created at line 339.
-    Found 4-bit 4-to-1 multiplexer for signal <_n1456> created at line 131.
-    Found 4-bit 4-to-1 multiplexer for signal <_n1459> created at line 130.
-    Found 4-bit 4-to-1 multiplexer for signal <_n1445> created at line 254.
-    Found 4-bit 4-to-1 multiplexer for signal <_n1453> created at line 261.
-    Found 13-bit comparator lessequal for signal <n0002> created at line 155
-    Found 13-bit comparator greater for signal <GND_8_o_reg_word_addr[12]_LessThan_4_o> created at line 155
-    Found 9-bit comparator lessequal for signal <n0689> created at line 194
-    Found 9-bit comparator lessequal for signal <n0691> created at line 195
-    Found 10-bit comparator lessequal for signal <n0693> created at line 196
-    Found 10-bit comparator lessequal for signal <n0695> created at line 197
-    Found 9-bit comparator lessequal for signal <n0710> created at line 194
-    Found 9-bit comparator lessequal for signal <n0712> created at line 195
-    Found 10-bit comparator lessequal for signal <n0714> created at line 196
-    Found 10-bit comparator lessequal for signal <n0716> created at line 197
-    Found 9-bit comparator lessequal for signal <n0731> created at line 194
-    Found 9-bit comparator lessequal for signal <n0733> created at line 195
-    Found 10-bit comparator lessequal for signal <n0735> created at line 196
-    Found 10-bit comparator lessequal for signal <n0737> created at line 197
-    Found 9-bit comparator lessequal for signal <n0752> created at line 194
-    Found 9-bit comparator lessequal for signal <n0754> created at line 195
-    Found 10-bit comparator lessequal for signal <n0756> created at line 196
-    Found 10-bit comparator lessequal for signal <n0758> created at line 197
-    Found 9-bit comparator lessequal for signal <n0773> created at line 194
-    Found 9-bit comparator lessequal for signal <n0775> created at line 195
-    Found 10-bit comparator lessequal for signal <n0777> created at line 196
-    Found 10-bit comparator lessequal for signal <n0779> created at line 197
-    Found 9-bit comparator lessequal for signal <n0794> created at line 194
-    Found 9-bit comparator lessequal for signal <n0796> created at line 195
-    Found 10-bit comparator lessequal for signal <n0798> created at line 196
-    Found 10-bit comparator lessequal for signal <n0800> created at line 197
-    Found 9-bit comparator lessequal for signal <n0815> created at line 194
-    Found 9-bit comparator lessequal for signal <n0817> created at line 195
-    Found 10-bit comparator lessequal for signal <n0819> created at line 196
-    Found 10-bit comparator lessequal for signal <n0821> created at line 197
-    Found 9-bit comparator lessequal for signal <n0836> created at line 194
-    Found 9-bit comparator lessequal for signal <n0838> created at line 195
-    Found 10-bit comparator lessequal for signal <n0840> created at line 196
-    Found 10-bit comparator lessequal for signal <n0842> created at line 197
-    Found 9-bit comparator lessequal for signal <n0857> created at line 194
-    Found 9-bit comparator lessequal for signal <n0859> created at line 195
-    Found 10-bit comparator lessequal for signal <n0861> created at line 196
-    Found 10-bit comparator lessequal for signal <n0863> created at line 197
-    Found 9-bit comparator lessequal for signal <n0878> created at line 194
-    Found 9-bit comparator lessequal for signal <n0880> created at line 195
-    Found 10-bit comparator lessequal for signal <n0882> created at line 196
-    Found 10-bit comparator lessequal for signal <n0884> created at line 197
-    Found 8-bit comparator greater for signal <n0953> created at line 342
-    Found 8-bit comparator greater for signal <GND_8_o_spr_color_idx_s[7]_LessThan_223_o> created at line 342
+    Found 13-bit 4-to-1 multiplexer for signal <address_s> created at line 172.
+    Found 4-bit 10-to-1 multiplexer for signal <max_s> created at line 280.
+    Found 8-bit 10-to-1 multiplexer for signal <rot_s> created at line 281.
+    Found 9-bit 10-to-1 multiplexer for signal <reg_intersected_r[3]_X_8_o_wide_mux_190_OUT> created at line 283.
+    Found 10-bit 10-to-1 multiplexer for signal <reg_intersected_r[3]_X_8_o_wide_mux_192_OUT> created at line 284.
+    Found 8-bit 4-to-1 multiplexer for signal <img_color_idx_s> created at line 302.
+    Found 16-bit 10-to-1 multiplexer for signal <n1136> created at line 329.
+    Found 8-bit 4-to-1 multiplexer for signal <spr_color_idx_s> created at line 336.
+    Found 1-bit 10-to-1 multiplexer for signal <reg_intersected_r[3]_X_8_o_Mux_222_o> created at line 345.
+    Found 4-bit 4-to-1 multiplexer for signal <_n1413> created at line 131.
+    Found 4-bit 4-to-1 multiplexer for signal <_n1416> created at line 130.
+    Found 4-bit 4-to-1 multiplexer for signal <_n1402> created at line 260.
+    Found 4-bit 4-to-1 multiplexer for signal <_n1410> created at line 267.
+    Found 13-bit comparator lessequal for signal <n0004> created at line 161
+    Found 13-bit comparator greater for signal <GND_8_o_reg_word_addr[12]_LessThan_6_o> created at line 161
+    Found 9-bit comparator lessequal for signal <n0691> created at line 200
+    Found 9-bit comparator lessequal for signal <n0693> created at line 201
+    Found 10-bit comparator lessequal for signal <n0695> created at line 202
+    Found 10-bit comparator lessequal for signal <n0697> created at line 203
+    Found 9-bit comparator lessequal for signal <n0712> created at line 200
+    Found 9-bit comparator lessequal for signal <n0714> created at line 201
+    Found 10-bit comparator lessequal for signal <n0716> created at line 202
+    Found 10-bit comparator lessequal for signal <n0718> created at line 203
+    Found 9-bit comparator lessequal for signal <n0733> created at line 200
+    Found 9-bit comparator lessequal for signal <n0735> created at line 201
+    Found 10-bit comparator lessequal for signal <n0737> created at line 202
+    Found 10-bit comparator lessequal for signal <n0739> created at line 203
+    Found 9-bit comparator lessequal for signal <n0754> created at line 200
+    Found 9-bit comparator lessequal for signal <n0756> created at line 201
+    Found 10-bit comparator lessequal for signal <n0758> created at line 202
+    Found 10-bit comparator lessequal for signal <n0760> created at line 203
+    Found 9-bit comparator lessequal for signal <n0775> created at line 200
+    Found 9-bit comparator lessequal for signal <n0777> created at line 201
+    Found 10-bit comparator lessequal for signal <n0779> created at line 202
+    Found 10-bit comparator lessequal for signal <n0781> created at line 203
+    Found 9-bit comparator lessequal for signal <n0796> created at line 200
+    Found 9-bit comparator lessequal for signal <n0798> created at line 201
+    Found 10-bit comparator lessequal for signal <n0800> created at line 202
+    Found 10-bit comparator lessequal for signal <n0802> created at line 203
+    Found 9-bit comparator lessequal for signal <n0817> created at line 200
+    Found 9-bit comparator lessequal for signal <n0819> created at line 201
+    Found 10-bit comparator lessequal for signal <n0821> created at line 202
+    Found 10-bit comparator lessequal for signal <n0823> created at line 203
+    Found 9-bit comparator lessequal for signal <n0838> created at line 200
+    Found 9-bit comparator lessequal for signal <n0840> created at line 201
+    Found 10-bit comparator lessequal for signal <n0842> created at line 202
+    Found 10-bit comparator lessequal for signal <n0844> created at line 203
+    Found 9-bit comparator lessequal for signal <n0859> created at line 200
+    Found 9-bit comparator lessequal for signal <n0861> created at line 201
+    Found 10-bit comparator lessequal for signal <n0863> created at line 202
+    Found 10-bit comparator lessequal for signal <n0865> created at line 203
+    Found 9-bit comparator lessequal for signal <n0880> created at line 200
+    Found 9-bit comparator lessequal for signal <n0882> created at line 201
+    Found 10-bit comparator lessequal for signal <n0884> created at line 202
+    Found 10-bit comparator lessequal for signal <n0886> created at line 203
+    Found 8-bit comparator greater for signal <n0955> created at line 348
+    Found 8-bit comparator greater for signal <GND_8_o_spr_color_idx_s[7]_LessThan_225_o> created at line 348
     Summary:
 	inferred  30 Adder/Subtractor(s).
 	inferred 687 D-type flip-flop(s).
@@ -307,7 +309,7 @@ WARNING:Xst:647 - Input <rst_n_i> is never used. This port will be preserved and
 Unit <battle_city> synthesized.
 
 Synthesizing Unit <ram>.
-    Related source file is "D:/RA51-2014/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/ram.vhd".
+    Related source file is "D:/tenkici/battle_city_fpga/battle_city_design/pcores/battle_city_periph_v1_01_a/hdl/vhdl/ram.vhd".
         DATA_WIDTH = 32
         ADDR_WIDTH = 13
     Found 8192x32-bit dual-port RAM <Mram_mem> for signal <mem>.
@@ -418,54 +420,6 @@ WARNING:Xst:2677 - Node <battle_city_i/registers_s_0_60> of sequential type is u
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_0_61> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_0_62> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_0_63> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_28> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_29> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_30> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_42> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_43> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_44> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_45> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_46> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_47> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_57> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_58> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_59> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_60> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_61> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_62> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_63> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_28> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_29> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_30> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_42> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_43> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_44> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_45> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_46> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_47> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_57> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_58> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_59> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_60> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_61> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_62> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_63> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_28> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_29> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_30> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_42> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_43> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_44> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_45> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_46> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_47> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_57> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_58> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_59> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_60> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_61> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_62> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_63> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_7_28> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_7_29> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_7_30> of sequential type is unconnected in block <battle_city_periph>.
@@ -482,38 +436,38 @@ WARNING:Xst:2677 - Node <battle_city_i/registers_s_7_60> of sequential type is u
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_7_61> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_7_62> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_7_63> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_28> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_29> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_30> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_42> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_43> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_44> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_45> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_46> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_47> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_57> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_58> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_59> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_60> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_61> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_62> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_63> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_28> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_29> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_30> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_42> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_43> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_44> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_45> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_46> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_47> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_57> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_58> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_59> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_60> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_61> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_62> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_63> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_28> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_29> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_30> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_42> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_43> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_44> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_45> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_46> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_47> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_57> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_58> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_59> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_60> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_61> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_62> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_63> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_28> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_29> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_30> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_42> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_43> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_44> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_45> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_46> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_47> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_57> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_58> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_59> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_60> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_61> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_62> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_63> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_4_28> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_4_29> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_4_30> of sequential type is unconnected in block <battle_city_periph>.
@@ -530,22 +484,38 @@ WARNING:Xst:2677 - Node <battle_city_i/registers_s_4_60> of sequential type is u
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_4_61> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_4_62> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_4_63> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_28> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_29> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_30> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_42> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_43> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_44> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_45> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_46> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_47> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_57> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_58> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_59> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_60> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_61> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_62> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_63> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_28> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_29> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_30> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_42> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_43> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_44> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_45> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_46> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_47> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_57> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_58> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_59> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_60> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_61> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_62> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_63> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_28> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_29> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_30> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_42> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_43> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_44> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_45> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_46> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_47> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_57> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_58> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_59> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_60> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_61> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_62> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_63> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_1_28> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_1_29> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_1_30> of sequential type is unconnected in block <battle_city_periph>.
@@ -562,6 +532,38 @@ WARNING:Xst:2677 - Node <battle_city_i/registers_s_1_60> of sequential type is u
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_1_61> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_1_62> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_1_63> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_28> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_29> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_30> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_42> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_43> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_44> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_45> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_46> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_47> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_57> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_58> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_59> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_60> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_61> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_62> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_63> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_28> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_29> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_30> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_42> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_43> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_44> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_45> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_46> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_47> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_57> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_58> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_59> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_60> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_61> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_62> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_63> of sequential type is unconnected in block <battle_city_periph>.
 
 =========================================================================
 Advanced HDL Synthesis Report
@@ -616,33 +618,33 @@ WARNING:Xst:1710 - FF/Latch <battle_city_i/zero_stg_addr_r_12> (without init val
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_0_13> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_0_14> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_0_15> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_13> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_14> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_15> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_13> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_14> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_15> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_13> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_14> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_15> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_7_13> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_7_14> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_7_15> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_13> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_14> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_15> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_13> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_14> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_15> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_13> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_14> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_9_15> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_13> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_14> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_8_15> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_4_13> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_4_14> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_4_15> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_13> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_14> of sequential type is unconnected in block <battle_city_periph>.
-WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_15> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_13> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_14> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_6_15> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_13> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_14> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_5_15> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_1_13> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_1_14> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <battle_city_i/registers_s_1_15> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_13> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_14> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_3_15> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_13> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_14> of sequential type is unconnected in block <battle_city_periph>.
+WARNING:Xst:2677 - Node <battle_city_i/registers_s_2_15> of sequential type is unconnected in block <battle_city_periph>.
 WARNING:Xst:2677 - Node <pixel_x_d1_0> of sequential type is unconnected in block <vga_ctrl>.
 WARNING:Xst:2677 - Node <pixel_x_d1_1> of sequential type is unconnected in block <vga_ctrl>.
 WARNING:Xst:2677 - Node <pixel_x_d1_2> of sequential type is unconnected in block <vga_ctrl>.
@@ -658,14 +660,15 @@ Optimizing unit <vga_ctrl> ...
 Mapping all equations...
 Building and optimizing final netlist ...
 Found area constraint ratio of 100 (+ 0) on block battle_city_battle_city_periph_0_wrapper, actual ratio is 6.
-FlipFlop battle_city_periph_0/battle_city_i/reg_intersected_r_0 has been replicated 5 time(s)
-FlipFlop battle_city_periph_0/battle_city_i/reg_intersected_r_1 has been replicated 4 time(s)
+FlipFlop battle_city_periph_0/battle_city_i/reg_intersected_r_0 has been replicated 2 time(s)
+FlipFlop battle_city_periph_0/battle_city_i/reg_intersected_r_1 has been replicated 2 time(s)
 FlipFlop battle_city_periph_0/battle_city_i/reg_intersected_r_2 has been replicated 1 time(s)
-FlipFlop battle_city_periph_0/battle_city_i/reg_intersected_r_3 has been replicated 1 time(s)
-FlipFlop battle_city_periph_0/vga_ctrl_i/pixel_x_1 has been replicated 1 time(s)
-FlipFlop battle_city_periph_0/vga_ctrl_i/pixel_x_2 has been replicated 1 time(s)
-FlipFlop battle_city_periph_0/vga_ctrl_i/pixel_y_0 has been replicated 1 time(s)
+FlipFlop battle_city_periph_0/vga_ctrl_i/pixel_y_1 has been replicated 2 time(s)
 FlipFlop battle_city_periph_0/vga_ctrl_i/pixel_y_2 has been replicated 1 time(s)
+FlipFlop battle_city_periph_0/vga_ctrl_i/pixel_y_3 has been replicated 1 time(s)
+FlipFlop battle_city_periph_0/vga_ctrl_i/pixel_y_4 has been replicated 3 time(s)
+FlipFlop battle_city_periph_0/vga_ctrl_i/pixel_y_5 has been replicated 2 time(s)
+FlipFlop battle_city_periph_0/vga_ctrl_i/pixel_y_6 has been replicated 2 time(s)
 
 Final Macro Processing ...
 
@@ -673,8 +676,8 @@ Final Macro Processing ...
 Final Register Report
 
 Macro Statistics
-# Registers                                            : 572
- Flip-Flops                                            : 572
+# Registers                                            : 573
+ Flip-Flops                                            : 573
 
 =========================================================================
 
@@ -697,24 +700,24 @@ Top Level Output File Name         : battle_city_battle_city_periph_0_wrapper.ng
 
 Primitive and Black Box Usage:
 ------------------------------
-# BELS                             : 2035
+# BELS                             : 1964
 #      GND                         : 1
 #      INV                         : 4
 #      LUT1                        : 127
-#      LUT2                        : 124
-#      LUT3                        : 17
-#      LUT4                        : 825
-#      LUT5                        : 103
-#      LUT6                        : 176
-#      MUXCY                       : 395
-#      MUXF7                       : 40
+#      LUT2                        : 112
+#      LUT3                        : 60
+#      LUT4                        : 695
+#      LUT5                        : 121
+#      LUT6                        : 278
+#      MUXCY                       : 293
+#      MUXF7                       : 50
 #      VCC                         : 1
 #      XORCY                       : 222
-# FlipFlops/Latches                : 572
-#      FD                          : 27
+# FlipFlops/Latches                : 573
+#      FD                          : 32
 #      FDE                         : 508
 #      FDR                         : 3
-#      FDRE                        : 34
+#      FDRE                        : 30
 # RAMS                             : 16
 #      RAMB16BWER                  : 16
 
@@ -725,16 +728,16 @@ Selected Device : 6slx45fgg676-2
 
 
 Slice Logic Utilization: 
- Number of Slice Registers:             572  out of  54576     1%  
- Number of Slice LUTs:                 1376  out of  27288     5%  
-    Number used as Logic:              1376  out of  27288     5%  
+ Number of Slice Registers:             573  out of  54576     1%  
+ Number of Slice LUTs:                 1397  out of  27288     5%  
+    Number used as Logic:              1397  out of  27288     5%  
 
 Slice Logic Distribution: 
- Number of LUT Flip Flop pairs used:   1459
-   Number with an unused Flip Flop:     887  out of   1459    60%  
-   Number with an unused LUT:            83  out of   1459     5%  
-   Number of fully used LUT-FF pairs:   489  out of   1459    33%  
-   Number of unique control sets:        11
+ Number of LUT Flip Flop pairs used:   1473
+   Number with an unused Flip Flop:     900  out of   1473    61%  
+   Number with an unused LUT:            76  out of   1473     5%  
+   Number of fully used LUT-FF pairs:   497  out of   1473    33%  
+   Number of unique control sets:         9
 
 IO Utilization: 
  Number of IOs:                         181
@@ -765,7 +768,7 @@ Clock Information:
 -----------------------------------+---------------------------------------------------------+-------+
 Clock Signal                       | Clock buffer(FF name)                                   | Load  |
 -----------------------------------+---------------------------------------------------------+-------+
-S_AXI_ACLK                         | NONE(battle_city_periph_0/battle_city_i/reg_intsect_r_1)| 588   |
+S_AXI_ACLK                         | NONE(battle_city_periph_0/battle_city_i/reg_intsect_r_0)| 589   |
 -----------------------------------+---------------------------------------------------------+-------+
 INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
 
@@ -777,8 +780,8 @@ Timing Summary:
 ---------------
 Speed Grade: -2
 
-   Minimum period: 9.869ns (Maximum Frequency: 101.322MHz)
-   Minimum input arrival time before clock: 7.297ns
+   Minimum period: 9.996ns (Maximum Frequency: 100.038MHz)
+   Minimum input arrival time before clock: 7.125ns
    Maximum output required time after clock: 1.754ns
    Maximum combinational path delay: 0.359ns
 
@@ -788,64 +791,57 @@ All values displayed in nanoseconds (ns)
 
 =========================================================================
 Timing constraint: Default period analysis for Clock 'S_AXI_ACLK'
-  Clock period: 9.869ns (frequency: 101.322MHz)
-  Total number of paths / destination ports: 888554 / 1411
+  Clock period: 9.996ns (frequency: 100.038MHz)
+  Total number of paths / destination ports: 888929 / 1395
 -------------------------------------------------------------------------
-Delay:               9.869ns (Levels of Logic = 19)
-  Source:            battle_city_periph_0/battle_city_i/registers_s_4_50 (FF)
-  Destination:       battle_city_periph_0/battle_city_i/ram_i/Mram_mem16 (RAM)
+Delay:               9.996ns (Levels of Logic = 12)
+  Source:            battle_city_periph_0/battle_city_i/registers_s_3_48 (FF)
+  Destination:       battle_city_periph_0/battle_city_i/reg_intersected_r_0 (FF)
   Source Clock:      S_AXI_ACLK rising
   Destination Clock: S_AXI_ACLK rising
 
-  Data Path: battle_city_periph_0/battle_city_i/registers_s_4_50 to battle_city_periph_0/battle_city_i/ram_i/Mram_mem16
+  Data Path: battle_city_periph_0/battle_city_i/registers_s_3_48 to battle_city_periph_0/battle_city_i/reg_intersected_r_0
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
-     FDE:C->Q              5   0.525   1.296  battle_city_periph_0/battle_city_i/registers_s_4_50 (battle_city_periph_0/battle_city_i/registers_s_4_50)
-     LUT6:I0->O            1   0.254   0.000  battle_city_periph_0/battle_city_i/Mmux_reg_intersected_r[3]_X_8_o_wide_mux_188_OUT_62 (battle_city_periph_0/battle_city_i/Mmux_reg_intersected_r[3]_X_8_o_wide_mux_188_OUT_62)
-     MUXF7:I1->O           1   0.175   0.682  battle_city_periph_0/battle_city_i/Mmux_reg_intersected_r[3]_X_8_o_wide_mux_188_OUT_5_f7_1 (battle_city_periph_0/battle_city_i/Mmux_reg_intersected_r[3]_X_8_o_wide_mux_188_OUT_5_f72)
-     LUT6:I5->O            4   0.254   1.032  battle_city_periph_0/battle_city_i/Msub_sprt_int_row_s<3:0>_lut<2>1 (battle_city_periph_0/battle_city_i/Msub_sprt_int_row_s<3:0>_lut<2>)
-     LUT5:I2->O            4   0.235   0.912  battle_city_periph_0/battle_city_i/Msub_sprt_int_row_s<3:0>_xor<2>11 (battle_city_periph_0/battle_city_i/sprt_int_row_s<2>)
-     LUT6:I4->O            2   0.250   0.834  battle_city_periph_0/battle_city_i/Mmux_address_s3_B511 (battle_city_periph_0/battle_city_i/Mmux_address_s3_B51)
-     LUT6:I4->O            1   0.250   0.682  battle_city_periph_0/battle_city_i/Mmux_address_s3_B54 (battle_city_periph_0/battle_city_i/Mmux_address_s3_B54)
-     LUT6:I5->O            1   0.254   0.000  battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_lut<1> (battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_lut<1>)
-     MUXCY:S->O            1   0.215   0.000  battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<1> (battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<1>)
-     MUXCY:CI->O           1   0.023   0.000  battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<2> (battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<2>)
-     MUXCY:CI->O           1   0.023   0.000  battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<3> (battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<3>)
-     MUXCY:CI->O           1   0.023   0.000  battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<4> (battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<4>)
-     MUXCY:CI->O           1   0.023   0.000  battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<5> (battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<5>)
-     MUXCY:CI->O           1   0.023   0.000  battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<6> (battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<6>)
-     MUXCY:CI->O           1   0.023   0.000  battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<7> (battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<7>)
-     MUXCY:CI->O           1   0.023   0.000  battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<8> (battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<8>)
-     MUXCY:CI->O           1   0.023   0.000  battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<9> (battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<9>)
-     MUXCY:CI->O           1   0.023   0.000  battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<10> (battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<10>)
-     MUXCY:CI->O           0   0.023   0.000  battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<11> (battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_cy<11>)
-     XORCY:CI->O          16   0.206   1.181  battle_city_periph_0/battle_city_i/Mmux_address_s3_rs_xor<12> (battle_city_periph_0/battle_city_i/Mmux_address_s3_split<12>)
-     RAMB16BWER:ADDRB13        0.400          battle_city_periph_0/battle_city_i/ram_i/Mram_mem16
+     FDE:C->Q              4   0.525   0.912  battle_city_periph_0/battle_city_i/registers_s_3_48 (battle_city_periph_0/battle_city_i/registers_s_3_48)
+     LUT2:I0->O            1   0.250   0.000  battle_city_periph_0/battle_city_i/Madd_reg_end_row_s<3>_lut<0> (battle_city_periph_0/battle_city_i/Madd_reg_end_row_s<3>_lut<0>)
+     MUXCY:S->O            1   0.215   0.000  battle_city_periph_0/battle_city_i/Madd_reg_end_row_s<3>_cy<0> (battle_city_periph_0/battle_city_i/Madd_reg_end_row_s<3>_cy<0>)
+     MUXCY:CI->O           1   0.023   0.000  battle_city_periph_0/battle_city_i/Madd_reg_end_row_s<3>_cy<1> (battle_city_periph_0/battle_city_i/Madd_reg_end_row_s<3>_cy<1>)
+     XORCY:CI->O           4   0.206   0.912  battle_city_periph_0/battle_city_i/Madd_reg_end_row_s<3>_xor<2> (battle_city_periph_0/battle_city_i/reg_end_row_s<3><2>)
+     LUT4:I2->O            4   0.250   1.032  battle_city_periph_0/battle_city_i/pixel_row_2[8]_reg_end_row_s[3][8]_LessThan_83_o13_SW1 (N62)
+     LUT6:I3->O            1   0.235   0.790  battle_city_periph_0/battle_city_i/reg_intsect_s<3>4_SW1 (N165)
+     LUT5:I3->O            1   0.250   0.000  battle_city_periph_0/battle_city_i/reg_intsect_s<3>4_F (N273)
+     MUXF7:I0->O           1   0.163   0.682  battle_city_periph_0/battle_city_i/reg_intsect_s<3>4 (battle_city_periph_0/battle_city_i/reg_intsect_s<3>4)
+     LUT6:I5->O            4   0.254   1.032  battle_city_periph_0/battle_city_i/reg_intsect_s<3>11 (battle_city_periph_0/battle_city_i/reg_intsect_s<3>)
+     LUT5:I2->O            3   0.235   0.766  battle_city_periph_0/Reset_OR_DriverANDClockEnable1_SW0 (N10)
+     LUT6:I5->O            1   0.254   0.682  battle_city_periph_0/Reset_OR_DriverANDClockEnable2 (battle_city_periph_0/Reset_OR_DriverANDClockEnable)
+     LUT5:I4->O            3   0.254   0.000  battle_city_periph_0/battle_city_i/reg_intersected_r_1_rstpot (battle_city_periph_0/battle_city_i/reg_intersected_r_1_rstpot)
+     FD:D                      0.074          battle_city_periph_0/battle_city_i/reg_intersected_r_1
     ----------------------------------------
-    Total                      9.869ns (3.250ns logic, 6.619ns route)
-                                       (32.9% logic, 67.1% route)
+    Total                      9.996ns (3.188ns logic, 6.808ns route)
+                                       (31.9% logic, 68.1% route)
 
 =========================================================================
 Timing constraint: Default OFFSET IN BEFORE for Clock 'S_AXI_ACLK'
-  Total number of paths / destination ports: 19935 / 1231
+  Total number of paths / destination ports: 19942 / 1238
 -------------------------------------------------------------------------
-Offset:              7.297ns (Levels of Logic = 3)
+Offset:              7.125ns (Levels of Logic = 3)
   Source:            S_AXI_AWADDR<18> (PAD)
-  Destination:       battle_city_periph_0/battle_city_i/registers_s_1_56 (FF)
+  Destination:       battle_city_periph_0/battle_city_i/registers_s_2_56 (FF)
   Destination Clock: S_AXI_ACLK rising
 
-  Data Path: S_AXI_AWADDR<18> to battle_city_periph_0/battle_city_i/registers_s_1_56
+  Data Path: S_AXI_AWADDR<18> to battle_city_periph_0/battle_city_i/registers_s_2_56
                                 Gate     Net
     Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
     ----------------------------------------  ------------
      LUT5:I0->O            1   0.254   1.137  battle_city_periph_0/battle_city_i/we_i_GND_8_o_AND_15_o23 (battle_city_periph_0/battle_city_i/we_i_GND_8_o_AND_15_o23)
-     LUT6:I0->O           65   0.254   2.213  battle_city_periph_0/battle_city_i/we_i_GND_8_o_AND_15_o24 (battle_city_periph_0/battle_city_i/we_i_GND_8_o_AND_15_o2)
-     LUT5:I1->O          450   0.254   2.452  battle_city_periph_0/battle_city_i/we_i_GND_8_o_AND_15_o4 (battle_city_periph_0/battle_city_i/we_i_GND_8_o_AND_15_o)
+     LUT6:I0->O           65   0.254   2.045  battle_city_periph_0/battle_city_i/we_i_GND_8_o_AND_15_o24 (battle_city_periph_0/battle_city_i/we_i_GND_8_o_AND_15_o2)
+     LUT5:I3->O          450   0.250   2.452  battle_city_periph_0/battle_city_i/we_i_GND_8_o_AND_15_o4 (battle_city_periph_0/battle_city_i/we_i_GND_8_o_AND_15_o)
      FDE:CE                    0.302          battle_city_periph_0/battle_city_i/registers_s_0_0
     ----------------------------------------
-    Total                      7.297ns (1.495ns logic, 5.802ns route)
-                                       (20.5% logic, 79.5% route)
+    Total                      7.125ns (1.491ns logic, 5.634ns route)
+                                       (20.9% logic, 79.1% route)
 
 =========================================================================
 Timing constraint: Default OFFSET OUT AFTER for Clock 'S_AXI_ACLK'
@@ -893,20 +889,20 @@ Clock to Setup on destination clock S_AXI_ACLK
                | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
 Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
 ---------------+---------+---------+---------+---------+
-S_AXI_ACLK     |    9.869|         |         |         |
+S_AXI_ACLK     |    9.996|         |         |         |
 ---------------+---------+---------+---------+---------+
 
 =========================================================================
 
 
-Total REAL time to Xst completion: 12.00 secs
-Total CPU time to Xst completion: 11.54 secs
+Total REAL time to Xst completion: 14.00 secs
+Total CPU time to Xst completion: 13.91 secs
  
 --> 
 
-Total memory usage is 285520 kilobytes
+Total memory usage is 299984 kilobytes
 
 Number of errors   :    0 (   0 filtered)
-Number of warnings :  212 (   0 filtered)
+Number of warnings :  214 (   0 filtered)
 Number of infos    :    3 (   0 filtered)
 

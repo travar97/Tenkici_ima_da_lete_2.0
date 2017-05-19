@@ -1,4 +1,5 @@
 
+#include <stdint.h>
 #include "battle_city.h"
 #include "map.h"
 #include "xparameters.h"
@@ -10,6 +11,7 @@
 * DATE: Wed Jul 08 21:00:48 2015
 */
 
+//map_entry_t* mape;
 
 // ***** 8x8 IMAGES *****
 
@@ -92,10 +94,11 @@
 #define MAP_BASE_ADDRESS                0x0870
 #define MAP_X							8
 #define MAP_Y							4
-#define MAP_W							64
-#define MAP_H							56
+#define MAP_W							26
+#define MAP_H							26
 
 #define REGS_BASE_ADDRESS               ( MAP_BASE_ADDRESS + MAP_WIDTH * MAP_HEIGHT )
+#define REGS_BASE_ADDRESS2               ( MAP_BASE_ADDRESS + MAP_WIDTH * MAP_HEIGHT)
 
 
 #define BTN_DOWN( b )                   ( !( b & 0x01 ) )
@@ -119,8 +122,8 @@
 #define BULLET_STEP_DURATION            5
 #define BULLET_EXPLOSION_DURATION       5
 
-#define BASE_X		                    311
-#define BASE_Y						    463
+#define BASE_X		                    159	//311
+#define BASE_Y						    279	//463
 
 
 typedef enum {
@@ -216,9 +219,11 @@ typedef struct {
 } tank_t;
 
 
+
+
 tank_t tank1 = {
-    ( MAP_X + MAP_W / 2 - 1 ) * 8,	// x
-    ( MAP_Y + MAP_H - 5 ) * 8,		// y
+    ( MAP_X + MAP_W / 2 +2) * 8,	// x
+    ( MAP_Y+2 + MAP_H - 5 ) * 8,		// y
     DIR_RIGHT,              		// dir
     IMG_16x16_MAIN_TANK,  			// type
 
@@ -307,7 +312,7 @@ static void map_update( map_entry_t * map )
         if( map[ i ].update ) {
             map[ i ].update = 0;
 
-            Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( MAP_BASE_ADDRESS + i ), ( (unsigned int)map[ i ].z << 24 ) | ( (unsigned int)map[ i ].rot << 16 ) | (unsigned int)map[ i ].ptr );
+            Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( MAP_BASE_ADDRESS + i ), ( (unsigned int)map[ i ].z << 16 ) | ( (unsigned int)map[ i ].rot << 16 ) | (unsigned int)map[ i ].ptr );
         }
     }
 }
@@ -317,7 +322,7 @@ static void map_reset( map_entry_t * map )
     unsigned int i;
 
     for( i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++ ) {
-        Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( MAP_BASE_ADDRESS + i ), ( (unsigned int)map[ i ].z << 24 ) | ( (unsigned int)map[ i ].rot << 16 ) | (unsigned int)map[ i ].ptr );
+        Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( MAP_BASE_ADDRESS + i ), ( (unsigned int)map[ i ].z << 16 ) | ( (unsigned int)map[ i ].rot << 16 ) | (unsigned int)map[ i ].ptr );
     }
 
     for( i = 0; i <= 20; i += 2 ) {
@@ -325,10 +330,11 @@ static void map_reset( map_entry_t * map )
     }
 }
 
+
 static void tank_spawn( tank_t * tank )
 {
-	Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS + tank->reg_l ), (unsigned int)0x8F000000 | ( (unsigned int)tank->dir << 16 ) | tank->type );
-	Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS + tank->reg_h ), ( tank->y << 16 ) | tank->x );
+	Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS2 + tank->reg_l ), (unsigned int)0x8F000000 | ( (unsigned int)tank->dir << 16) | tank->type );
+	Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS2 + tank->reg_h ), ( tank->y << 16 ) | tank->x );
 }
 
 static bool_t tank_move( map_entry_t * map, tank_t * tank, direction_t dir )
@@ -536,7 +542,7 @@ static void process_bullet( map_entry_t * map, bullet_t * blt )
                     blt->time = game_time;
 
                     Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS + blt->reg_l ), (unsigned int)0x8F000000 | (unsigned int)IMG_16x16_EXPLOSION );
-                    Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS + blt->reg_h ), ( blt->y << 16 ) | blt->x );
+                    Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS + blt->reg_h ), ( blt->y << 16 ) | blt->x);
                 } else if( tr->ptr == IMG_8x8_BRICK || tr->ptr == IMG_8x8_IRON ) {
                 	if( tr->ptr == IMG_8x8_BRICK ) {
                 		tr->ptr = IMG_8x8_NULL;
@@ -558,7 +564,7 @@ static void process_bullet( map_entry_t * map, bullet_t * blt )
                     blt->time = game_time;
 
                     Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS + blt->reg_l ), (unsigned int)0x8F000000 | (unsigned int)IMG_16x16_EXPLOSION );
-                    Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS + blt->reg_h ), ( blt->y << 16 ) | blt->x );
+                    Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS + blt->reg_h ), ( blt->y << 16 ) | blt->x);
                 } else if( br->ptr == IMG_8x8_BRICK || br->ptr == IMG_8x8_IRON ) {
                 	if( br->ptr == IMG_8x8_BRICK ) {
                 		br->ptr = IMG_8x8_NULL;
@@ -575,7 +581,7 @@ static void process_bullet( map_entry_t * map, bullet_t * blt )
                     blt->x = x;
                     blt->y = y;
 
-                    Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS + blt->reg_h ), ( blt->y << 16 ) | blt->x );
+                    Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS + blt->reg_h ), ( blt->y << 16 ) | blt->x);
                 }
             } else {
                 blt->enabled = b_false;
@@ -605,9 +611,9 @@ static void process_ai( tank_t * tank, unsigned int * ai_dir )
 			}
 
 			*ai_dir = tmp_dir;
-		} while( tank_move( map1, &tank_ai, *ai_dir ) == b_false );
+		} while( tank_move( mape, &tank_ai, *ai_dir ) == b_false );
 	} else {
-		while( tank_move( map1, &tank_ai, *ai_dir ) == b_false ) {
+		while( tank_move( mape, &tank_ai, *ai_dir ) == b_false ) {
 			while( tmp_dir == *ai_dir ) {
 				tmp_dir = rand_lfsr113( ) % 4;
 			}
@@ -621,8 +627,8 @@ static void process_ai( tank_t * tank, unsigned int * ai_dir )
 
 	if( *ai_dir == DIR_DOWN ) {
 		while( tank->y / 8 + i < MAP_Y + MAP_H ) {
-			if( map1[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_BRICK ||
-				map1[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_IRON ) {
+			if( mape[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_BRICK ||
+				mape[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_IRON ) {
 				break;
 			} else if( hitbox( tank->x, tank->y + i * 8, tank1.x, tank1.y, 16, 16 ) == b_true ) {
 				fire = b_true;
@@ -633,8 +639,8 @@ static void process_ai( tank_t * tank, unsigned int * ai_dir )
 		}
 	} else if( *ai_dir == DIR_UP ) {
 		while( tank->y / 8 - i > MAP_Y ) {
-			if( map1[ ( tank->y / 8 - i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_BRICK ||
-				map1[ ( tank->y / 8 - i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_IRON ) {
+			if( mape[ ( tank->y / 8 - i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_BRICK ||
+				mape[ ( tank->y / 8 - i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_IRON ) {
 				fire = b_false;
 				break;
 			} else if( hitbox( tank->x, tank->y - i * 8, tank1.x, tank1.y, 16, 16 ) == b_true ) {
@@ -646,8 +652,8 @@ static void process_ai( tank_t * tank, unsigned int * ai_dir )
 		}
 	}  else if( *ai_dir == DIR_RIGHT ) {
 		while( tank->x / 8 + i < MAP_X + MAP_W ) {
-			if( map1[ ( tank->y / 8 ) * MAP_WIDTH + tank->x / 8 + i ].ptr == IMG_8x8_BRICK ||
-				map1[ ( tank->y / 8 ) * MAP_WIDTH + tank->x / 8 + i ].ptr == IMG_8x8_IRON ) {
+			if( mape[ ( tank->y / 8 ) * MAP_WIDTH + tank->x / 8 + i ].ptr == IMG_8x8_BRICK ||
+				mape[ ( tank->y / 8 ) * MAP_WIDTH + tank->x / 8 + i ].ptr == IMG_8x8_IRON ) {
 				break;
 			} else if( hitbox( tank->x + i * 8, tank->y, tank1.x, tank1.y, 16, 16 ) == b_true ) {
 				fire = b_true;
@@ -658,8 +664,8 @@ static void process_ai( tank_t * tank, unsigned int * ai_dir )
 		}
 	} else if( *ai_dir == DIR_LEFT ) {
 		while( tank->x / 8 - i > MAP_X ) {
-			if( map1[ ( tank->y / 8 ) * MAP_WIDTH + tank->x / 8 - 1 ].ptr == IMG_8x8_BRICK ||
-				map1[ ( tank->y / 8 ) * MAP_WIDTH + tank->x / 8 - 1 ].ptr == IMG_8x8_IRON ) {
+			if( mape[ ( tank->y / 8 ) * MAP_WIDTH + tank->x / 8 - 1 ].ptr == IMG_8x8_BRICK ||
+				mape[ ( tank->y / 8 ) * MAP_WIDTH + tank->x / 8 - 1 ].ptr == IMG_8x8_IRON ) {
 				break;
 			} else if( hitbox( tank->x - i * 8, tank->y, tank1.x, tank1.y, 16, 16 ) == b_true ) {
 				fire = b_true;
@@ -671,68 +677,1344 @@ static void process_ai( tank_t * tank, unsigned int * ai_dir )
 	}
 
 	if( fire == b_true ) {
-		tank_fire( map1, tank );
+		tank_fire( mape, tank );
 	}
 }
+
 
 static void base_spawn( void )
 {
 	Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS + BASE_REG_L ), (unsigned int)0x8F000000 | ( (unsigned int)DIR_UP << 16 ) | (unsigned int)IMG_16x16_BASE_ALIVE );
-	Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS + BASE_REG_H ), ( (unsigned int)( ( MAP_Y + MAP_H - 2 ) * 8 ) << 16 ) | (unsigned int)( ( MAP_X + MAP_W / 2 - 1 ) * 8 ) );
+	Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS + BASE_REG_H ), ( (unsigned int)( (( MAP_Y + MAP_H - 2 ) * 8 ) << 16)  ) | (unsigned int)( ( MAP_X + MAP_W / 2 - 1 ) * 8  ));
 }
 
+/*void popunjanvanje(map_entry_t *map){
+	int j;
+	mape = map;
+
+}
+*/
+void konverzija(map_entry_t *mapa, uint8_t *map){
+	//int i,j,k;
+	int i; // za gornji deo
+	for(i = 0; i <= 320; i++)
+	{
+		mapa[i].z = 0;
+		mapa[i].rot = 0;
+		mapa[i].ptr = 0x03A0;
+		mapa[i].update = 0;
+
+	}
+
+	int j; // za levi deo ekrana
+	for(j = 320; j <= 327; j++) //1 linija
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 399; j <= 407; j++)	//2 linija
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 479; j <= 487; j++) //3-ca
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 559; j <= 567; j++)	//4-ta
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 639; j <= 647; j++)//5-ta
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 719; j <= 727; j++)//6-ta
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 799; j <= 807; j++)//7-ma
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 879; j <= 887; j++)//8-ma
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 959; j <= 967; j++)//9
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 1039; j <= 1047; j++)//10
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 1119; j <= 1127; j++)//11
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 1199; j <= 1207; j++)//12
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 1279; j <= 1287; j++)//13
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 1359; j <= 1367; j++)//14
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 1439; j <= 1447; j++)//15
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 1519; j <= 1527; j++)//16
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 1599; j <= 1607; j++)//17
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 1679; j <= 1687; j++)//18
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 1759; j <= 1767; j++)//19
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 1839; j <= 1847; j++)//20
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 1919; j <= 1927; j++)//21
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 1999; j <= 2007; j++)//22
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 2079; j <= 2087; j++)//23
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 2159; j <= 2167; j++)//24
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 2239; j <= 2247; j++)//25
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+	for(j = 2319; j <= 2327; j++)//26
+	{
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
+	}
+
+
+	int k; // za centralni deo
+	for(k = 327; k <= 354; k++)//1
+	{
+		/*mapa[k].z = 0;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x0400;
+		mapa[k].update = 0;*/
+
+		if(map[1*26+k-327] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[1*26+k-327] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[1*26+k-327] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[1*26+k-327] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[1*26+k-327] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 407; k <= 434; k++)//2
+	{
+		mapa[k].z = 0;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x0400;
+		mapa[k].update = 0;
+	}
+	for(k = 487; k <= 514; k++)//3
+	{
+		mapa[k].z = 0;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x0400;
+		mapa[k].update = 0;
+	}
+	for(k = 567; k <= 594; k++)//4
+	{
+		mapa[k].z = 0;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x0400;
+		mapa[k].update = 0;
+	}
+	for(k = 647; k <= 674; k++)//5
+	{
+		mapa[k].z = 0;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x0400;
+		mapa[k].update = 0;
+	}
+	for(k = 727; k <= 754; k++)//6
+	{
+		/*mapa[k].z = 0;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x0400;
+		mapa[k].update = 0;*/
+
+		if(map[6*26+k-727] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[6*26+k-727] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[6*26+k-727] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[6*26+k-727] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[6*26+k-727] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 807; k <= 834; k++)//7
+	{
+		/*mapa[k].z = 0;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x0400;
+		mapa[k].update = 0;*/
+
+		if(map[7*26+k-807] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[7*26+k-807] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[7*26+k-807] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[7*26+k-807] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[7*26+k-807] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 887; k <= 914; k++)//8
+	{
+		/*mapa[k].z = 0;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x0400;
+		mapa[k].update = 0;*/
+
+		if(map[8*26+k-887] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[8*26+k-887] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[8*26+k-887] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[8*26+k-887] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[8*26+k-887] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 967; k <= 994; k++)//9
+	{
+		/*mapa[k].z = 0;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x0400;
+		mapa[k].update = 0;*/
+
+		if(map[9*26+k-967] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[9*26+k-967] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[9*26+k-967] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[9*26+k-967] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[9*26+k-967] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 1047; k <= 1074; k++)//10
+	{
+		/*mapa[k].z = 0;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x0400;
+		mapa[k].update = 0;*/
+
+		if(map[10*26+k-1047] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[10*26+k-1047] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[10*26+k-1047] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[10*26+k-1047] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[10*26+k-1047] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 1127; k <= 1154; k++)//11
+	{
+		/*mapa[k].z = 0;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x0400;
+		mapa[k].update = 0;*/
+
+		if(map[11*26+k-1127] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[11*26+k-1127] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[11*26+k-1127] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[11*26+k-1127] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[11*26+k-1127] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 1207; k <= 1234; k++)//12
+	{
+		/*mapa[k].z = 0;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x0400;
+		mapa[k].update = 0;*/
+
+		if(map[12*26+k-1207] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[12*26+k-1207] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[12*26+k-1207] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[12*26+k-1207] == 4)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[12*26+k-1207] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 1287; k <= 1314; k++)//13
+	{
+		/*mapa[k].z = 0;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x0400;
+		mapa[k].update = 0;*/
+
+		if(map[13*26+k-1287] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[13*26+k-1287] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[13*26+k-1287] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[13*26+k-1287] == 4)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[13*26+k-1287] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 1367; k <= 1394; k++)//14
+	{
+		/*mapa[k].z = 0;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x0400;
+		mapa[k].update = 0;*/
+
+		if(map[14*26+k-1367] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[14*26+k-1367] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[14*26+k-1367] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[14*26+k-1367] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[14*26+k-1367] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 1447; k <= 1474; k++)//15
+	{
+		/*mapa[k].z = 0;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x0400;
+		mapa[k].update = 0;*/
+
+		if(map[15*26+k-1447] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[15*26+k-1447] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[15*26+k-1447] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[15*26+k-1447] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[15*26+k-1447] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 1527; k <= 1554; k++)//16
+	{
+		/*mapa[k].z = 0;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x0400;
+		mapa[k].update = 0;*/
+
+		if(map[16*26+k-1527] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[16*26+k-1527] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[16*26+k-1527] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[16*26+k-1527] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[16*26+k-1527] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 1607; k <= 1634; k++)//17
+	{
+		/*mapa[k].z = 0;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x0400;
+		mapa[k].update = 0;*/
+
+		if(map[17*26+k-1607] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[17*26+k-1607] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[17*26+k-1607] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[17*26+k-1607] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[17*26+k-1607] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+
+
+	}
+	for(k = 1687; k <= 1714; k++)//18
+	{
+		mapa[k].z = 2;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x03C0;
+		mapa[k].update = 0;
+	}
+	for(k = 1767; k <= 1794; k++)//19
+	{
+		mapa[k].z = 0;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x0400;
+		mapa[k].update = 0;
+	}
+	for(k = 1847; k <= 1874; k++)//20
+	{
+		mapa[k].z = 0;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x0400;
+		mapa[k].update = 0;
+	}
+	for(k = 1927; k <= 1954; k++)//21
+	{
+		mapa[k].z = 1;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x03B0;
+		mapa[k].update = 0;
+	}
+	for(k = 2007; k <= 2034; k++)//22
+	{
+		mapa[k].z = 2;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x03C0;
+		mapa[k].update = 0;
+	}
+	for(k = 2087; k <= 2114; k++)//23
+	{
+		mapa[k].z = 2;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x03C0;
+		mapa[k].update = 0;
+	}
+	for(k = 2167; k <= 2194; k++)//24
+	{
+		mapa[k].z = 2;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x03C0;
+		mapa[k].update = 0;
+	}
+	for(k = 2247; k <= 2274; k++)//25
+	{
+		mapa[k].z = 0;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x0400;
+		mapa[k].update = 0;
+	}
+	for(k = 2327; k <= 2354; k++)//26
+	{
+		mapa[k].z = 2;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x03C0;
+		mapa[k].update = 0;
+	}
+
+
+	int m; // je za desnu deo ekrana
+	for(m = 354; m <= 399; m++)//1
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 434; m <= 479; m++)//2
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 514; m <= 559; m++)//3
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 594; m <= 639; m++)//4
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 674; m <= 719; m++)//5
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 754; m <= 799; m++)//6
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 834; m <= 879; m++)//7
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 914; m <= 959; m++)//8
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 994; m <= 1039; m++)//9
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 1074; m <= 1119; m++)//10
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 1154; m <= 1199; m++)//11
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 1234; m <= 1279; m++)//12
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 1314; m <= 1359; m++)//13
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 1394; m <= 1439; m++)//14
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 1474; m <= 1519; m++)//15
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 1554; m <= 1599; m++)//16
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 1634; m <= 1679; m++)//17
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 1714; m <= 1759; m++)//18
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 1794; m <= 1839; m++)//19
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 1874; m <= 1919; m++)//20
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 1954; m <= 1999; m++)//21
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 2034; m <= 2079; m++)//22
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 2114; m <= 2159; m++)//23
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 2194; m <= 2239; m++)//24
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 2274; m <= 2319; m++)//25
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+	for(m = 2354; m <= 2399; m++)//26
+	{
+		mapa[m].z = 0;
+		mapa[m].rot = 0;
+		mapa[m].ptr = 0x03A0;
+		mapa[m].update = 0;
+	}
+
+
+
+	int p; // za ostatak mape
+	for(p = 2399; p <= 4800; p++)
+	{
+		mapa[p].z = 0;
+		mapa[p].rot = 0;
+		mapa[p].ptr = 0x03A0;
+		mapa[p].update = 0;
+	}
+
+
+///////////////////////////////////////////////////////////////////////////////////
+	/*for(k = 354; k <= 400; k++)
+	{
+		mapa[k].z = 0;
+		mapa[k].rot = 0;
+		mapa[k].ptr = 0x03A0;
+		mapa[k].update = 0;
+	}*/
+	/*
+	for(j=0;j<=320;j++){
+	     mapa[j].z = 0;
+	     mapa[j].rot = 0;
+		 mapa[j].ptr = 0x03A0;
+	     mapa[j].update = 0;
+	}
+	for(j=321;j<=1901;j++){
+		if(j==347 || j==407 || j==467 ||j==527 || j==587 || j==647 ||j==707 || j==767 || j==827 || j==887 || j==947 || j==1007 || j==1067 || j==1127 || j==1187 ||j==1247 || j==1307 || j==1367 ||j==1427 || j==1487 || j==1547 || j==1607 || j==1667 || j==1727 || j==1787 || j==1847){
+			for(k=0;k<=54;k++){
+			j++;
+			mapa[j].z = 0;
+		    mapa[j].rot = 0;
+		    mapa[j].ptr = 0x0420;
+			mapa[j].update = 0;
+			}
+		}
+		 if (map[j] == 1){
+		     mapa[j].z = 1;
+		     mapa[j].rot = 0x03B0;
+		     mapa[j].ptr = 0;
+		     mapa[j].update = 0;
+
+		 }
+		 else if (map[j]==2){
+		 		     mapa[j].z = 0;
+		 		     mapa[j].rot = 0;
+		 		     mapa[j].ptr = 0x0420;
+		 		     mapa[j].update = 0;
+
+		  }
+		 else if (map[j]==3){
+		 		     mapa[j].z = 0;
+		 		     mapa[j].rot = 0;
+		 		     mapa[j].ptr = 0x03D0;
+		 		     mapa[j].update = 0;
+
+		  }
+		 else if (map[j]==4){
+		 		     mapa[j].z = 1;
+		 		     mapa[j].rot = 0;
+		 		     mapa[j].ptr = 0x03E0;
+		 		     mapa[j].update = 0;
+
+		  }
+		 else if (map[j]==5){
+		 		 		     mapa[j].z = 1;
+		 		 		     mapa[j].rot = 0;
+		 		 		     mapa[j].ptr = 0x03E0;
+		 		 		     mapa[j].update = 0;
+
+		 }
+
+		 else {
+			  mapa[j].z = 0;
+		      mapa[j].rot = 0;
+		      mapa[j].ptr = 0x0400;
+		      mapa[j].update = 0;
+		 }
+
+		 if(j==1901)
+		 {
+			 for(j=1902;j<=4800;j++){
+				 mapa[j].z = 0;
+			     mapa[j].rot = 0;
+			     mapa[j].ptr = 0x03A0;
+				 mapa[j].update = 0;
+			 }
+
+		 }
+
+	}*/
+}
 void battle_city( void )
 {
+	int rbm;
 	unsigned int buttons;
 	unsigned int ai_dir;
     unsigned int title[ 10 ] = { _T, _E, _N, _K,  _O, _V, _I, _TERM };
     unsigned int game_victory[ 7 ] = { _P, _O, _B, _E, _D, _A, _TERM };
     unsigned int game_loss[ 6 ] = { _P, _O, _R, _A, _Z, _TERM };
+    unsigned int cist[] = {_SPACE ,_SPACE ,_SPACE ,_SPACE ,_SPACE ,_SPACE ,_SPACE,_TERM };
 
+
+    rbm=1;
     game_time = 0;
     game_result = RES_NONE;
     ai_dir = DIR_RIGHT;
+    //popunjanvanje(map2);
+    konverzija(mape,map1);
 
-    map_reset( map1 );
+    map_reset( mape );
 
-    draw_string( 35, 1, title );
+    draw_string( 18, 1, title );
 
     tank_spawn( &tank1 );
     tank_spawn( &tank_ai );
 
     base_spawn( );
 
-    while( 1 ) {
-    	if( game_time % 14 == 0 ) {
-            buttons = XIo_In32( XPAR_IO_PERIPH_BASEADDR );
 
-			if( BTN_UP( buttons ) ) {
-				tank_move( map1, &tank1, DIR_UP );
-			} else if( BTN_DOWN( buttons ) ) {
-				tank_move( map1, &tank1, DIR_DOWN );
-			}  else if( BTN_LEFT( buttons ) ) {
-				tank_move( map1, &tank1, DIR_LEFT );
-			} else if( BTN_RIGHT( buttons ) ) {
-				tank_move( map1, &tank1, DIR_RIGHT );
-			} else if( BTN_SHOOT( buttons ) ) {
-				tank_fire( map1, &tank1 );
+
+    while( 1 ) {
+			if( game_time % 14 == 0 ) {
+				buttons = XIo_In32( XPAR_IO_PERIPH_BASEADDR );
+
+				if( BTN_UP( buttons ) ) {
+					tank_move( mape, &tank1, DIR_UP );
+				} else if( BTN_DOWN( buttons ) ) {
+					tank_move( mape, &tank1, DIR_DOWN );
+				}  else if( BTN_LEFT( buttons ) ) {
+					tank_move( mape, &tank1, DIR_LEFT );
+				} else if( BTN_RIGHT( buttons ) ) {
+					tank_move( mape, &tank1, DIR_RIGHT );
+				} else if( BTN_SHOOT( buttons ) ) {
+					tank_fire( mape, &tank1 );
+				}
+
+				process_ai( &tank_ai, &ai_dir );
 			}
 
-			process_ai( &tank_ai, &ai_dir );
-    	}
+			process_bullet( mape, &tank_ai.bullet );
+			process_bullet( mape, &tank1.bullet );
+			map_update( mape );
 
-    	process_bullet( map1, &tank_ai.bullet );
-    	process_bullet( map1, &tank1.bullet );
-        map_update( map1 );
+			if( game_result == RES_VICTORY ) {
+				draw_string( 1, 4, game_victory );
+				rbm++;
+				break;
+				if(rbm>1){
+				   game_result = RES_NONE;
+				   ai_dir = DIR_RIGHT;
+				   //memset(mape, 0, sizeof mape);
+				   //for(j=0;j<4800;j++)
+					//   mape[j] = map4[j];
+				   //popunjanvanje(map2);
+				   konverzija(mape,map2);
+				   map_reset( mape );
+				   draw_string( 18, 1, title );
 
-        if( game_result == RES_VICTORY ) {
-        	draw_string( 1, 4, game_victory );
-        	break;
-        } else if( game_result == RES_LOSS ) {
-        	draw_string( 1, 4, game_loss );
-        	break;
-        }
+				   tank_spawn( &tank1 );
+				   tank_spawn( &tank_ai );
 
-        game_time++;
+				    base_spawn( );
+				    continue;
+					}
+			//continue;
+
+
+			} else if( game_result == RES_LOSS ) {
+				draw_string( 1, 4, game_loss );
+				rbm=1;
+				break;
+			}
+
+			/*if(rbm>1){
+				    game_result = RES_NONE;
+				    ai_dir = DIR_RIGHT;
+				    mape = map2;
+
+				    map_reset( mape );
+
+				    draw_string( 18, 1, title );
+
+				    tank_spawn( &tank1 );
+				    tank_spawn( &tank_ai );
+
+				    base_spawn( );
+			}*/
+
+
+			game_time++;
+
+
     }
 }
+

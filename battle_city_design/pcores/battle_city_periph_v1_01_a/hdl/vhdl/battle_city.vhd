@@ -25,7 +25,7 @@ entity battle_city is
 		--ram_clk_o		: out std_logic;											-- Same clock domain
 		-- VGA --
 		pixel_row_i    : in  unsigned(8 downto 0);
-      pixel_col_i    : in  unsigned(9 downto 0);
+		pixel_col_i    : in  unsigned(9 downto 0);
 		stage_i        : in  unsigned(1 downto 0);
 		rgb_o          : out std_logic_vector(COLOR_WIDTH-1 downto 0)  -- Value of RGB color
    );
@@ -144,7 +144,13 @@ architecture Behavioral of battle_city is
    signal test_s           : unsigned(11 downto 0);
 	
 	
+	signal pixel_row_2    : unsigned(8 downto 0);
+	signal pixel_col_2    : unsigned(9 downto 0);
 begin
+	-- 320x240 resolution.
+	pixel_row_2 <= '0' & pixel_row_i(8 downto 1);
+	pixel_col_2 <= '0' & pixel_col_i(9 downto 1);
+	
    -----------------------------------------------------------------------------------
    --                            GLOBAL                                             --
    -----------------------------------------------------------------------------------	
@@ -191,10 +197,10 @@ begin
 		reg_end_col_s(i) <= reg_col_s(i) + reg_size_s(i);
 		
 		reg_intsect_s(i) <= '1' when 
-                          ( pixel_row_i >= reg_row_s(i)      and
-                            pixel_row_i <= reg_end_row_s(i)  and
-                            pixel_col_i >= reg_col_s(i)      and
-                            pixel_col_i <= reg_end_col_s(i)
+                          ( pixel_row_2 >= reg_row_s(i)      and
+                            pixel_row_2 <= reg_end_row_s(i)  and
+                            pixel_col_2 >= reg_col_s(i)      and
+                            pixel_col_2 <= reg_end_col_s(i)
                           ) and reg_en_s(i) = '1'  
                           else
                           '0';	
@@ -220,9 +226,9 @@ begin
                         "0000"; 				
 
    -- map_index_s = (row/8)*80 + col/8;
-   map_index_s  <= unsigned('0' & std_logic_vector(pixel_row_i(8 downto 3)) & "000000") 
-                   + unsigned('0' & std_logic_vector(pixel_row_i(8 downto 3)) & "0000")
-                   + pixel_col_i(9 downto 3);
+   map_index_s  <= unsigned('0' & std_logic_vector(pixel_row_2(8 downto 3)) & "000000") 
+                   + unsigned('0' & std_logic_vector(pixel_row_2(8 downto 3)) & "0000")
+                   + pixel_col_2(9 downto 3);
                    
 	frst_stg_addr_s <= map_index_s + MAP_OFFSET;
 
@@ -244,8 +250,8 @@ begin
       end if;
 	end process;
    
-	img_row_s <= pixel_row_i(2 downto 0);
-	img_col_s <= pixel_col_i(2 downto 0);
+	img_row_s <= pixel_row_2(2 downto 0);
+	img_col_s <= pixel_col_2(2 downto 0);
 	
 	img_z_coor_s <= unsigned(mem_data_s(31 downto 24));
 	img_rot_s    <= unsigned(mem_data_s(23 downto 16));
@@ -274,8 +280,8 @@ begin
 	max_s      <= reg_size_s(to_integer(reg_intersected_r));
 	rot_s      <= reg_rot_s(to_integer(reg_intersected_r));		
 	
-	sprt_int_row_s <= pixel_row_i - reg_row_s(to_integer(reg_intersected_r));
-	sprt_int_col_s <= pixel_col_i - reg_col_s(to_integer(reg_intersected_r));
+	sprt_int_row_s <= pixel_row_2 - reg_row_s(to_integer(reg_intersected_r));
+	sprt_int_col_s <= pixel_col_2 - reg_col_s(to_integer(reg_intersected_r));
 	
 	sprt_row_s <= sprt_int_row_s(3 downto 0);
 	sprt_col_s <= sprt_int_col_s(3 downto 0);
