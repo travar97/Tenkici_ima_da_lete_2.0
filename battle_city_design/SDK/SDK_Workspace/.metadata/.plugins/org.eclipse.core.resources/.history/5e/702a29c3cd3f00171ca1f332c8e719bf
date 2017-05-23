@@ -297,6 +297,31 @@ tank_t tank_ai = {
     TANK_AI_REG_H             		// reg_h
 };
 
+tank_t tank_ai2 = {
+  ( MAP_X +20) * 8,	// x
+  ( MAP_Y ) * 8,				// y
+    DIR_RIGHT,              		// dir
+    IMG_16x16_ENEMY_TANK4,  		// type
+
+    b_false,                		// destroyed
+
+    {
+        0,                  		// bullet.x
+        0,                  		// bullet.y
+        DIR_RIGHT,           		// bullet.dir
+
+        b_false,            		// bullet.enabled
+        0,                  		// bullet.time
+        b_false,            		// bullet.explosion
+
+        BULLET_AI_REG_L,      		// bullet.reg_l
+        BULLET_AI_REG_H       		// bullet.reg_h
+    },
+
+    TANK_AI_REG_L,            		// reg_l
+    TANK_AI_REG_H             		// reg_h
+};
+
 tank_t tank_ai_reset = {
 		 MAP_X * 8,						// x
 		    MAP_Y * 8,						// y
@@ -321,6 +346,33 @@ tank_t tank_ai_reset = {
 		    TANK_AI_REG_L,            		// reg_l
 		    TANK_AI_REG_H             		// reg_h
 };
+
+
+tank_t tank_ai2_reset = {
+		 (MAP_X+20) * 8,						// x
+		    MAP_Y * 8,						// y
+		    DIR_RIGHT,              		// dir
+		    IMG_16x16_ENEMY_TANK4,  		// type
+
+		    b_false,                		// destroyed
+
+		    {
+		        0,                  		// bullet.x
+		        0,                  		// bullet.y
+		        DIR_RIGHT,           		// bullet.dir
+
+		        b_false,            		// bullet.enabled
+		        0,                  		// bullet.time
+		        b_false,            		// bullet.explosion
+
+		        BULLET_AI_REG_L,      		// bullet.reg_l
+		        BULLET_AI_REG_H       		// bullet.reg_h
+		    },
+
+		    TANK_AI_REG_L,            		// reg_l
+		    TANK_AI_REG_H             		// reg_h
+};
+
 
 unsigned int	game_time;
 unsigned char	game_result;
@@ -733,6 +785,235 @@ static void process_ai( tank_t * tank, unsigned int * ai_dir )
 }
 
 
+
+
+static void process_ai2( tank_t * tank, unsigned int * ai_dir )
+{
+	unsigned int	tmp_dir;
+	bool_t			turn;
+	bool_t			fire;
+	unsigned int	i;
+
+	if( game_time % 300 == 0 ) {
+		turn = b_true;
+	} else {
+		turn = b_false;
+	}
+
+	if( turn == b_true ) {
+		do {
+			while( tmp_dir == *ai_dir ) {
+				tmp_dir = rand_lfsr113( ) % 4;
+			}
+
+			*ai_dir = tmp_dir;
+		} while( tank_move( mape, &tank_ai2, *ai_dir ) == b_false );
+	} else {
+		while( tank_move( mape, &tank_ai2, *ai_dir ) == b_false ) {
+			while( tmp_dir == *ai_dir ) {
+				tmp_dir = rand_lfsr113( ) % 4;
+			}
+
+			*ai_dir = tmp_dir;
+		}
+	}
+
+	i = 0;
+	fire = b_false;
+
+	if( *ai_dir == DIR_DOWN ) {
+		while( tank->y / 8 + i < MAP_Y + MAP_H ) {
+			if( mape[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_BRICK ||
+				mape[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_IRON ) {
+				break;
+			} else if( hitbox( tank->x, tank->y + i * 8, tank1.x, tank1.y, 16, 16 ) == b_true ) {
+				fire = b_true;
+				break;
+			}
+
+			i++;
+		}
+	} else if( *ai_dir == DIR_UP ) {
+		while( tank->y / 8 - i > MAP_Y ) {
+			if( mape[ ( tank->y / 8 - i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_BRICK ||
+				mape[ ( tank->y / 8 - i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_IRON ) {
+				fire = b_false;
+				break;
+			} else if( hitbox( tank->x, tank->y - i * 8, tank1.x, tank1.y, 16, 16 ) == b_true ) {
+				fire = b_true;
+				break;
+			}
+
+			i++;
+		}
+	}  else if( *ai_dir == DIR_RIGHT ) {
+		while( tank->x / 8 + i < MAP_X + MAP_W ) {
+			if( mape[ ( tank->y / 8 ) * MAP_WIDTH + tank->x / 8 + i ].ptr == IMG_8x8_BRICK ||
+				mape[ ( tank->y / 8 ) * MAP_WIDTH + tank->x / 8 + i ].ptr == IMG_8x8_IRON ) {
+				break;
+			} else if( hitbox( tank->x + i * 8, tank->y, tank1.x, tank1.y, 16, 16 ) == b_true ) {
+				fire = b_true;
+				break;
+			}
+
+			i++;
+		}
+	} else if( *ai_dir == DIR_LEFT ) {
+		while( tank->x / 8 - i > MAP_X ) {
+			if( mape[ ( tank->y / 8 ) * MAP_WIDTH + tank->x / 8 - 1 ].ptr == IMG_8x8_BRICK ||
+				mape[ ( tank->y / 8 ) * MAP_WIDTH + tank->x / 8 - 1 ].ptr == IMG_8x8_IRON ) {
+				break;
+			} else if( hitbox( tank->x - i * 8, tank->y, tank1.x, tank1.y, 16, 16 ) == b_true ) {
+				fire = b_true;
+				break;
+			}
+
+			i++;
+		}
+	}
+
+	if( fire == b_true ) {
+		tank_fire( mape, tank );
+	}
+}
+
+
+
+
+/*
+static void process_ai( tank_t * tank, unsigned int * ai_dir )
+{
+	unsigned int	tmp_dir;
+	bool_t			turn;
+	bool_t			fire;
+	unsigned int	i;
+
+	if( game_time % 300 == 0 ) {
+		turn = b_true;
+	} else {
+		turn = b_false;
+	}
+
+	if( turn == b_true ) {
+		do {
+			while( tmp_dir == *ai_dir ) {
+				tmp_dir = rand_lfsr113( ) % 4;
+			}
+
+			*ai_dir = tmp_dir;
+		} while( tank_move( mape, &tank_ai, *ai_dir ) == b_false );
+	} else {
+		while( tank_move( mape, &tank_ai, *ai_dir ) == b_false ) {
+			while( tmp_dir == *ai_dir ) {
+				tmp_dir = rand_lfsr113( ) % 4;
+			}
+
+			*ai_dir = tmp_dir;
+		}
+	}
+
+	i = 0;
+	fire = b_false;
+
+	if( *ai_dir == DIR_DOWN ) {
+		while( tank->y / 8 + i < MAP_Y + MAP_H ) {
+			if(mape[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_IRON ) {
+				break;
+			}
+			else if(mape[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_NULL){
+				fire = b_false;
+				break;
+			}
+			else if(mape[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_BLANK){
+				fire = b_false;
+				break;
+			}else if(mape[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_BRICK){
+				fire = b_true;
+			}
+			 else if( hitbox( tank->x, tank->y + i * 8, tank1.x, tank1.y, 16, 16 ) == b_true ) {
+				fire = b_true;
+				break;
+			}
+
+			i++;
+		}
+	} else if( *ai_dir == DIR_UP ) {
+		while( tank->y / 8 - i > MAP_Y ) {
+			if(mape[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_IRON ) {
+				break;
+				}
+			else if(mape[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_NULL){
+				fire = b_false;
+				break;
+						}
+			else if(mape[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_BLANK){
+				fire = b_false;
+				break;
+			}
+			else if(mape[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_BRICK){
+				fire = b_true;
+				}
+			 else if( hitbox( tank->x, tank->y - i * 8, tank1.x, tank1.y, 16, 16 ) == b_true ) {
+				fire = b_true;
+				break;
+			}
+
+			i++;
+		}
+	}  else if( *ai_dir == DIR_RIGHT ) {
+		while( tank->x / 8 + i < MAP_X + MAP_W ) {
+			if(mape[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_IRON ) {
+				break;
+			}
+			else if(mape[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_NULL){
+				fire = b_false;
+				break;
+						}
+			else if(mape[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_BLANK){
+				fire = b_false;
+				break;
+			}
+			else if(mape[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_BRICK){
+				fire = b_true;
+
+			} else if( hitbox( tank->x + i * 8, tank->y, tank1.x, tank1.y, 16, 16 ) == b_true ) {
+				fire = b_true;
+				break;
+			}
+
+			i++;
+		}
+	} else if( *ai_dir == DIR_LEFT ) {
+		while( tank->x / 8 - i > MAP_X ) {
+			if(mape[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_IRON ) {
+				break;
+			}
+			else if(mape[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_NULL){
+				fire = b_false;
+				break;
+						}
+			else if(mape[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_BLANK){
+				fire = b_false;
+				break;
+
+			}
+			else if(mape[ ( tank->y / 8 + i ) * MAP_WIDTH + tank->x / 8 ].ptr == IMG_8x8_BRICK){
+		     	fire = b_true;
+
+			} else if( hitbox( tank->x - i * 8, tank->y, tank1.x, tank1.y, 16, 16 ) == b_true ) {
+				fire = b_true;
+				break;
+			}
+
+			i++;
+		}
+	}
+
+	if( fire == b_true ) {
+		tank_fire( mape, tank );
+	}
+}*/
+
 static void base_spawn( void )
 {
 	Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS + BASE_REG_L ), (unsigned int)0x8F000000 | ( (unsigned int)DIR_UP << 16 ) | (unsigned int)IMG_16x16_BASE_ALIVE );
@@ -752,187 +1033,19 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 	}
 
 	int j; // za levi deo ekrana
-	for(j = 320; j <= 327; j++) //1 linija
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 399; j <= 407; j++)	//2 linija
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 479; j <= 487; j++) //3-ca
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 559; j <= 567; j++)	//4-ta
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 639; j <= 647; j++)//5-ta
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 719; j <= 727; j++)//6-ta
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 799; j <= 807; j++)//7-ma
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 879; j <= 887; j++)//8-ma
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 959; j <= 967; j++)//9
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 1039; j <= 1047; j++)//10
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 1119; j <= 1127; j++)//11
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 1199; j <= 1207; j++)//12
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 1279; j <= 1287; j++)//13
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 1359; j <= 1367; j++)//14
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 1439; j <= 1447; j++)//15
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 1519; j <= 1527; j++)//16
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 1599; j <= 1607; j++)//17
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 1679; j <= 1687; j++)//18
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 1759; j <= 1767; j++)//19
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 1839; j <= 1847; j++)//20
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 1919; j <= 1927; j++)//21
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 1999; j <= 2007; j++)//22
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 2079; j <= 2087; j++)//23
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 2159; j <= 2167; j++)//24
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 2239; j <= 2247; j++)//25
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
-	}
-	for(j = 2319; j <= 2327; j++)//26
-	{
-		mapa[j].z = 0;
-		mapa[j].rot = 0;
-		mapa[j].ptr = 0x03A0;
-		mapa[j].update = 0;
+
+	i = 0;
+	int step = 80;
+	while(i<27){
+		for(j = 320 +i*step; j <= 327 +i*step; j++)
+		{
+			mapa[j].z = 0;
+			mapa[j].rot = 0;
+			mapa[j].ptr = 0x03A0;
+			mapa[j].update = 0;
+
+		}
+		i++;
 	}
 
 
@@ -1029,52 +1142,56 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 			mapa[k].update = 0;
 		}
 	}*/
-	for(k = 488; k <= 514; k++)//3
-	{
 
-		if(map[2*26 + k - 488] == 1)
+
+		for(k = 488; k <= 514; k++)//3
 		{
-			mapa[k].z = 1;
-			mapa[k].rot = 0;
-			mapa[k].ptr = 0x03B0;
-			mapa[k].update = 0;
+
+			if(map[2*26 + k - 488] == 1)
+			{
+				mapa[k].z = 1;
+				mapa[k].rot = 0;
+				mapa[k].ptr = 0x03B0;
+				mapa[k].update = 0;
+			}
+			else if(map[2*26 + k - 488] == 2)
+			{
+				mapa[k].z = 0;
+				mapa[k].rot = 0;
+				mapa[k].ptr = 0x0420;
+				mapa[k].update = 0;
+			}
+			else if(map[2*26+ k - 488] == 3)
+			{
+				mapa[k].z = 0;
+				mapa[k].rot = 0;
+				mapa[k].ptr = 0x03D0;
+				mapa[k].update = 0;
+			}
+			else if(map[2*26+ k - 488] == 4)
+			{
+				mapa[k].z = 1;
+				mapa[k].rot = 0;
+				mapa[k].ptr = 0x03B0;
+				mapa[k].update = 0;
+			}
+			else if(map[2*26+ k - 488] == 5)
+			{
+				mapa[k].z = 2;
+				mapa[k].rot = 0;
+				mapa[k].ptr = 0x03C0;
+				mapa[k].update = 0;
+			}
+			else
+			{
+				mapa[k].z = 0;
+				mapa[k].rot = 0;
+				mapa[k].ptr = 0x0400;
+				mapa[k].update = 0;
+			}
 		}
-		else if(map[2*26 + k - 488] == 2)
-		{
-			mapa[k].z = 0;
-			mapa[k].rot = 0;
-			mapa[k].ptr = 0x0420;
-			mapa[k].update = 0;
-		}
-		else if(map[2*26+ k - 488] == 3)
-		{
-			mapa[k].z = 0;
-			mapa[k].rot = 0;
-			mapa[k].ptr = 0x03D0;
-			mapa[k].update = 0;
-		}
-		else if(map[2*26+ k - 488] == 4)
-		{
-			mapa[k].z = 1;
-			mapa[k].rot = 0;
-			mapa[k].ptr = 0x03B0;
-			mapa[k].update = 0;
-		}
-		else if(map[2*26+ k - 488] == 5)
-		{
-			mapa[k].z = 2;
-			mapa[k].rot = 0;
-			mapa[k].ptr = 0x03C0;
-			mapa[k].update = 0;
-		}
-		else
-		{
-			mapa[k].z = 0;
-			mapa[k].rot = 0;
-			mapa[k].ptr = 0x0400;
-			mapa[k].update = 0;
-		}
-	}
+
+
 	for(k = 568; k <= 594; k++)//4
 	{
 
@@ -1103,7 +1220,7 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 		{
 			mapa[k].z = 1;
 			mapa[k].rot = 0;
-			mapa[k].ptr = 0x03E0;
+			mapa[k].ptr = 0x03B0;
 			mapa[k].update = 0;
 		}
 		else if(map[3*26+ k - 568] == 5)
@@ -1149,7 +1266,7 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 		{
 			mapa[k].z = 1;
 			mapa[k].rot = 0;
-			mapa[k].ptr = 0x03E0;
+			mapa[k].ptr = 0x03B0;
 			mapa[k].update = 0;
 		}
 		else if(map[4*26+ k - 648] == 5)
@@ -1195,7 +1312,7 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 		{
 			mapa[k].z = 1;
 			mapa[k].rot = 0;
-			mapa[k].ptr = 0x03E0;
+			mapa[k].ptr = 0x03B0;
 			mapa[k].update = 0;
 		}
 		else if(map[5*26 + k - 728] == 5)
@@ -1241,7 +1358,7 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 		{
 			mapa[k].z = 1;
 			mapa[k].rot = 0;
-			mapa[k].ptr = 0x03E0;
+			mapa[k].ptr = 0x03B0;
 			mapa[k].update = 0;
 		}
 		else if(map[6*26 + k - 808] == 5)
@@ -1287,7 +1404,7 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 		{
 			mapa[k].z = 1;
 			mapa[k].rot = 0;
-			mapa[k].ptr = 0x03E0;
+			mapa[k].ptr = 0x03B0;
 			mapa[k].update = 0;
 		}
 		else if(map[7*26 + k - 888] == 5)
@@ -1305,7 +1422,7 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 			mapa[k].update = 0;
 		}
 	}
-	/*for(k = 968; k <= 994; k++)//9
+	for(k = 968; k <= 994; k++)//9
 	{
 
 		if(map[8*26 + k - 968] == 1)
@@ -1350,7 +1467,7 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 			mapa[k].ptr = 0x0400;
 			mapa[k].update = 0;
 		}
-	}*/
+	}
 	for(k = 1048; k <= 1074; k++)//10
 	{
 
@@ -1379,7 +1496,7 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 		{
 			mapa[k].z = 1;
 			mapa[k].rot = 0;
-			mapa[k].ptr = 0x03E0;
+			mapa[k].ptr = 0x03B0;
 			mapa[k].update = 0;
 		}
 		else if(map[9*26 + k - 1048] == 5)
@@ -1425,7 +1542,7 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 		{
 			mapa[k].z = 1;
 			mapa[k].rot = 0;
-			mapa[k].ptr = 0x03E0;
+			mapa[k].ptr = 0x03B0;
 			mapa[k].update = 0;
 		}
 		else if(map[10*26 + k - 1128] == 5)
@@ -1517,7 +1634,7 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 		{
 			mapa[k].z = 0;
 			mapa[k].rot = 0;
-			mapa[k].ptr = 0x03D0;
+			mapa[k].ptr = 0x03B0;
 			mapa[k].update = 0;
 		}
 		else if(map[12*26 + k - 1288] == 5)
@@ -1563,7 +1680,7 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 		{
 			mapa[k].z = 1;
 			mapa[k].rot = 0;
-			mapa[k].ptr = 0x03E0;
+			mapa[k].ptr = 0x03B0;
 			mapa[k].update = 0;
 		}
 		else if(map[13*26 + k - 1368] == 5)
@@ -1609,7 +1726,7 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 		{
 			mapa[k].z = 1;
 			mapa[k].rot = 0;
-			mapa[k].ptr = 0x03E0;
+			mapa[k].ptr = 0x03B0;
 			mapa[k].update = 0;
 		}
 		else if(map[14*26 + k - 1448] == 5)
@@ -1627,7 +1744,7 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 			mapa[k].update = 0;
 		}
 	}
-	/*for(k = 1528; k <= 1554; k++)//16
+	for(k = 1528; k <= 1554; k++)//16
 	{
 
 		if(map[15*26 + k - 1528] == 1)
@@ -1718,7 +1835,7 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 			mapa[k].ptr = 0x0400;
 			mapa[k].update = 0;
 		}
-	}*/
+	}
 	for(k = 1688; k <= 1714; k++)//18
 	{
 
@@ -1747,7 +1864,7 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 		{
 			mapa[k].z = 1;
 			mapa[k].rot = 0;
-			mapa[k].ptr = 0x03E0;
+			mapa[k].ptr = 0x03B0;
 			mapa[k].update = 0;
 		}
 		else if(map[17*26 + k - 1688] == 5)
@@ -1793,7 +1910,7 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 		{
 			mapa[k].z = 1;
 			mapa[k].rot = 0;
-			mapa[k].ptr = 0x03E0;
+			mapa[k].ptr = 0x03B0;
 			mapa[k].update = 0;
 		}
 		else if(map[18*26 + k - 1768] == 5)
@@ -1832,14 +1949,14 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 		{
 			mapa[k].z = 0;
 			mapa[k].rot = 0;
-			mapa[k].ptr = 0x03D0;
+			mapa[k].ptr = 0x03B0;
 			mapa[k].update = 0;
 		}
 		else if(map[19*26 + k - 1848] == 4)
 		{
 			mapa[k].z = 1;
 			mapa[k].rot = 0;
-			mapa[k].ptr = 0x03E0;
+			mapa[k].ptr = 0x03B0;
 			mapa[k].update = 0;
 		}
 		else if(map[19*26 + k - 1848] == 5)
@@ -1885,7 +2002,7 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 		{
 			mapa[k].z = 1;
 			mapa[k].rot = 0;
-			mapa[k].ptr = 0x03E0;
+			mapa[k].ptr = 0x03B0;
 			mapa[k].update = 0;
 		}
 		else if(map[20*26 + k - 1928] == 5)
@@ -2135,282 +2252,32 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 	}
 
 
-	int m; // je za desni deo ekrana
-	for(m = 354; m <= 399; m++)//1
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 434; m <= 479; m++)//2
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 514; m <= 559; m++)//3
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 594; m <= 639; m++)//4
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 674; m <= 719; m++)//5
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 754; m <= 799; m++)//6
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 834; m <= 879; m++)//7
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 914; m <= 959; m++)//8
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 994; m <= 1039; m++)//9
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 1074; m <= 1119; m++)//10
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 1154; m <= 1199; m++)//11
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 1234; m <= 1279; m++)//12
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 1314; m <= 1359; m++)//13
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 1394; m <= 1439; m++)//14
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 1474; m <= 1519; m++)//15
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 1554; m <= 1599; m++)//16
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 1634; m <= 1679; m++)//17
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 1714; m <= 1759; m++)//18
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 1794; m <= 1839; m++)//19
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 1874; m <= 1919; m++)//20
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 1954; m <= 1999; m++)//21
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 2034; m <= 2079; m++)//22
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 2114; m <= 2159; m++)//23
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 2194; m <= 2239; m++)//24
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 2274; m <= 2319; m++)//25
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
-	}
-	for(m = 2354; m <= 2399; m++)//26
-	{
-		mapa[m].z = 0;
-		mapa[m].rot = 0;
-		mapa[m].ptr = 0x03A0;
-		mapa[m].update = 0;
+	//int m; // je za desni deo ekrana
+	i=0;
+	while(i<27){
+		for(j = 354+i*step; j <= 399+i*step; j++)//1
+		{
+			mapa[j].z = 0;
+			mapa[j].rot = 0;
+			mapa[j].ptr = 0x03A0;
+			mapa[j].update = 0;
+		}
+		i++;
 	}
 
 
-
-	int p; // za ostatak mape
-	for(p = 2399; p <= 4800; p++)
+	//int p; // za ostatak mape
+	for(j = 2399; j <= 4800; j++)
 	{
-		mapa[p].z = 0;
-		mapa[p].rot = 0;
-		mapa[p].ptr = 0x03A0;
-		mapa[p].update = 0;
+		mapa[j].z = 0;
+		mapa[j].rot = 0;
+		mapa[j].ptr = 0x03A0;
+		mapa[j].update = 0;
 	}
 
 
 ///////////////////////////////////////////////////////////////////////////////////
-	/*for(k = 354; k <= 400; k++)
-	{
-		mapa[k].z = 0;
-		mapa[k].rot = 0;
-		mapa[k].ptr = 0x03A0;
-		mapa[k].update = 0;
-	}*/
-	/*
-	for(j=0;j<=320;j++){
-	     mapa[j].z = 0;
-	     mapa[j].rot = 0;
-		 mapa[j].ptr = 0x03A0;
-	     mapa[j].update = 0;
-	}
-	for(j=321;j<=1901;j++){
-		if(j==347 || j==407 || j==467 ||j==527 || j==587 || j==647 ||j==707 || j==767 || j==827 || j==887 || j==947 || j==1007 || j==1067 || j==1127 || j==1187 ||j==1247 || j==1307 || j==1367 ||j==1427 || j==1487 || j==1547 || j==1607 || j==1667 || j==1727 || j==1787 || j==1847){
-			for(k=0;k<=54;k++){
-			j++;
-			mapa[j].z = 0;
-		    mapa[j].rot = 0;
-		    mapa[j].ptr = 0x0420;
-			mapa[j].update = 0;
-			}
-		}
-		 if (map[j] == 1){
-		     mapa[j].z = 1;
-		     mapa[j].rot = 0x03B0;
-		     mapa[j].ptr = 0;
-		     mapa[j].update = 0;
 
-		 }
-		 else if (map[j]==2){
-		 		     mapa[j].z = 0;
-		 		     mapa[j].rot = 0;
-		 		     mapa[j].ptr = 0x0420;
-		 		     mapa[j].update = 0;
-
-		  }
-		 else if (map[j]==3){
-		 		     mapa[j].z = 0;
-		 		     mapa[j].rot = 0;
-		 		     mapa[j].ptr = 0x03D0;
-		 		     mapa[j].update = 0;
-
-		  }
-		 else if (map[j]==4){
-		 		     mapa[j].z = 1;
-		 		     mapa[j].rot = 0;
-		 		     mapa[j].ptr = 0x03E0;
-		 		     mapa[j].update = 0;
-
-		  }
-		 else if (map[j]==5){
-		 		 		     mapa[j].z = 1;
-		 		 		     mapa[j].rot = 0;
-		 		 		     mapa[j].ptr = 0x03E0;
-		 		 		     mapa[j].update = 0;
-
-		 }
-
-		 else {
-			  mapa[j].z = 0;
-		      mapa[j].rot = 0;
-		      mapa[j].ptr = 0x0400;
-		      mapa[j].update = 0;
-		 }
-
-		 if(j==1901)
-		 {
-			 for(j=1902;j<=4800;j++){
-				 mapa[j].z = 0;
-			     mapa[j].rot = 0;
-			     mapa[j].ptr = 0x03A0;
-				 mapa[j].update = 0;
-			 }
-
-		 }
-
-	}*/
 }
 
 void sleep(int sec){
@@ -2423,6 +2290,7 @@ void sleep(int sec){
 void resetovanje(){
 	tank1 = tank1reset;
 	tank_ai = tank_ai_reset;
+	tank_ai2=tank_ai2_reset;
 
 }
 void battle_city( void )
@@ -2430,6 +2298,7 @@ void battle_city( void )
 	int rbm;
 	unsigned int buttons;
 	unsigned int ai_dir;
+	unsigned int ai_dir2;
     unsigned int title[ 10 ] = { _T, _E, _N, _K,  _O, _V, _I, _TERM };
     unsigned int game_victory[ 7 ] = { _P, _O, _B, _E, _D, _A, _TERM };
     unsigned int game_loss[ 6 ] = { _P, _O, _R, _A, _Z, _TERM };
@@ -2440,7 +2309,8 @@ void battle_city( void )
     game_time = 0;
     game_result = RES_NONE;
     ai_dir = DIR_RIGHT;
-    konverzija(mape,map2);
+    ai_dir2 = DIR_LEFT;
+    konverzija(mape,map1);
 
     map_reset( mape );
 
@@ -2448,6 +2318,8 @@ void battle_city( void )
 
     tank_spawn( &tank1 );
     tank_spawn( &tank_ai );
+    tank_spawn( &tank_ai2 );
+
 
     base_spawn( );
 
@@ -2470,9 +2342,12 @@ void battle_city( void )
 				}
 
 				process_ai( &tank_ai, &ai_dir );
+			    process_ai2( &tank_ai2, &ai_dir2);
+
 			}
 
 			process_bullet( mape, &tank_ai.bullet );
+			process_bullet( mape, &tank_ai2.bullet );
 			process_bullet( mape, &tank1.bullet );
 			map_update( mape );
 
@@ -2480,14 +2355,13 @@ void battle_city( void )
 				draw_string( 1, 4, game_victory );
 				rbm++;
 
-				if(rbm>1){
+				if(rbm==2){
 					   sleep(5);
 					   resetovanje();
 					   game_time = 0;
 					    game_result = RES_NONE;
 					    ai_dir = DIR_RIGHT;
-					    //popunjanvanje(map2);
-					    konverzija(mape,map1);
+					    konverzija(mape,map2);
 
 					    map_reset( mape );
 
@@ -2500,29 +2374,131 @@ void battle_city( void )
 
 				    continue;
 					}
+				else if(rbm == 3){
+					   sleep(5);
+					  resetovanje();
+					  game_time = 0;
+					  game_result = RES_NONE;
+					   ai_dir = DIR_RIGHT;
+					 konverzija(mape,map3);
+
+					  map_reset( mape );
+
+				    draw_string( 18, 1, title );
+
+					 tank_spawn( &tank1 );
+					 tank_spawn( &tank_ai );
+
+					  base_spawn( );
+
+				    continue;
+				}
+				else if(rbm == 4){
+					 sleep(5);
+				    resetovanje();
+					 game_time = 0;
+					 game_result = RES_NONE;
+					   ai_dir = DIR_RIGHT;
+					 konverzija(mape,map4);
+
+					  map_reset( mape );
+
+					  draw_string( 18, 1, title );
+
+					 tank_spawn( &tank1 );
+					 tank_spawn( &tank_ai );
+
+						  base_spawn( );
+
+						  continue;
+				}
+				else if(rbm == 5){
+				 sleep(5);
+				 resetovanje();
+				 game_time = 0;
+				 game_result = RES_NONE;
+				  ai_dir = DIR_RIGHT;
+				 konverzija(mape,map5);
+
+				  map_reset( mape );
+
+				 draw_string( 18, 1, title );
+
+				 tank_spawn( &tank1 );
+				tank_spawn( &tank_ai );
+
+				 base_spawn( );
+
+				  continue;
+				}
+
+				else if(rbm == 6){
+				 sleep(5);
+				 resetovanje();
+				 game_time = 0;
+				 game_result = RES_NONE;
+				  ai_dir = DIR_RIGHT;
+				 konverzija(mape,map6);
+
+				  map_reset( mape );
+
+				 draw_string( 18, 1, title );
+
+				 tank_spawn( &tank1 );
+				tank_spawn( &tank_ai );
+
+				 base_spawn( );
+
+				  continue;
+				}
+			/*	else if(rbm == 7){
+				 sleep(5);
+				 resetovanje();
+				 game_time = 0;
+				 game_result = RES_NONE;
+				  ai_dir = DIR_RIGHT;
+				 konverzija(mape,map7);
+
+				  map_reset( mape );
+
+				 draw_string( 18, 1, title );
+
+				 tank_spawn( &tank1 );
+				tank_spawn( &tank_ai );
+
+				 base_spawn( );
+
+				  continue;
+				}
+*/
+
 			//continue;
 
 
 			} else if( game_result == RES_LOSS ) {
 				draw_string( 1, 4, game_loss );
 				rbm=1;
-				break;
+
+				if(rbm=1){
+					 game_time = 0;
+					 resetovanje();
+					    game_result = RES_NONE;
+					    ai_dir = DIR_RIGHT;
+					    konverzija(mape,map1);
+
+					    map_reset( mape );
+
+					    draw_string( 18, 1, title );
+
+					    tank_spawn( &tank1 );
+					    tank_spawn( &tank_ai );
+
+					    base_spawn( );
+					    continue;
+				}
 			}
 
-			/*if(rbm>1){
-				    game_result = RES_NONE;
-				    ai_dir = DIR_RIGHT;
-				    mape = map2;
 
-				    map_reset( mape );
-
-				    draw_string( 18, 1, title );
-
-				    tank_spawn( &tank1 );
-				    tank_spawn( &tank_ai );
-
-				    base_spawn( );
-			}*/
 
 
 			game_time++;
