@@ -1060,7 +1060,98 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 
 
 	int k; // za centralni deo
+	/*for(k = 328; k <= 354; k++)//1
+	{
 
+		if(map[k-328] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[k-328] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[k-328] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[k-328] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[k-328] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 408; k <= 434; k++)//2
+	{
+
+		if(map[1*26 + k-408] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[1*26 + k-408] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[1*26+ k - 408] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[1*26+ k - 408] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[1*26+ k - 408] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}*/
 
 		i=2;
 		j=0;
@@ -1116,7 +1207,1064 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 		}
 
 
+	/*for(k = 568; k <= 594; k++)//4
+	{
 
+		if(map[3*26 + k - 568] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[3*26 + k - 568] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[3*26+ k - 568] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[3*26+ k - 568] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[3*26+ k - 568] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 648; k <= 674; k++)//5
+	{
+
+		if(map[4*26 + k - 648] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[4*26 + k - 648] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[4*26+ k - 648] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[4*26+ k - 648] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[4*26+ k - 648] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 728; k <= 754; k++)//6
+	{
+
+		if(map[5*26 + k - 728] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[5*26 + k - 728] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[5*26 + k - 728] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[5*26 + k - 728] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[5*26 + k - 728] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 808; k <= 834; k++)//7
+	{
+
+		if(map[6*26 + k - 808] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[6*26 + k - 808] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[6*26 + k - 808] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[6*26 + k - 808] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[6*26 + k - 808] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 888; k <= 914; k++)//8
+	{
+
+		if(map[7*26 + k - 888] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[7*26 + k - 888] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[7*26 + k - 888] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[7*26 + k - 888] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[7*26 + k - 888] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 968; k <= 994; k++)//9
+	{
+
+		if(map[8*26 + k - 968] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[8*26 + k - 968] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[8*26 + k - 968] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[8*26 + k - 968] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[8*26 + k - 968] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 1048; k <= 1074; k++)//10
+	{
+
+		if(map[9*26 + k - 1048] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[9*26 + k - 1048] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[9*26 + k - 1048] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[9*26 + k - 1048] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[9*26 + k - 1048] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 1128; k <= 1154; k++)//11
+	{
+
+		if(map[10*26 + k - 1128] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[10*26 + k - 1128] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[10*26 + k - 1128] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[10*26 + k - 1128] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[10*26 + k - 1128] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 1208; k <= 1234; k++)//12
+	{
+
+		if(map[11*26 + k - 1208] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[11*26 + k - 1208] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[11*26 + k - 1208] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[11*26 + k - 1208] == 4)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[11*26 + k - 1208] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 1288; k <= 1314; k++)//13
+	{
+
+		if(map[12*26 + k - 1288] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[12*26 + k - 1288] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[12*26 + k - 1288] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[12*26 + k - 1288] == 4)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[12*26 + k - 1288] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 1368; k <= 1394; k++)//14
+	{
+
+		if(map[13*26 + k - 1368] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[13*26 + k - 1368] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[13*26 + k - 1368] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[13*26 + k - 1368] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[13*26 + k - 1368] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 1448; k <= 1474; k++)//15
+	{
+
+		if(map[14*26 + k - 1448] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[14*26 + k - 1448] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[14*26 + k - 1448] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[14*26 + k - 1448] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[14*26 + k - 1448] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 1528; k <= 1554; k++)//16
+	{
+
+		if(map[15*26 + k - 1528] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[15*26 + k - 1528] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[15*26 + k - 1528] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[15*26 + k - 1528] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[15*26 + k - 1528] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 1608; k <= 1634; k++)//17
+	{
+
+		if(map[16*26 + k - 1608] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[16*26 + k - 1608] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[16*26 + k - 1608] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[16*26 + k - 1608] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[16*26 + k - 1608] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 1688; k <= 1714; k++)//18
+	{
+
+		if(map[17*26 + k - 1688] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[17*26 + k - 1688] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[17*26 + k - 1688] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[17*26 + k - 1688] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[17*26 + k - 1688] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 1768; k <= 1794; k++)//19
+	{
+
+		if(map[18*26 + k - 1768] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[18*26 + k - 1768] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[18*26 + k - 1768] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[18*26 + k - 1768] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[18*26 + k - 1768] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 1848; k <= 1874; k++)//20
+	{
+
+		if(map[19*26 + k - 1848] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[19*26 + k - 1848] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[19*26 + k - 1848] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[19*26 + k - 1848] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[19*26 + k - 1848] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 1928; k <= 1954; k++)//21
+	{
+
+		if(map[20*26 + k - 1928] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[20*26 + k - 1928] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[20*26 + k - 1928] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[20*26 + k - 1928] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[20*26 + k - 1928] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 2008; k <= 2034; k++)//22
+	{
+
+		if(map[21*26 + k - 2008] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[21*26 + k - 2008] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[21*26 + k - 2008] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[21*26 + k - 2008] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[21*26 + k - 2008] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 2088; k <= 2114; k++)//23
+	{
+
+		if(map[22*26 + k - 2088] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[22*26 + k - 2088] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[22*26 + k - 2088] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[22*26 + k - 2088] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[22*26 + k - 2088] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 2168; k <= 2194; k++)//24
+	{
+
+		if(map[23*26 + k - 2168] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[23*26 + k - 2168] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[23*26 + k - 2168] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[23*26 + k - 2168] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[23*26 + k - 2168] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 2248; k <= 2274; k++)//25
+	{
+
+		if(map[24*26 + k - 2248] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[24*26 + k - 2248] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[24*26 + k - 2248] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[24*26 + k - 2248] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[24*26 + k - 2248] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 2328; k <= 2354; k++)//26
+	{
+
+		if(map[25*26 + k - 2328] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[25*26 + k - 2328] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[25*26 + k - 2328] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[25*26 + k - 2328] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[25*26 + k - 2328] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}*/
 
 
 	//int m; // je za desni deo ekrana
@@ -1304,7 +2452,7 @@ void battle_city( void )
 				  continue;
 				}
 
-				else if(rbm == 6){
+			/*	else if(rbm == 6){
 				 sleep(5);
 				 resetovanje();
 				 game_time = 0;
@@ -1322,8 +2470,8 @@ void battle_city( void )
 				 base_spawn( );
 
 				  continue;
-				}
-				else if(rbm == 7){
+				}*/
+			/*	else if(rbm == 7){
 				 sleep(5);
 				 resetovanje();
 				 game_time = 0;
@@ -1342,7 +2490,7 @@ void battle_city( void )
 
 				  continue;
 				}
-
+*/
 
 			//continue;
 

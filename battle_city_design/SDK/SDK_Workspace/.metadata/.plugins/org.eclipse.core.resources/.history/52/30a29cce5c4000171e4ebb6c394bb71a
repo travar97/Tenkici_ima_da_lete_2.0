@@ -1060,7 +1060,98 @@ void konverzija(map_entry_t *mapa, uint8_t *map){
 
 
 	int k; // za centralni deo
+	/*for(k = 328; k <= 354; k++)//1
+	{
 
+		if(map[k-328] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[k-328] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[k-328] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[k-328] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[k-328] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}
+	for(k = 408; k <= 434; k++)//2
+	{
+
+		if(map[1*26 + k-408] == 1)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03B0;
+			mapa[k].update = 0;
+		}
+		else if(map[1*26 + k-408] == 2)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0420;
+			mapa[k].update = 0;
+		}
+		else if(map[1*26+ k - 408] == 3)
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03D0;
+			mapa[k].update = 0;
+		}
+		else if(map[1*26+ k - 408] == 4)
+		{
+			mapa[k].z = 1;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03E0;
+			mapa[k].update = 0;
+		}
+		else if(map[1*26+ k - 408] == 5)
+		{
+			mapa[k].z = 2;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x03C0;
+			mapa[k].update = 0;
+		}
+		else
+		{
+			mapa[k].z = 0;
+			mapa[k].rot = 0;
+			mapa[k].ptr = 0x0400;
+			mapa[k].update = 0;
+		}
+	}*/
 
 		i=2;
 		j=0;
