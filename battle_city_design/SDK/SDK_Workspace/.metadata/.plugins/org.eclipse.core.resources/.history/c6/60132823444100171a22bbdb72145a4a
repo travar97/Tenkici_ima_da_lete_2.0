@@ -226,7 +226,7 @@ typedef struct {
 
     bullet_t        bullet;
 
-    sprite_reg_id_t sprite_reg_id;
+    sprite_reg_id_t sprite_reg_id
 } tank_t;
 
 

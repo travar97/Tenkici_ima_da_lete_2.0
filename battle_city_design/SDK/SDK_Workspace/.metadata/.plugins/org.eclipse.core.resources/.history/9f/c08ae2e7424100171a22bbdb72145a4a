@@ -226,7 +226,7 @@ typedef struct {
 
     bullet_t        bullet;
 
-    sprite_reg_id_t sprite_reg_id;
+    sprite_reg_id_t sprite_reg_id
 } tank_t;
 
 
@@ -1162,7 +1162,7 @@ void resetovanje(){
 }
 void battle_city( void )
 {
-	int rbm,cekaj;
+	int rbm,i;
 	unsigned int buttons;
 	unsigned int ai_dir;
 	unsigned int ai_dir2;
@@ -1189,6 +1189,8 @@ void battle_city( void )
 
 
     base_spawn( );
+
+
 
     while( 1 ) {
 			if( game_time % 14 == 0 ) {
@@ -1220,7 +1222,7 @@ void battle_city( void )
 			if( game_result == RES_VICTORY ) {
 				draw_string( 1, 4, game_victory );
 				rbm++;
-				for(cekaj = 0; cekaj < 5000000; cekaj++);
+
 				if(rbm==2){
 					   sleep(5);
 					   resetovanje();
@@ -1342,12 +1344,14 @@ void battle_city( void )
 				}
 
 
+			//continue;
+
+
 			} else if( game_result == RES_LOSS ) {
 				draw_string( 1, 4, game_loss );
 				rbm=1;
-				for(cekaj = 0; cekaj < 5000000; cekaj++);
 
-				if(rbm == 1){
+				if(rbm=1){
 					 game_time = 0;
 					 resetovanje();
 					    game_result = RES_NONE;
@@ -1367,7 +1371,12 @@ void battle_city( void )
 				}
 			}
 
+
+
+
 			game_time++;
+
 
     }
 }
+
