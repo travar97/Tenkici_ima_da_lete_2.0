@@ -25,5 +25,5 @@ EnableParTimingError: 1
 ShowLicenseDialog: 1
 BInfo: 
 Processor: microblaze_0
-ElfImp: 
+ElfImp: SDK/SDK_Workspace/battle_city_soft/Debug/battle_city_soft.elf
 ElfSim: 

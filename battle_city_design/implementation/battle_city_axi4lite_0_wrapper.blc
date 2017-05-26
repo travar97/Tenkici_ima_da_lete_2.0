@@ -6,8 +6,8 @@ xc6slx45fgg676-2 -intstyle silent -i -sd .. battle_city_axi4lite_0_wrapper.ngc
 ../battle_city_axi4lite_0_wrapper
 
 Reading NGO file
-"D:/tenkici/battle_city_fpga/battle_city_design/implementation/axi4lite_0_wrappe
-r/battle_city_axi4lite_0_wrapper.ngc" ...
+"D:/projekat_lprs_tenkici/battle_city_fpga/battle_city_design/implementation/axi
+4lite_0_wrapper/battle_city_axi4lite_0_wrapper.ngc" ...
 
 Partition Implementation Status
 -------------------------------
