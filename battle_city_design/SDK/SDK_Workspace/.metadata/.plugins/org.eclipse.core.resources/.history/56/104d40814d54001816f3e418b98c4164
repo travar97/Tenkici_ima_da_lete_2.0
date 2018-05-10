@@ -231,6 +231,7 @@ typedef struct {
 
 
 
+
 tank_t tank1 = {
     ( MAP_X + MAP_W / 2 +2) * 8,	// x
     ( MAP_Y+2 + MAP_H - 5 ) * 8,		// y
