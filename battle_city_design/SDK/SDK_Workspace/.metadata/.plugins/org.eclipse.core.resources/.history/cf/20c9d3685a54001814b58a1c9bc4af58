@@ -784,16 +784,12 @@ static void process_bullet( map_entry_t * map, bullet_t * blt )
                 	if( tl->ptr == IMG_8x8_BRICK ) {
                 		tl->ptr = IMG_8x8_NULL;
                     	tl->update = b_true;
-                    	if( tr->ptr == IMG_8x8_BRICK ) {
-                    	                		tr->ptr = IMG_8x8_NULL;
+                    	tr->ptr = IMG_8x8_NULL;
                     	                    	tr->update = b_true;
-                    	                	}
-                    	if( bl->ptr == IMG_8x8_BRICK ) {
-                    	                    	                		bl->ptr = IMG_8x8_NULL;
+                    	                    	bl->ptr = IMG_8x8_NULL;
                     	                    	                    	bl->update = b_true;
-                    	                    	                	}
-
-
+                    	                    	                    	br->ptr = IMG_8x8_NULL;
+                    	                    	                    	                    	br->update = b_true;
                 	}
 
                     blt->explosion = b_true;
@@ -803,16 +799,14 @@ static void process_bullet( map_entry_t * map, bullet_t * blt )
                     Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS + blt->reg_h ), ( blt->y << 16 ) | blt->x);
                 } else if( tr->ptr == IMG_8x8_BRICK || tr->ptr == IMG_8x8_IRON ) {
                 	if( tr->ptr == IMG_8x8_BRICK ) {
-                		tr->ptr = IMG_8x8_NULL;
-                    	tr->update = b_true;
-                    	if( tl->ptr == IMG_8x8_BRICK ) {
-                    	                		tl->ptr = IMG_8x8_NULL;
-                    	                    	tl->update = b_true;
-                    	                	}
-                    	if( br->ptr == IMG_8x8_BRICK ) {
-                    	                    	                		br->ptr = IMG_8x8_NULL;
-                    	                    	                    	br->update = b_true;
-                    	                    	                	}
+                		tl->ptr = IMG_8x8_NULL;
+                		                    	tl->update = b_true;
+                		                    	tr->ptr = IMG_8x8_NULL;
+                		                    	                    	tr->update = b_true;
+                		                    	                    	bl->ptr = IMG_8x8_NULL;
+                		                    	                    	                    	bl->update = b_true;
+                		                    	                    	                    	br->ptr = IMG_8x8_NULL;
+                		                    	                    	                    	                    	br->update = b_true;
                 	}
 
                     blt->explosion = b_true;
@@ -822,16 +816,14 @@ static void process_bullet( map_entry_t * map, bullet_t * blt )
                     Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS + blt->reg_h ), ( blt->y << 16 ) | blt->x );
                 } else if( bl->ptr == IMG_8x8_BRICK || bl->ptr == IMG_8x8_IRON ) {
                 	if( bl->ptr == IMG_8x8_BRICK ) {
-                		bl->ptr = IMG_8x8_NULL;
-                    	bl->update = b_true;
-                    	if( br->ptr == IMG_8x8_BRICK ) {
-                    	                		br->ptr = IMG_8x8_NULL;
-                    	                    	br->update = b_true;
-                    	                	}
-                    	if( tl->ptr == IMG_8x8_BRICK ) {
-                    	                    	                		tl->ptr = IMG_8x8_NULL;
-                    	                    	                    	tl->update = b_true;
-                    	                    	                	}
+                		tl->ptr = IMG_8x8_NULL;
+                		                    	tl->update = b_true;
+                		                    	tr->ptr = IMG_8x8_NULL;
+                		                    	                    	tr->update = b_true;
+                		                    	                    	bl->ptr = IMG_8x8_NULL;
+                		                    	                    	                    	bl->update = b_true;
+                		                    	                    	                    	br->ptr = IMG_8x8_NULL;
+                		                    	                    	                    	                    	br->update = b_true;
                 	}
 
                     blt->explosion = b_true;
@@ -841,16 +833,14 @@ static void process_bullet( map_entry_t * map, bullet_t * blt )
                     Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS + blt->reg_h ), ( blt->y << 16 ) | blt->x);
                 } else if( br->ptr == IMG_8x8_BRICK || br->ptr == IMG_8x8_IRON ) {
                 	if( br->ptr == IMG_8x8_BRICK ) {
-                		br->ptr = IMG_8x8_NULL;
-                    	br->update = b_true;
-                    	if( tl->ptr == IMG_8x8_BRICK ) {
-                    	                		tl->ptr = IMG_8x8_NULL;
-                    	                    	tl->update = b_true;
-                    	                	}
-                    	if( tr->ptr == IMG_8x8_BRICK ) {
-                    	                    	                    	                		tr->ptr = IMG_8x8_NULL;
-                    	                    	                    	                    	tr->update = b_true;
-                    	                    	                    	                	}
+                		tl->ptr = IMG_8x8_NULL;
+                		                    	tl->update = b_true;
+                		                    	tr->ptr = IMG_8x8_NULL;
+                		                    	                    	tr->update = b_true;
+                		                    	                    	bl->ptr = IMG_8x8_NULL;
+                		                    	                    	                    	bl->update = b_true;
+                		                    	                    	                    	br->ptr = IMG_8x8_NULL;
+                		                    	                    	                    	                    	br->update = b_true;
                 	}
 
                     blt->explosion = b_true;

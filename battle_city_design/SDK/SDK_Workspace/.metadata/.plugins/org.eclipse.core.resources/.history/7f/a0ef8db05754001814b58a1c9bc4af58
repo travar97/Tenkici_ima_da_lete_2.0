@@ -655,7 +655,7 @@ static void process_bullet1( map_entry_t * map, bullet_t * blt )
 					}
             	}
 
-           	if( tl->ptr == IMG_8x8_BRICK || tl->ptr == IMG_8x8_IRON ) {
+            	if( tl->ptr == IMG_8x8_BRICK || tl->ptr == IMG_8x8_IRON ) {
             	                	if( tl->ptr == IMG_8x8_BRICK ) {
             	                		tl->ptr = IMG_8x8_NULL;
             	                    	tl->update = b_true;
@@ -784,16 +784,6 @@ static void process_bullet( map_entry_t * map, bullet_t * blt )
                 	if( tl->ptr == IMG_8x8_BRICK ) {
                 		tl->ptr = IMG_8x8_NULL;
                     	tl->update = b_true;
-                    	if( tr->ptr == IMG_8x8_BRICK ) {
-                    	                		tr->ptr = IMG_8x8_NULL;
-                    	                    	tr->update = b_true;
-                    	                	}
-                    	if( bl->ptr == IMG_8x8_BRICK ) {
-                    	                    	                		bl->ptr = IMG_8x8_NULL;
-                    	                    	                    	bl->update = b_true;
-                    	                    	                	}
-
-
                 	}
 
                     blt->explosion = b_true;
@@ -805,14 +795,6 @@ static void process_bullet( map_entry_t * map, bullet_t * blt )
                 	if( tr->ptr == IMG_8x8_BRICK ) {
                 		tr->ptr = IMG_8x8_NULL;
                     	tr->update = b_true;
-                    	if( tl->ptr == IMG_8x8_BRICK ) {
-                    	                		tl->ptr = IMG_8x8_NULL;
-                    	                    	tl->update = b_true;
-                    	                	}
-                    	if( br->ptr == IMG_8x8_BRICK ) {
-                    	                    	                		br->ptr = IMG_8x8_NULL;
-                    	                    	                    	br->update = b_true;
-                    	                    	                	}
                 	}
 
                     blt->explosion = b_true;
@@ -824,14 +806,6 @@ static void process_bullet( map_entry_t * map, bullet_t * blt )
                 	if( bl->ptr == IMG_8x8_BRICK ) {
                 		bl->ptr = IMG_8x8_NULL;
                     	bl->update = b_true;
-                    	if( br->ptr == IMG_8x8_BRICK ) {
-                    	                		br->ptr = IMG_8x8_NULL;
-                    	                    	br->update = b_true;
-                    	                	}
-                    	if( tl->ptr == IMG_8x8_BRICK ) {
-                    	                    	                		tl->ptr = IMG_8x8_NULL;
-                    	                    	                    	tl->update = b_true;
-                    	                    	                	}
                 	}
 
                     blt->explosion = b_true;
@@ -843,14 +817,6 @@ static void process_bullet( map_entry_t * map, bullet_t * blt )
                 	if( br->ptr == IMG_8x8_BRICK ) {
                 		br->ptr = IMG_8x8_NULL;
                     	br->update = b_true;
-                    	if( tl->ptr == IMG_8x8_BRICK ) {
-                    	                		tl->ptr = IMG_8x8_NULL;
-                    	                    	tl->update = b_true;
-                    	                	}
-                    	if( tr->ptr == IMG_8x8_BRICK ) {
-                    	                    	                    	                		tr->ptr = IMG_8x8_NULL;
-                    	                    	                    	                    	tr->update = b_true;
-                    	                    	                    	                	}
                 	}
 
                     blt->explosion = b_true;

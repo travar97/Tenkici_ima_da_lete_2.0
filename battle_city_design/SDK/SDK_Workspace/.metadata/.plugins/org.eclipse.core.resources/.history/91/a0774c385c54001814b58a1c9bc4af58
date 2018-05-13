@@ -793,7 +793,6 @@ static void process_bullet( map_entry_t * map, bullet_t * blt )
                     	                    	                    	bl->update = b_true;
                     	                    	                	}
 
-
                 	}
 
                     blt->explosion = b_true;
