@@ -498,9 +498,9 @@ static bool_t hitbox( unsigned int x1, unsigned int y1, unsigned int x2, unsigne
 			//if(x1 >= x2 - 16  && x1 <= x2 +8 && y1 >= y2 -h && y1 <= y2 +8)
 			if(y1 > y2 - 8 && y1 < y2  )
 			return ( x1 > x2 - 8 && x1 < x2 + 8 ) ? b_true : b_false;
-		} else if(dir==DIR_LEFT){																						
-			//return ( x1 >= x2 - 16 && x1 <= x2 +8 && y1 >= y2 -8 && y1 <= y2 + h ) ? b_true : b_false;					//gde bese 16, bi 8
-			if(x1 < x2 + 8 && x1 > x2)																						//kolizija sada radi
+		} else if(dir==DIR_LEFT){
+			//return ( x1 >= x2 - 16 && x1 <= x2 +8 && y1 >= y2 -8 && y1 <= y2 + h ) ? b_true : b_false;
+			if(x1 < x2 + 8 && x1 > x2)
 			return ( y1 > y2 - 8 && y1 < y2 + 8 ) ? b_true : b_false;
 		} else if(dir==DIR_RIGHT){
 			//return ( x1 >= x2 - 16 && x1 <= x2 +8 && y1 >= y2 -8 && y1 <= y2 + h ) ? b_true : b_false;

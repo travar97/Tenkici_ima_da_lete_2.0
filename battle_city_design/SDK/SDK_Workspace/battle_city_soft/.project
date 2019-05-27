@@ -3,6 +3,7 @@
 	<name>battle_city_soft</name>
 	<comment></comment>
 	<projects>
+		<project>tenkici_bsp</project>
 		<project>standalone_bsp_0</project>
 		<project>battle_city_soft_bsp</project>
 	</projects>
