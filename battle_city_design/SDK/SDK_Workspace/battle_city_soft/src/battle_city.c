@@ -80,7 +80,7 @@
 #define IMG_16x16_BONUS_STAR            0x05B0
 #define IMG_16x16_BONUS_TANK            0x05F0
 #define IMG_16x16_BONUS_TIME            0x0630
-#define IMG_16x16_BULLET                0x0670
+#define IMG_16x16_BULLET                0x0670 //smanjiti dimenzije
 #define IMG_16x16_ENEMY_TANK1           0x06B0
 #define IMG_16x16_ENEMY_TANK2           0x06F0
 #define IMG_16x16_ENEMY_TANK3           0x0730
@@ -484,29 +484,33 @@ static void base_spawn(base_t * base)
 			(base->y << 16) | base->x);
 }
 
-
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------------------------------------------
 static bool_t hitbox( unsigned int x1, unsigned int y1, unsigned int x2, unsigned int y2, unsigned int w, unsigned int h , direction_t dir)
 {
 
 	if(dir==DIR_UP){
 			//return ( x1 >= x2 - 16 && x1 <= x2 +8 && y1 >= y2-8 && y1 <= y2 + h ) ? b_true : b_false;
-			if(y1 < y2 + 16 && y1 > y2)
-			return ( x1 > x2 - 16 && x1 < x2 + 16 ) ? b_true : b_false;
+			if(y1 < y2 + 8 && y1 > y2)
+			return ( x1 > x2 - 8 && x1 < x2 + 8 ) ? b_true : b_false;
 		} else if(dir==DIR_DOWN){
 			//if(x1 >= x2 - 16  && x1 <= x2 +8 && y1 >= y2 -h && y1 <= y2 +8)
-			if(y1 > y2 - 16 && y1 < y2  )
-			return ( x1 > x2 - 16 && x1 < x2 + 16 ) ? b_true : b_false;
-		} else if(dir==DIR_LEFT){
-			//return ( x1 >= x2 - 16 && x1 <= x2 +8 && y1 >= y2 -8 && y1 <= y2 + h ) ? b_true : b_false;
-			if(x1 < x2 + 16 && x1 > x2)
-			return ( y1 > y2 - 16 && y1 < y2 + 16 ) ? b_true : b_false;
+			if(y1 > y2 - 8 && y1 < y2  )
+			return ( x1 > x2 - 8 && x1 < x2 + 8 ) ? b_true : b_false;
+		} else if(dir==DIR_LEFT){																						
+			//return ( x1 >= x2 - 16 && x1 <= x2 +8 && y1 >= y2 -8 && y1 <= y2 + h ) ? b_true : b_false;					//gde bese 16, bi 8
+			if(x1 < x2 + 8 && x1 > x2)																						//kolizija sada radi
+			return ( y1 > y2 - 8 && y1 < y2 + 8 ) ? b_true : b_false;
 		} else if(dir==DIR_RIGHT){
 			//return ( x1 >= x2 - 16 && x1 <= x2 +8 && y1 >= y2 -8 && y1 <= y2 + h ) ? b_true : b_false;
-			if( x1 > x2 - 16 && x1 < x2)
-			return ( y1 > y2 - 16 && y1 < y2 + 16) ? b_true : b_false;
+			if( x1 > x2 - 8 && x1 < x2)
+			return ( y1 > y2 - 8 && y1 < y2 + 8) ? b_true : b_false;
 	}
 }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------------------------------metak ubija ranije
 
 static direction_t change_dir(direction_t dir)
 {
@@ -602,7 +606,8 @@ static bool_t tank_move( map_entry_t * map, tank_t * tank, direction_t dir )
 	br = &map[ ( ( y + 15 ) / 8 ) * MAP_WIDTH + ( ( x + 15 ) / 8 ) ];
 
     if( tank->x != x || tank->y != y ) {
-        // Tank can move if water, iron or brick wall isn't ahead.
+        // Tank can move if water, iron or brick wall isn't ahead
+    	//ovde da ne mogu proci jedan kroz drugog.
         if( tl->ptr != IMG_8x8_BRICK && tl->ptr != IMG_8x8_IRON && tl->ptr != IMG_8x8_WATER &&
 			tc->ptr != IMG_8x8_BRICK && tl->ptr != IMG_8x8_IRON && tl->ptr != IMG_8x8_WATER &&
 			tr->ptr != IMG_8x8_BRICK && tl->ptr != IMG_8x8_IRON && tl->ptr != IMG_8x8_WATER &&
