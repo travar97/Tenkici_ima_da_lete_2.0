@@ -384,8 +384,8 @@ tank_t tank_ai4 = {
         0,                  		// bullet.time
         b_false,            		// bullet.explosion
 
-        BULLET_AI3_REG_L,      		// bullet.reg_l
-        BULLET_AI3_REG_H        					// bullet.reg_h
+        22,      					// bullet.reg_l
+        23       					// bullet.reg_h
     },
 
     TANK_AI4_REG_L,
