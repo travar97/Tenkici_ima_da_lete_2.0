@@ -392,6 +392,9 @@ tank_t tank_ai4 = {
     TANK_AI4_REG_H
 };
 
+tank_t enemy_tanks = [tank_ai, tank_ai2, tank_ai3, tank_ai4];
+
+
 
 static void obj_spawn(tank_t * tenkzi)
 {
@@ -1372,7 +1375,7 @@ void resetovanje(tank_t *tank1, tank_t *tank_ai, tank_t *tank_ai2,tank_t *tank_a
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// DODALI
-void move_animation(tank_t* main, tank_t* t1, tank_t* t2, tank_t* t3, tank_t* t4)
+void move_animation()
 {
 	tank_t* tanks[4];
 	tanks[0] = t1;
@@ -1442,7 +1445,7 @@ void battle_city( void )
     base_spawn( &base);
 
     while(1) {
-			if(game_time % 7 == 0) {
+			if( game_time % 7 == 0 ) {
 				buttons = XIo_In32( XPAR_IO_PERIPH_BASEADDR );
 				//move_animation(&tank1, &tank_ai, &tank_ai2, &tank_ai3, &tank_ai4);
 				if( game_time % 20 == 0 ){

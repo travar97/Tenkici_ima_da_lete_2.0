@@ -1442,7 +1442,7 @@ void battle_city( void )
     base_spawn( &base);
 
     while(1) {
-			if(game_time % 7 == 0) {
+			if( game_time % 7 == 0 ) {
 				buttons = XIo_In32( XPAR_IO_PERIPH_BASEADDR );
 				//move_animation(&tank1, &tank_ai, &tank_ai2, &tank_ai3, &tank_ai4);
 				if( game_time % 20 == 0 ){

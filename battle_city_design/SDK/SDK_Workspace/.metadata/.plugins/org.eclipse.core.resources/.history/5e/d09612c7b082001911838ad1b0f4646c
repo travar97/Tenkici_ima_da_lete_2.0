@@ -1380,16 +1380,15 @@ void move_animation(tank_t* main, tank_t* t1, tank_t* t2, tank_t* t3, tank_t* t4
 	tanks[2] = t3;
 	tanks[3] = t4;
 
-
 	if (main->type == IMG_16x16_MAIN_TANK)
 	{
 		main->type = IMG_16x16_MAIN_TANK1;
-		obj_spawn(&tank1);
+		obj_spawn(main);
 	}
 	if (main->type == IMG_16x16_MAIN_TANK1)
 	{
 		main->type = IMG_16x16_MAIN_TANK;
-		obj_spawn(&tank1);
+		obj_spawn(main);
 	}
 	int i = 0;
 
@@ -1415,8 +1414,6 @@ void battle_city( void )
     unsigned int game_victory[ 10 ] = { _P, _O, _B, _E, _D, _A,  _SPACE, _SPACE, _SPACE,  _TERM };
     unsigned int game_loss[ 10 ] = { _P, _O, _R, _A, _Z,  _SPACE, _SPACE, _SPACE, _TERM };
     resetovanje(&tank1,&tank_ai,&tank_ai2,&tank_ai3,&tank1.bullet,&tank_ai.bullet,&tank_ai2.bullet,&tank_ai3.bullet, &tank_ai4,&tank_ai4.bullet);
-    bool_t anim = b_true;
-    int anim_cnt = 0;
 
 
     rbm=1;
@@ -1442,10 +1439,10 @@ void battle_city( void )
     base_spawn( &base);
 
     while(1) {
-			if(game_time % 7 == 0) {
+			if( game_time % 7 == 0 ) {
 				buttons = XIo_In32( XPAR_IO_PERIPH_BASEADDR );
 				//move_animation(&tank1, &tank_ai, &tank_ai2, &tank_ai3, &tank_ai4);
-				if( game_time % 20 == 0 ){
+				if( game_time % 14 == 0 ){
 					if( BTN_UP( buttons ) ) {
 						tank_move( mape, &tank1, DIR_UP );
 					} else if( BTN_DOWN( buttons ) ) {
@@ -1458,7 +1455,7 @@ void battle_city( void )
 						tank_fire( mape, &tank1 );
 					}
 				}
-				if( game_time % 30 == 0 ){
+				if( game_time % 40 == 0 ){
 					process_ai( &tank_ai, &ai_dir );
 					process_ai2( &tank_ai2, &ai_dir2);
 					process_ai3( &tank_ai3, &ai_dir3);

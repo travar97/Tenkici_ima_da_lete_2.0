@@ -1384,12 +1384,12 @@ void move_animation(tank_t* main, tank_t* t1, tank_t* t2, tank_t* t3, tank_t* t4
 	if (main->type == IMG_16x16_MAIN_TANK)
 	{
 		main->type = IMG_16x16_MAIN_TANK1;
-		obj_spawn(&tank1);
+		obj_spawn(main);
 	}
 	if (main->type == IMG_16x16_MAIN_TANK1)
 	{
 		main->type = IMG_16x16_MAIN_TANK;
-		obj_spawn(&tank1);
+		obj_spawn(main);
 	}
 	int i = 0;
 
@@ -1442,7 +1442,7 @@ void battle_city( void )
     base_spawn( &base);
 
     while(1) {
-			if(game_time % 7 == 0) {
+			if( game_time % 7 == 0 ) {
 				buttons = XIo_In32( XPAR_IO_PERIPH_BASEADDR );
 				//move_animation(&tank1, &tank_ai, &tank_ai2, &tank_ai3, &tank_ai4);
 				if( game_time % 20 == 0 ){
