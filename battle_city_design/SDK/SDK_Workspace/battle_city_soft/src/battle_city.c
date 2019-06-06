@@ -74,11 +74,11 @@
 #define IMG_16x16_BASE_ALIVE            0x0430
 #define IMG_16x16_BASE_DEAD             0x0470
 #define IMG_16x16_BONUS_BOMB            0x04B0
-#define IMG_16x16_BONUS_GUN             0x04F0
-#define IMG_16x16_BONUS_SHELL           0x0530
+#define IMG_16x16_MAIN_TANK_B           1264
+#define IMG_16x16_ENEMY_TANK1_B         1328
 #define IMG_16x16_BONUS_SHOVEL          0x0570
-#define IMG_16x16_MAIN_TANK1            0x05B0
-#define IMG_16x16_ENEMY_TANK1b          0x05F0
+#define IMG_16x16_BONUS_STAR            1456
+#define IMG_16x16_BONUS_TANK            1520
 #define IMG_16x16_BONUS_TIME            0x0630
 #define IMG_16x16_BULLET                0x0670
 #define IMG_16x16_ENEMY_TANK1           0x06B0
@@ -87,7 +87,7 @@
 #define IMG_16x16_ENEMY_TANK4           0x0770
 #define IMG_16x16_EXPLOSION             0x07B0
 #define IMG_16x16_FLAG                  0x07F0
-#define IMG_16x16_MAIN_TANK             0x0830
+#define IMG_16x16_MAIN_TANK             2096
 
 
 // ***** MAP *****
@@ -264,7 +264,7 @@ tank_t tank1 = {
     ( MAP_X + MAP_W / 2 +2) * 8,	// x
     ( MAP_Y+2 + MAP_H - 5 ) * 8,	// y
     DIR_UP,              			// dir
-    IMG_16x16_MAIN_TANK,  			// type
+    IMG_16x16_MAIN_TANK_B,  			// type
 
     b_false,                		// destroyed
 
@@ -447,7 +447,7 @@ static void map_update( map_entry_t * map )
     for( i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++ ) {
         if( map[ i ].update ) {
             map[ i ].update = 0;
-
+            //move_animation(&tank1, &tank_ai, &tank_ai2, &tank_ai3, &tank_ai4);
             Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( MAP_BASE_ADDRESS + i ), ( (unsigned int)map[ i ].z << 16 ) | ( (unsigned int)map[ i ].rot << 16 ) | (unsigned int)map[ i ].ptr );
         }
     }
@@ -1389,10 +1389,10 @@ void move_animation(tank_t* main, tank_t* t1, tank_t* t2, tank_t* t3, tank_t* t4
 
 	if (main->type == IMG_16x16_MAIN_TANK)
 	{
-		main->type = IMG_16x16_MAIN_TANK1;
+		main->type = IMG_16x16_MAIN_TANK_B;
 		obj_spawn(&tank1);
 	}
-	if (main->type == IMG_16x16_MAIN_TANK1)
+	if (main->type == IMG_16x16_MAIN_TANK_B)
 	{
 		main->type = IMG_16x16_MAIN_TANK;
 		obj_spawn(&tank1);
@@ -1402,8 +1402,8 @@ void move_animation(tank_t* main, tank_t* t1, tank_t* t2, tank_t* t3, tank_t* t4
 	for(i = 0; i < 4; i++)
 	{
 		if (tanks[i]->type == IMG_16x16_ENEMY_TANK1)
-			tanks[i]->type = IMG_16x16_ENEMY_TANK1b;
-		if (tanks[i]->type == IMG_16x16_ENEMY_TANK1b)
+			tanks[i]->type = IMG_16x16_ENEMY_TANK1_B;
+		if (tanks[i]->type == IMG_16x16_ENEMY_TANK1_B)
 			tanks[i]->type = IMG_16x16_ENEMY_TANK1;
 	}
 
@@ -1423,6 +1423,13 @@ void battle_city( void )
     resetovanje(&tank1,&tank_ai,&tank_ai2,&tank_ai3,&tank1.bullet,&tank_ai.bullet,&tank_ai2.bullet,&tank_ai3.bullet, &tank_ai4,&tank_ai4.bullet);
     bool_t anim = b_true;
     int anim_cnt = 0;
+
+
+    //int i = 0;
+    //for(i =  0; i < 16*16/4; i++) {
+    //	Xil_Out32(XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 *(IMG_16x16_MAIN_TANK_B + i), 0x02020202);
+    //}
+
 
 
     rbm=1;
@@ -1450,7 +1457,7 @@ void battle_city( void )
     while(1) {
 			if(game_time % 7 == 0) {
 				buttons = XIo_In32( XPAR_IO_PERIPH_BASEADDR );
-				//move_animation(&tank1, &tank_ai, &tank_ai2, &tank_ai3, &tank_ai4);
+
 				if( game_time % 20 == 0 ){
 					if( BTN_UP( buttons ) ) {
 						tank_move( mape, &tank1, DIR_UP );
