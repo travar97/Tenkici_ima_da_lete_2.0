@@ -219,11 +219,27 @@ typedef struct {
     unsigned int    reg_h;
 } bullet_t;
 
+
+typedef struct {
+    u16 x;
+    u16 y;
+} point_t;
+
+typedef struct {
+	bool_t active;
+	point_t begin;
+	point_t end;
+	point_t current;
+    point_t step;
+} anim_t;
+
 typedef struct {
     unsigned int    x;
     unsigned int    y;
     direction_t     dir;
     unsigned int    type;
+
+    anim_t anim;
 
     bool_t          destroyed;
 
@@ -231,6 +247,7 @@ typedef struct {
 
     unsigned int    reg_l;
     unsigned int    reg_h;
+
 } tank_t;
 
 typedef struct {
@@ -266,6 +283,14 @@ tank_t tank1 = {
     DIR_UP,              			// dir
     IMG_16x16_MAIN_TANK,  			// type
 
+    { // anim
+    		b_false,
+    		{0, 0},
+    		{0, 0},
+    		{0, 0},
+    		{0, 0}
+    },
+
     b_false,                		// destroyed
 
     {
@@ -287,12 +312,19 @@ tank_t tank1 = {
     TANK1_REG_H
 };
 
-
 tank_t tank_ai = {
     MAP_X * 8,						// x
     MAP_Y * 8,						// y
     DIR_RIGHT,              		// dir
     IMG_16x16_ENEMY_TANK1,  		// type
+
+    { // anim
+    		b_false,
+    		{0, 0},
+    		{0, 0},
+    		{0, 0},
+    		{0, 0}
+    },
 
     b_false,                		// destroyed
 
@@ -321,6 +353,14 @@ tank_t tank_ai2 = {
     DIR_LEFT,              			// dir
     IMG_16x16_ENEMY_TANK1,  		// type
 
+    { // anim
+    		b_false,
+    		{0, 0},
+    		{0, 0},
+    		{0, 0},
+    		{0, 0}
+    },
+
     b_false,                		// destroyed
 
     {
@@ -347,6 +387,14 @@ tank_t tank_ai3 = {
     DIR_LEFT,              			// dir
     IMG_16x16_ENEMY_TANK1,  		// type
 
+    { // anim
+    		b_false,
+    		{0, 0},
+    		{0, 0},
+    		{0, 0},
+    		{0, 0}
+    },
+
     b_false,                		// destroyed
 
     {
@@ -372,6 +420,14 @@ tank_t tank_ai4 = {
   ( MAP_Y ) * 8,					// y
     DIR_LEFT,              			// dir
     IMG_16x16_ENEMY_TANK1,  		// type
+
+    { // anim
+    		b_false,
+    		{0, 0},
+    		{0, 0},
+    		{0, 0},
+    		{0, 0}
+    },
 
     b_false,                		// destroyed
 
@@ -447,7 +503,6 @@ static void map_update( map_entry_t * map )
     for( i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++ ) {
         if( map[ i ].update ) {
             map[ i ].update = 0;
-            //move_animation(&tank1, &tank_ai, &tank_ai2, &tank_ai3, &tank_ai4);
             Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( MAP_BASE_ADDRESS + i ), ( (unsigned int)map[ i ].z << 16 ) | ( (unsigned int)map[ i ].rot << 16 ) | (unsigned int)map[ i ].ptr );
         }
     }
@@ -576,24 +631,24 @@ static bool_t tank_move( map_entry_t * map, tank_t * tank, direction_t dir )
         return b_false;
     }
 
+
     x = tank->x;
     y = tank->y;
+	// Make sure that coordinates will stay within map boundaries after moving.
+	if( dir == DIR_LEFT ) {
+		if( x > MAP_X * 8 )
+			x-=8;
+	} else if( dir == DIR_RIGHT ) {
+		if( x < ( MAP_X + MAP_W ) * 8 - 16 )
+			x+=8;
+	} else if( dir == DIR_UP ) {
+		if( y > MAP_Y * 8 )
+			y-=8;
+	} else if( dir == DIR_DOWN ) {
+		if( y < ( MAP_Y + MAP_H ) * 8 - 16 )
+			y+=8;
+	}
 
-    int i=0;
-    // Make sure that coordinates will stay within map boundaries after moving.
-    if( dir == DIR_LEFT ) {
-        if( x > MAP_X * 8 )
-        	x-=8;
-    } else if( dir == DIR_RIGHT ) {
-        if( x < ( MAP_X + MAP_W ) * 8 - 16 )
-        	x+=8;
-    } else if( dir == DIR_UP ) {
-        if( y > MAP_Y * 8 )
-        	y-=8;
-    } else if( dir == DIR_DOWN ) {
-        if( y < ( MAP_Y + MAP_H ) * 8 - 16 )
-        	y+=8;
-    }
 
     tl = &map[ ( y / 8 ) * MAP_WIDTH + ( x / 8 ) ];
 	tc = &map[ ( y / 8 ) * MAP_WIDTH + ( ( x + 7 ) / 8 ) ];
@@ -661,11 +716,27 @@ static bool_t tank_move( map_entry_t * map, tank_t * tank, direction_t dir )
 
         		if(flagenzi==0)
         		{
-        			tank->x = x;
-        			tank->y = y;
-        			tank->dir = dir;
 
-        			obj_spawn(tank);
+        			if(tank == &tank1){
+            			// Start anim.
+        				// Hack only for player tank.
+
+        				tank->anim.active = b_true;
+        				tank->anim.begin.y = tank->y;
+        				tank->anim.begin.x = tank->x;
+        				tank->anim.current = tank->anim.begin;
+        				tank->anim.end.x = x;
+        				tank->anim.end.y = y;
+        				tank->anim.step.x = (tank->anim.end.x - tank->anim.begin.x)/8;
+        				tank->anim.step.y = (tank->anim.end.y - tank->anim.begin.y)/8;
+        			}else{
+
+						tank->x = x;
+						tank->y = y;
+						tank->dir = dir;
+
+						obj_spawn(tank);
+        			}
         		}
 
 
@@ -1455,7 +1526,7 @@ void battle_city( void )
     base_spawn( &base);
 
     while(1) {
-			if(game_time % 7 == 0) {
+			if(game_time % 10 == 0) {
 				buttons = XIo_In32( XPAR_IO_PERIPH_BASEADDR );
 
 				if( game_time % 20 == 0 ){
@@ -1471,14 +1542,30 @@ void battle_city( void )
 						tank_fire( mape, &tank1 );
 					}
 				}
-				if( game_time % 30 == 0 ){
+				if( game_time % 100 == 0 ){
 					process_ai( &tank_ai, &ai_dir );
 					process_ai2( &tank_ai2, &ai_dir2);
 					process_ai3( &tank_ai3, &ai_dir3);
 					process_ai4( &tank_ai4, &ai_dir4);
 				}
 
+				if(tank1.anim.active){
+					tank1.anim.current.x += tank1.anim.step.x;
+					tank1.anim.current.y += tank1.anim.step.y;
+					if((tank1.anim.current.x == tank1.anim.end.x) && (tank1.anim.current.y == tank1.anim.end.y)){
+						tank1.anim.active = b_false;
+					}
+					if(tank1.type == IMG_16x16_MAIN_TANK){
+						tank1.type = IMG_16x16_MAIN_TANK_B;
+					}else{
+						tank1.type = IMG_16x16_MAIN_TANK;
+					}
+					tank1.x = tank1.anim.current.x;
+					tank1.y = tank1.anim.current.y;
+					obj_spawn(&tank1);
+				}
 			}
+
 			process_bullet( mape, &tank1.bullet );
 			process_bullet( mape, &tank_ai.bullet );
 			process_bullet( mape, &tank_ai2.bullet );
