@@ -264,7 +264,7 @@ tank_t tank1 = {
     ( MAP_X + MAP_W / 2 +2) * 8,	// x
     ( MAP_Y+2 + MAP_H - 5 ) * 8,	// y
     DIR_UP,              			// dir
-    IMG_16x16_MAIN_TANK_B,  			// type
+    IMG_16x16_MAIN_TANK,  			// type
 
     b_false,                		// destroyed
 
