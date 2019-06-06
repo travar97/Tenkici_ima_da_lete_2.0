@@ -83,6 +83,7 @@ architecture Behavioral of battle_city is
 
    signal reg_intersected_s: unsigned(NUM_BITS_FOR_REG_NUM-1 downto 0);    -- Index of intersected sprite
 	signal reg_intersected_r: unsigned(NUM_BITS_FOR_REG_NUM-1 downto 0);    -- Register storing the index of intersected sprite
+	signal reg_intersected_r_fun0: unsigned(NUM_BITS_FOR_REG_NUM-1 downto 0);    -- Register storing the index of intersected sprite
    signal reg_row_s        : coor_row_t;                                   -- Sprite start row
    signal reg_col_s        : coor_col_t;                                   -- Sprite start column
    signal reg_rot_s        : rotation_t;                                   -- Rotation of sprite
@@ -237,6 +238,7 @@ begin
       if rising_edge(clk_i) then
 			if stage_i = "00" then
 				reg_intersected_r <= reg_intersected_s;
+				reg_intersected_r_fun0 <= reg_intersected_s;
 			end if;
       end if;
 	end process;
@@ -277,11 +279,11 @@ begin
 	-----------------------------------------------------------------------------------
 	--                           SECOND STAGE                                        --
 	-----------------------------------------------------------------------------------	
-	max_s      <= reg_size_s(to_integer(reg_intersected_r));
-	rot_s      <= reg_rot_s(to_integer(reg_intersected_r));		
+	max_s      <= reg_size_s(to_integer(reg_intersected_r_fun0));
+	rot_s      <= reg_rot_s(to_integer(reg_intersected_r_fun0));		
 	
-	sprt_int_row_s <= pixel_row_2 - reg_row_s(to_integer(reg_intersected_r));
-	sprt_int_col_s <= pixel_col_2 - reg_col_s(to_integer(reg_intersected_r));
+	sprt_int_row_s <= pixel_row_2 - reg_row_s(to_integer(reg_intersected_r_fun0));
+	sprt_int_col_s <= pixel_col_2 - reg_col_s(to_integer(reg_intersected_r_fun0));
 	
 	sprt_row_s <= sprt_int_row_s(3 downto 0);
 	sprt_col_s <= sprt_int_col_s(3 downto 0);
