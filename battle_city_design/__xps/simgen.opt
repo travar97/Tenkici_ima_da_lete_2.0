@@ -1,1 +1,0 @@
- -p spartan6 -lang vhdl$(PROJECT_SEARCHPATHOPT) $(GLOBAL_SEARCHPATHOPT) -msg __xps/ise/xmsgprops.lst -s isim -X D:/ra203-2016/Tenkici_ima_da_lete_2.0/battle_city_design/

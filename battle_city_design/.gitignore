@@ -5,7 +5,7 @@
 /blockdiagram
 /revup
 /hdl
-__xps
+/__xps
 *.log
 *.svf
 *.scr
