@@ -890,6 +890,9 @@ static void process_bullet( map_entry_t * map, bullet_t * blt )
 						game_result = RES_LOSS;
 						return;
 					} else if ( hitbox( x, y, BASE_X, BASE_Y, 16, 16,blt->dir ) == b_true ) {
+						Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS + blt->reg_l ), (unsigned int)0x8F000000 | (unsigned int)IMG_16x16_EXPLOSION );
+						Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS + blt->reg_h ), ( blt->y << 16 ) | blt->x);
+						sleep(10);
 						game_result = RES_LOSS;
 						return;
 					} /*else if (tank_ai.bullet.enabled==b_true) {
@@ -927,6 +930,9 @@ static void process_bullet( map_entry_t * map, bullet_t * blt )
 					} */
             	} else {
 					if( hitbox( x, y, tank1.x, tank1.y, 16, 16,blt->dir ) == b_true ) {
+						Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS + blt->reg_l ), (unsigned int)0x8F000000 | (unsigned int)IMG_16x16_EXPLOSION );
+						Xil_Out32( XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 * ( REGS_BASE_ADDRESS + blt->reg_h ), ( blt->y << 16 ) | blt->x);
+						sleep(10);
 						game_result = RES_LOSS;
 						return;
 					}
