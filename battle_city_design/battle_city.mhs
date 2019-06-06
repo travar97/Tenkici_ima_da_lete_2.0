@@ -14,7 +14,6 @@
  PORT RESET = RESET, DIR = I, SIGIS = RST, RST_POLARITY = 0
  PORT CLK_P = CLK, DIR = I, DIFFERENTIAL_POLARITY = P, SIGIS = CLK, CLK_FREQ = 50000000
  PORT CLK_N = CLK, DIR = I, DIFFERENTIAL_POLARITY = N, SIGIS = CLK, CLK_FREQ = 50000000
- PORT vga_periph_mem_0_reset_n_i_pin = net_vga_periph_mem_0_reset_n_i_pin, DIR = I
  PORT battle_city_periph_0_clk_24MHz_i_pin = net_battle_city_periph_0_clk_24MHz_i_pin, DIR = I, SIGIS = CLK
  PORT battle_city_periph_0_rst_in_pin = net_battle_city_periph_0_rst_in_pin, DIR = I, SIGIS = RST
  PORT battle_city_periph_0_h_sync_on_pin = battle_city_periph_0_h_sync_on, DIR = O
