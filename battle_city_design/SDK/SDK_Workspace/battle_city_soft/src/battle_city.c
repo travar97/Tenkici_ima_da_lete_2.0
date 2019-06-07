@@ -635,6 +635,8 @@ static bool_t tank_move( map_entry_t * map, tank_t * tank, direction_t dir )
     x = tank->x;
     y = tank->y;
 	// Make sure that coordinates will stay within map boundaries after moving.
+
+
 	if( dir == DIR_LEFT ) {
 		if( x > MAP_X * 8 )
 			x-=8;
@@ -673,7 +675,7 @@ static bool_t tank_move( map_entry_t * map, tank_t * tank, direction_t dir )
         	bc->ptr != IMG_8x8_BRICK && bl->ptr != IMG_8x8_IRON && bl->ptr != IMG_8x8_WATER &&
         	br->ptr != IMG_8x8_BRICK && br->ptr != IMG_8x8_IRON && br->ptr != IMG_8x8_WATER)
         {
-        	/*
+/*
         	if(x==tank_ai.x && y==tank_ai.y)
         		if(hitbox(x, y, tank_ai.x, tank_ai.y, 16, 16, dir) ==b_true) {
         			/*tank_ai.dir=change_dir(tank_ai.dir);
@@ -712,12 +714,12 @@ static bool_t tank_move( map_entry_t * map, tank_t * tank, direction_t dir )
         			flagenzi=1;
         			return b_true;
         	}
-        	*/
+*/
 
         		if(flagenzi==0)
         		{
 
-        			if(tank == &tank1){
+        	//	if(tank == &tank1 || tank==&tank_ai2){
             			// Start anim.
         				// Hack only for player tank.
 
@@ -729,15 +731,18 @@ static bool_t tank_move( map_entry_t * map, tank_t * tank, direction_t dir )
         				tank->anim.end.y = y;
         				tank->anim.step.x = (tank->anim.end.x - tank->anim.begin.x)/8;
         				tank->anim.step.y = (tank->anim.end.y - tank->anim.begin.y)/8;
-        			}else{
+        	/*	}else
 
-						tank->x = x;
-						tank->y = y;
-						tank->dir = dir;
 
-						obj_spawn(tank);
+        		{
+
+			tank->x = x;
+				tank->y = y;
+					tank->dir = dir;
+
+					obj_spawn(tank);
         			}
-        		}
+        	*/	}
 
 
         	return b_true;
@@ -1548,7 +1553,7 @@ void battle_city( void )
 					process_ai3( &tank_ai3, &ai_dir3);
 					process_ai4( &tank_ai4, &ai_dir4);
 				}
-
+//-------------------------------------------MOJ_TENK
 				if(tank1.anim.active){
 					tank1.anim.current.x += tank1.anim.step.x;
 					tank1.anim.current.y += tank1.anim.step.y;
@@ -1564,6 +1569,80 @@ void battle_city( void )
 					tank1.y = tank1.anim.current.y;
 					obj_spawn(&tank1);
 				}
+				//---------------------------TENK1
+				if(tank_ai.anim.active){
+									tank_ai.anim.current.x += tank_ai.anim.step.x;
+									tank_ai.anim.current.y += tank_ai.anim.step.y;
+									if((tank_ai.anim.current.x == tank_ai.anim.end.x) && (tank_ai.anim.current.y == tank_ai.anim.end.y)){
+										tank_ai.anim.active = b_false;
+									}
+									if(tank_ai.type == IMG_16x16_ENEMY_TANK1){
+										tank_ai.type = IMG_16x16_ENEMY_TANK1_B;
+									}else{
+										tank_ai.type = IMG_16x16_ENEMY_TANK1;
+									}
+									tank_ai.x = tank_ai.anim.current.x;
+									tank_ai.y = tank_ai.anim.current.y;
+									obj_spawn(&tank_ai);
+								}
+
+
+			//---------------------TENK2
+				if(tank_ai2.anim.active){
+									tank_ai2.anim.current.x += tank_ai2.anim.step.x;
+									tank_ai2.anim.current.y += tank_ai2.anim.step.y;
+									if((tank_ai2.anim.current.x == tank_ai2.anim.end.x) && (tank_ai2.anim.current.y == tank_ai2.anim.end.y)){
+										tank_ai2.anim.active = b_false;
+									}
+									if(tank_ai2.type == IMG_16x16_ENEMY_TANK1){
+										tank_ai2.type = IMG_16x16_ENEMY_TANK1_B;
+									}else{
+										tank_ai2.type = IMG_16x16_ENEMY_TANK1;
+									}
+									tank_ai2.x = tank_ai2.anim.current.x;
+									tank_ai2.y = tank_ai2.anim.current.y;
+									obj_spawn(&tank_ai2);
+								}
+
+
+
+		//----------------TENK3
+				if(tank_ai3.anim.active){
+									tank_ai3.anim.current.x += tank_ai3.anim.step.x;
+									tank_ai3.anim.current.y += tank_ai3.anim.step.y;
+									if((tank_ai3.anim.current.x == tank_ai3.anim.end.x) && (tank_ai3.anim.current.y == tank_ai3.anim.end.y)){
+										tank_ai3.anim.active = b_false;
+									}
+									if(tank_ai3.type == IMG_16x16_ENEMY_TANK1){
+										tank_ai3.type = IMG_16x16_ENEMY_TANK1_B;
+									}else{
+										tank_ai3.type = IMG_16x16_ENEMY_TANK1;
+									}
+									tank_ai3.x = tank_ai3.anim.current.x;
+									tank_ai3.y = tank_ai3.anim.current.y;
+									obj_spawn(&tank_ai3);
+								}
+
+
+		//--------------------TENK4
+				if(tank_ai4.anim.active){
+									tank_ai4.anim.current.x += tank_ai4.anim.step.x;
+									tank_ai4.anim.current.y += tank_ai4.anim.step.y;
+									if((tank_ai4.anim.current.x == tank_ai4.anim.end.x) && (tank_ai4.anim.current.y == tank_ai4.anim.end.y)){
+										tank_ai4.anim.active = b_false;
+									}
+									if(tank_ai4.type == IMG_16x16_ENEMY_TANK1){
+										tank_ai4.type = IMG_16x16_ENEMY_TANK1_B;
+									}else{
+										tank_ai4.type = IMG_16x16_ENEMY_TANK1;
+									}
+									tank_ai4.x = tank_ai4.anim.current.x;
+									tank_ai4.y = tank_ai4.anim.current.y;
+									obj_spawn(&tank_ai4);
+								}
+
+
+
 			}
 
 			process_bullet( mape, &tank1.bullet );

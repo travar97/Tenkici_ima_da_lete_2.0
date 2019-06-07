@@ -1307,8 +1307,8 @@ architecture arch of ram is
 		1261 =>	x"0C0C0C0C",
 		1262 =>	x"0C0C0C0C",
 		1263 =>	x"0C0C0C00",
-		1264 => x"02020202", -- IMG_16x16_MAIN_TANK_B
-		1265 => x"02020202",
+		1264 => x"1F1F1F1F", -- IMG_16x16_MAIN_TANK_B
+		1265 => x"1F1F1F1F",
 		1266 => x"1F1F1F1F",
 		1267 => x"1F1F1F1F",
 		1268 => x"1F1F1F1F",
