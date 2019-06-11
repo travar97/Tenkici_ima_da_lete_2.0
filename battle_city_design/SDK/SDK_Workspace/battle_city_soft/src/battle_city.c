@@ -664,7 +664,6 @@ static bool_t tank_move( map_entry_t * map, tank_t * tank, direction_t dir )
 
     if( tank->x != x || tank->y != y ) {
         // Tank can move if water, iron or brick wall isn't ahead
-    	//ovde da ne mogu proci jedan kroz drugog.
         if( tl->ptr != IMG_8x8_BRICK && tl->ptr != IMG_8x8_IRON && tl->ptr != IMG_8x8_WATER &&
 			tc->ptr != IMG_8x8_BRICK && tl->ptr != IMG_8x8_IRON && tl->ptr != IMG_8x8_WATER &&
 			tr->ptr != IMG_8x8_BRICK && tl->ptr != IMG_8x8_IRON && tl->ptr != IMG_8x8_WATER &&
@@ -675,46 +674,6 @@ static bool_t tank_move( map_entry_t * map, tank_t * tank, direction_t dir )
         	bc->ptr != IMG_8x8_BRICK && bl->ptr != IMG_8x8_IRON && bl->ptr != IMG_8x8_WATER &&
         	br->ptr != IMG_8x8_BRICK && br->ptr != IMG_8x8_IRON && br->ptr != IMG_8x8_WATER)
         {
-/*
-        	if(x==tank_ai.x && y==tank_ai.y)
-        		if(hitbox(x, y, tank_ai.x, tank_ai.y, 16, 16, dir) ==b_true) {
-        			/*tank_ai.dir=change_dir(tank_ai.dir);
-        			//tank_ai.dir=DIR_DOWN;
-        			tank_move(map,&tank_ai,tank_ai.dir);
-        			tank->dir=change_dir(tank->dir);
-        			direction_veto();
-        			tank_move(map,tank,tank->dir);
-        			flagenzi=1;
-        			return b_true;
-        	}
-
-        	if(x==tank_ai2.x && y==tank_ai2.y)
-        		if(hitbox(x, y, tank_ai2.x, tank_ai2.y, 16, 16, dir) ==b_true) {
-        			tank->dir=change_dir(tank->dir);
-        			direction_veto();
-        			tank_move(map,tank,tank->dir);
-        			flagenzi=1;
-        			return b_true;
-        	}
-
-        	if(x==tank_ai3.x && y==tank_ai3.y)
-        		if(hitbox(x, y, tank_ai3.x, tank_ai3.y, 16, 16, dir) ==b_true) {
-        			tank->dir=change_dir(tank->dir);
-        			direction_veto();
-        			tank_move(map,tank,tank->dir);
-        			flagenzi=1;
-        			return b_true;
-        	}
-
-        	if(x==tank_ai4.x && y==tank_ai4.y)
-        		if(hitbox(x, y, tank_ai4.x, tank_ai4.y, 16, 16, dir) ==b_true) {
-        			tank->dir=change_dir(tank->dir);
-        			direction_veto();
-        			tank_move(map,tank,tank->dir);
-        			flagenzi=1;
-        			return b_true;
-        	}
-*/
 
         		if(flagenzi==0)
         		{
@@ -731,24 +690,12 @@ static bool_t tank_move( map_entry_t * map, tank_t * tank, direction_t dir )
         				tank->anim.end.y = y;
         				tank->anim.step.x = (tank->anim.end.x - tank->anim.begin.x)/8;
         				tank->anim.step.y = (tank->anim.end.y - tank->anim.begin.y)/8;
-        	/*	}else
-
-
-        		{
-
-			tank->x = x;
-				tank->y = y;
-					tank->dir = dir;
-
-					obj_spawn(tank);
-        			}
-        	*/	}
+        		}
 
 
         	return b_true;
 
-        	//}
-        	//}
+
         }
     }
 
@@ -1454,36 +1401,7 @@ void resetovanje(tank_t *tank1, tank_t *tank_ai, tank_t *tank_ai2,tank_t *tank_a
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// DODALI
-void move_animation(tank_t* main, tank_t* t1, tank_t* t2, tank_t* t3, tank_t* t4)
-{
-	tank_t* tanks[4];
-	tanks[0] = t1;
-	tanks[1] = t2;
-	tanks[2] = t3;
-	tanks[3] = t4;
 
-
-	if (main->type == IMG_16x16_MAIN_TANK)
-	{
-		main->type = IMG_16x16_MAIN_TANK_B;
-		obj_spawn(&tank1);
-	}
-	if (main->type == IMG_16x16_MAIN_TANK_B)
-	{
-		main->type = IMG_16x16_MAIN_TANK;
-		obj_spawn(&tank1);
-	}
-	int i = 0;
-
-	for(i = 0; i < 4; i++)
-	{
-		if (tanks[i]->type == IMG_16x16_ENEMY_TANK1)
-			tanks[i]->type = IMG_16x16_ENEMY_TANK1_B;
-		if (tanks[i]->type == IMG_16x16_ENEMY_TANK1_B)
-			tanks[i]->type = IMG_16x16_ENEMY_TANK1;
-	}
-
-}
 
 void battle_city( void )
 {
@@ -1497,14 +1415,7 @@ void battle_city( void )
     unsigned int game_victory[ 10 ] = { _P, _O, _B, _E, _D, _A,  _SPACE, _SPACE, _SPACE,  _TERM };
     unsigned int game_loss[ 10 ] = { _P, _O, _R, _A, _Z,  _SPACE, _SPACE, _SPACE, _TERM };
     resetovanje(&tank1,&tank_ai,&tank_ai2,&tank_ai3,&tank1.bullet,&tank_ai.bullet,&tank_ai2.bullet,&tank_ai3.bullet, &tank_ai4,&tank_ai4.bullet);
-    bool_t anim = b_true;
-    int anim_cnt = 0;
 
-
-    //int i = 0;
-    //for(i =  0; i < 16*16/4; i++) {
-    //	Xil_Out32(XPAR_BATTLE_CITY_PERIPH_0_BASEADDR + 4 *(IMG_16x16_MAIN_TANK_B + i), 0x02020202);
-    //}
 
 
 
